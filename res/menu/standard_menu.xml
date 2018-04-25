@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:usbong="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/cart"
+		  android:title="CART"
+		  android:icon="@drawable/cart_icon"
+		  usbong:showAsAction="always"
+	/>		    
+    <item android:id="@+id/sell"
+		  android:title="Sell"
+	/>		    	            
+    <item android:id="@+id/request"
+		  android:title="Request"
+	/>		    	        
+	<item android:id="@+id/contact"
+		  android:title="Help &amp; Feedback"
+	/>		        
+	<item android:id="@+id/refresh"
+		  android:title="Refresh"
+	/>		        	
+	<item android:id="@+id/account"
+		  android:title="My Account"
+	/>		    
+    <item android:id="@+id/about"
+		  android:title="About"
+	/>		
+</menu>

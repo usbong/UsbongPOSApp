@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1"
+    android:padding="6dip">
+    <RelativeLayout 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+    >    
+    <ImageView
+        android:id="@+id/tree_item_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"        
+        android:src="@drawable/ic_launcher" />
+    <TextView
+		android:id="@+id/tree_item"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="3dip"
+		android:textSize="20sp"
+		android:textColor="#4a452a"
+		android:layout_toRightOf="@+id/tree_item_image_view"
+        android:layout_marginBottom="6dp"		
+        android:layout_marginLeft="6dp"		
+        android:layout_alignTop="@+id/tree_item_image_view"
+	/>
+	</RelativeLayout>   
+    <Button
+	    android:id="@+id/merchant_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:textSize="18sp"
+		android:textColor="#4a452a"
+        android:layout_marginTop="12dp"		
+        android:layout_marginBottom="3dp"		
+        android:layout_marginLeft="3dp"				
+        android:layout_marginRight="3dp"				
+		android:padding="3dp"
+        android:text="☗ "
+        android:background="#706f5630"        
+	/>
+</LinearLayout>

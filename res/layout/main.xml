@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/UsbongMainMenuParentLayout"
+	android:background="@drawable/bg"
+	android:gravity="top"	
+	>
+		<EditText android:id="@+id/search_edittext"
+			style="@style/UsbongDefaultEditText"	
+			android:imeOptions="actionSearch"
+			android:inputType="text"
+			android:singleLine="true"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:hint="I'm looking for..."
+            android:textColorHint="#b7b7b7"
+            android:textSize="24dp"
+            android:drawableRight="@drawable/magnifying_glass"
+		/>
+		<HorizontalScrollView android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:fillViewport="true"
+				    android:measureAllChildren="false"
+				    android:scrollbars="none"	
+    	>		 			
+			<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:background="#706f5630"
+			>
+				<Button 
+				    android:id="@+id/books_button"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:textStyle="bold"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Books    "
+				    />
+				<Button 
+				    android:id="@+id/childrens_button"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Children's    "
+				    />			
+				<Button 
+				    android:id="@+id/textbooks_button"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Textbooks    "
+				    />	
+				<Button 
+				    android:id="@+id/medical_button"		    
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Medical    "
+				    />
+				<Button 
+				    android:id="@+id/food_button"		    
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Food    "
+				    />				
+				<Button 
+				    android:id="@+id/beverages_button"		    
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Beverages    "
+				    />		
+				<Button 
+				    android:id="@+id/comics_button"		    
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Comics    "
+				    />			    
+				<Button 
+				    android:id="@+id/manga_button"		    
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Manga    "
+				    />			    				
+				<Button 
+				    android:id="@+id/toys_collectibles_button"		    
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Toys &amp; Collectibles    "
+				    />			    								
+				<Button 
+				    android:id="@+id/miscellaneous_button"		    
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Miscellaneous    "
+				    />								
+				<Button 
+				    android:id="@+id/promos_button"		    
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textColor="#554223"
+				    android:background="@android:color/transparent"		    
+				    android:text="    Promos    "
+				    />
+				
+			</LinearLayout>
+		</HorizontalScrollView>	
+		<ListView
+			android:id="@+id/tree_list_view"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:cacheColorHint="#00000000"
+			android:divider="#6d8f48"
+			android:dividerHeight="3dp"
+			android:layout_marginLeft="6dp"
+			android:layout_marginRight="6dp"		
+		/>
+</LinearLayout>
