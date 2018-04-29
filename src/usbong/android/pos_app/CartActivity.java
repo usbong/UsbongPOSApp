@@ -1131,15 +1131,24 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	    				String tempS = o.toString().replace("\n", "<br>");
 	    				s = tempS.subSequence(0, tempS.indexOf("MerchantName: ")).toString();
 
-	    				imageFileName = o.toString().substring(o.indexOf("ImageFileName: ")+"ImageFileName: ".length());
+	    				imageFileName = o.toString().substring(o.indexOf("ImageFileName: ")+"ImageFileName: ".length(), o.indexOf("ProductOverview: "));
 /*	    				imageFileName = o.toString().substring(0, o.toString().indexOf("</b>"))
 	                    		.replace("<b>","")
 	                    		.replace("遯ｶ�ｿｽ","")
 	                    		.replace("'","")
 	                    		.replace(":","")+".jpg"; //edited by Mike, 20170202
 */
+	    				//added by Mike, 20180429
+                        int index = o.indexOf("MerchantName: ")+"MerchantName: ".length();
+                        int endIndex = o.indexOf("ImageFileName: ");	    				                        
+                        
 		    			//added by Mike, 20170529
-		    			final String merchantName = o.substring(o.indexOf("MerchantName: ")+"MerchantName: ".length(), o.indexOf("ImageFileName: "));
+		    			final String merchantName = o.substring(index, endIndex);
+
+		    			//added by Mike, 20180429
+	    				String tempS3 = o.toString();
+	    				final String currProductOverview = tempS3.substring(tempS3.indexOf("ProductOverview: ")+"ProductOverview: ".length()).toString();
+
 		    			
 /*
 	                    String imageString = o.toString()
@@ -1189,14 +1198,13 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		                				initParser(UsbongConstants.TREE_TYPE_BUY); //added by Mike, 20160202          				                	
 		*/
 		                				
-		/*//commented out by Mike, 20180429                				
 		                				//added by Mike, 20170216
 			            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
 			            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, s);
 			            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 			            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantName); //added by Mike, 20170529        				
+			            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW, currProductOverview); //added by Mike, 20180429
 			            				startActivityForResult(toBuyActivityIntent,1);
-		*/	            				
 		                			}
 		                		});	                		
 		                	}
@@ -1224,6 +1232,14 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantName); //added by Mike, 20170529        				
 	            				startActivityForResult(toBuyActivityIntent,1);
 */	            				
+	            				
+                				//added by Mike, 20170216
+	            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, s);
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
+	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantName); //added by Mike, 20170528        					            				
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW, currProductOverview); //added by Mike, 20180419
+	            				startActivityForResult(toBuyActivityIntent,1);
 	            			}
 	                	});
 	                	
