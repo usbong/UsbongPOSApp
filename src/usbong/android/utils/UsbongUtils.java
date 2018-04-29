@@ -63,7 +63,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import usbong.android.pos_app.R;
-import usbong.android.pos_app.UsbongDecisionTreeEngineActivity;
+//commented out by Mike, 20180427
+//import usbong.android.pos_app.UsbongDecisionTreeEngineActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -267,7 +268,8 @@ public class UsbongUtils {
  */
 		return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches(); //updated by Mike, 24 Sept. 2015
 	}
-
+	
+/*//commented out by Mike, 20180427	
 	//added by Mike, 20160608
 	public static boolean isAnAutoPlayException(UsbongDecisionTreeEngineActivity a) {
 		//this would cover:
@@ -281,7 +283,9 @@ public class UsbongUtils {
 		}
 		return false;
 	}
+*/
 	
+/*//commented out by Mike, 20180427	
 	//added by Mike, 20170202
 	public static boolean isAScreenThatRetrievesFiles(UsbongDecisionTreeEngineActivity a) {
 		//this would cover:
@@ -315,7 +319,7 @@ public class UsbongUtils {
 
 		return false;
 	}
-
+*/
 	//-----------------------------------------------------------------
     //setup In-App Billing Service
     //reference: http://developer.android.com/google/play/billing/billing_integrate.html
@@ -931,7 +935,8 @@ public class UsbongUtils {
 		}
 		return myStringToken;
     }
-
+    
+/*//commented out by Mike, 20180427	
     //This methods checks the string for something like "@name=getInput()", 
     //where @name is the variable name (this can be any variable name, 
     //as long as it is preceded by "@").
@@ -970,7 +975,7 @@ public class UsbongUtils {
 			myStringToken = st.nextToken(); 
 		}
     }    
-    
+*/    
     //This methods gets the second to the last string token element using '~' as delimeter
     //example: <task-node name="textClickableImageDisplay~frame_1~You've just clicked the image!~Life is good">
     //becomes "Life is good"
@@ -984,7 +989,8 @@ public class UsbongUtils {
 		}
 		return myPreviousStringToken;
     }
-    
+
+/*//commented out by Mike, 20180427    
     //This methods gets the name of the image resource
     //example: <task-node name="textImageDisplay~frame_13~Happy Mike">
     //becomes "frame_13"
@@ -1000,7 +1006,7 @@ public class UsbongUtils {
     	return processLoadTagsInString(a, 
     			replaceAllCurlyBracesWithGreaterThanLessThanSign(myStringToken));		
     }
-
+*/
     //This methods gets the name of the YouTube ID
     //example: <task-node name="youtubeVideoWithText~https://www.youtube.com/watch?v=mzB2P7bbmio~Usbong Builder Demo">
     //becomes "mzB2P7bbmio"
@@ -1698,6 +1704,7 @@ public class UsbongUtils {
     	usbongDefaultLanguageOfXML = s;
     }
 
+/*//commented out by Mike, 20180427
     //updated by Mike, 20161212
     public static Intent performSendToCloudBasedServiceProcess(String filepath, List<String> filePathsList) {
 //		final Intent sendToCloudBasedServiceIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -1878,11 +1885,7 @@ public class UsbongUtils {
 					while (myBookRequestStringTokenizer.hasMoreTokens()) {
 						itemsInSummary.add(myBookRequestStringTokenizer.nextToken()); 
 					}
-		/*
-					for (int i=0; i<itemsInSummary.size(); i++) {
-						Log.d(">>>>>>> item in Summary", ""+itemsInSummary.get(i));
-					}			
-		*/
+					
 					//get Book Title
 					mySummary.append("Book Title: " + itemsInSummary.get(1).toString().replace("A,","")+"\n");
 					//get Author
@@ -2116,6 +2119,7 @@ public class UsbongUtils {
 		}
 		return sendToCloudBasedServiceIntent;
     }
+*/
     
     public static void setDestinationServerURLFromConfigFile() {
     	if (UsbongUtils.getFileFromSDCardAsReader(UsbongUtils.BASE_FILE_PATH + "usbong.config") != null) { 
@@ -2301,28 +2305,10 @@ public class UsbongUtils {
         }
         return null;
     }
-    
+
+/*//commented out by Mike, 20180427
     //supports .png, .jpg and .jpeg
     public static boolean setImageDisplay(Activity a, ImageView myImageView, String myTree, String resFileName) {
-    	/*
-    	File file = new File(path);
-    	if (!file.exists()) {
-    		path = UsbongUtils.USBONG_TREES_FILE_PATH+"temp/"+myTree+".utree/res/"+resFileName;
-    	}
-    	else {
-        	path = UsbongUtils.USBONG_TREES_FILE_PATH+myTree+".utree/res/"+resFileName;
-    	}
-    	
-    	File imageFile = new File(path+".png");
-
-		if(!imageFile.exists()) {
-			imageFile = new File(path+".jpg");
-			path = path+".jgp";					
-		}
-		else {
-			path = path+".png";
-		}
-*/	
     	String path = getPathOfImageFile(myTree, resFileName);
         if(!path.equals("null"))
         {
@@ -2361,6 +2347,7 @@ public class UsbongUtils {
         
         return false; //not successful!
     }
+*/
 
     public static boolean setClickableImageDisplay(ImageButton myImageButton, String myTree, String resFileName) {
     	String path = getPathOfImageFile(myTree, resFileName);
@@ -2547,6 +2534,7 @@ public class UsbongUtils {
 //        Log.d(">>>>deleteEmptyOutputFolder", "4");        
     }
 
+/*  //commented out by Mike, 20180427
     //added by Mike, March 26, 2014
     //Reference: http://stackoverflow.com/questions/17145990/how-to-get-substring-based-on-special-characters-in-android;
     //last accessed: March 26, 2014
@@ -2568,10 +2556,12 @@ public class UsbongUtils {
 		}
 		return myText;
     }    
+*/
     
+/*//commented out by Mike, 20180427    
     //added by Mike, Feb. 4, 2013
     //modified by Mike, Oct. 5, 2014
-    public static String/*Spanned*/ applyTagsInString(Activity a, String myCurrUsbongNode) {
+    public static String applyTagsInString(Activity a, String myCurrUsbongNode) {
     	String styledText;
 
     	if (USE_UNESCAPE) {
@@ -2605,15 +2595,11 @@ public class UsbongUtils {
 
 //    	styledText = applyHintsInString(a, styledText);    	
 //    	Log.d(">>>>>styledText",styledText);
-/*    	
-    	Spanned mySpanned = Html.fromHtml(styledText);	
-    	Log.d(">>>>>mySpanned",mySpanned.toString());
-    	
-    	return mySpanned;
-*/
     	return styledText; //do "Html.fromHtml(styledText);" later
     }
-
+*/
+    
+/*    //commented out  by Mike, 20180427    
 	//added by Mike, Sept. 27, 2012
 	//answer from Chistopher, stackoverflow
 	//Reference: http://stackoverflow.com/questions/2730706/highlighting-text-color-using-html-fromhtml-in-android;
@@ -2635,12 +2621,6 @@ public class UsbongUtils {
 				//modified by Mike, Oct. 5, 2014
 				((CheckBox)myView).setText(styledText);
 				myView = (CheckBox) UsbongUtils.applyHintsInView(UsbongDecisionTreeEngineActivity.getInstance(), (CheckBox)myView, UsbongUtils.IS_CHECKBOX);
-/*
-		    	mySpanned = applyTagsInString(a, ((CheckBox)myView).getText().toString());
-				((CheckBox)myView).setText(mySpanned, TextView.BufferType.SPANNABLE);
-				((CheckBox)myView).setMovementMethod(LinkMovementMethod.getInstance());
-//				((CheckBox)myView).setTextSize((a.getResources().getDimension(R.dimen.textsize)));
-*/
 				makeLinksFocusable(((CheckBox)myView), IS_CHECKBOX);
 				break;				
 			default: //case IS_TEXTVIEW:
@@ -2654,7 +2634,9 @@ public class UsbongUtils {
 
 		return myView;
     }
+*/
     
+/*//commented out by Mike, 20180427    
     //edited by Mike, 20160413
     public static View applyHintsInView(Activity a, View myView, int type) {    	    	
     	Log.d(">>>>", "getCurrLanguage(): "+getCurrLanguage());
@@ -2701,11 +2683,6 @@ public class UsbongUtils {
 		    	break;				
 		    default: //case IS_TEXTVIEW:
 		    	sc = new Scanner(((TextView)myView).getText().toString());
-/*
-		    	Spannable myScannable = ((Spannable)((TextView)myView).getText());
-//				sc = new Scanner(Html.toHtml(myScannable));		    	
-				sc = new Scanner(myScannable.toString());		    	
-*/				
 				((TextView)myView).setText("");
 		    	break;
 	    }
@@ -2725,11 +2702,6 @@ public class UsbongUtils {
 	    }
 	    else {
 	    	//edited by Mike, Oct. 19, 2014
-/*
-	    	while (sc.hasNext()) {
-	    		tokenizedStringList.add(sc.next()+" ");
-	    	}		    
-*/
 	    	StringBuffer temp = new StringBuffer();
 	    	while (sc.hasNext()) {
 	    		temp.append(sc.next()+" ");
@@ -2883,6 +2855,7 @@ public class UsbongUtils {
 		sc.close(); //added by Mike, 19 Sept. 2015
 		return myView;
     }
+*/
     
     //added by Mike, Oct. 4, 2014
     public static ArrayList<String> tokenizeJapaneseString(String s) {
@@ -3488,7 +3461,8 @@ public class UsbongUtils {
             return renamed.getPath();
         }
     }
-    
+
+/*//commented out by Mike, 20180427    
     //added by Mike, 20151129
     public static String[] initProcessReturnToMainMenuActivity() {
 		String[] myPrompts = new String[4];
@@ -3514,7 +3488,9 @@ public class UsbongUtils {
     	
     	return myPrompts;
     }
+*/
 
+/*//commented out by Mike, 20180427    
     //added by Mike, 20150616
     public static String[] initProcessReturnToTitleScreenActivity() {
 		String[] myPrompts = new String[4];
@@ -3540,7 +3516,8 @@ public class UsbongUtils {
     	
     	return myPrompts;
     }
-
+*/
+    
     //added by Mike, 20160414
     //this is like getAvailableTranslationsArrayList(String treeFile)
 	public static ArrayList<String> getAvailableHintsArrayList(String treeFile)

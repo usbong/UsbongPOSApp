@@ -85,7 +85,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 	
 //	private static Date startTime;	
 	
-	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
+	//commented out by Mike, 20180427
+//	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
 	protected SettingsActivity mySettingsActivity;
 	
 	private static Activity myActivityInstance;
@@ -145,7 +146,11 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 
     	if (currScreen==BUY_SCREEN) {
     		TextView myTextImageDisplayTextView = (TextView)findViewById(R.id.text_image_display_textview);
-        	myTextImageDisplayTextView = (TextView) UsbongUtils.applyTagsInView(UsbongDecisionTreeEngineActivity.getInstance(), myTextImageDisplayTextView, UsbongUtils.IS_TEXTVIEW, getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));        	
+
+    		//edited by Mike, 20180427
+    		//myTextImageDisplayTextView = (TextView) UsbongUtils.applyTagsInView(UsbongDecisionTreeEngineActivity.getInstance(), myTextImageDisplayTextView, UsbongUtils.IS_TEXTVIEW, getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));        	
+//    		myTextImageDisplayTextView = (TextView) UsbongUtils.applyTagsInView(UsbongMainActivity.getInstance(), myTextImageDisplayTextView, UsbongUtils.IS_TEXTVIEW, getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));        	
+    		myTextImageDisplayTextView.setText(Html.fromHtml(getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME)));        	
 
         	//edited by Mike, 20170529
         	productDetails = getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME)+
@@ -326,13 +331,17 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 
 					//added by Mike, 20170525
 					final Activity a;
-					if ((getIntent().getExtras().getInt("activity caller")==0) 
-							|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
-						a = UsbongMainActivity.getInstance();
-					}
-					else {
-						a = UsbongDecisionTreeEngineActivity.getInstance();						
-					}
+					a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+					/*//commented out by Mike, 20180427
+									if ((getIntent().getExtras().getInt("activity caller")==0) 
+											|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
+										a = UsbongMainActivity.getInstance();
+									}
+									else {
+										a = UsbongDecisionTreeEngineActivity.getInstance();						
+									}
+					*/
 					
 					//return to UsbongDecisionTreeEngineActivity
 					finish();
@@ -579,6 +588,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
                 //Write your code if there's no result
             }            
 
+/*//commented out by Mike, 20180427            
             //added by Mike, 20170225
 	    	if (isSendingData) {
 	    		isSendingData=false;
@@ -589,6 +599,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				toUsbongDecisionTreeEngineActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 				startActivity(toUsbongDecisionTreeEngineActivityIntent);
 	    	}
+*/	    	
         }
     }//onActivityResult
 
@@ -607,6 +618,9 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 */
 		//added by Mike, 20170525
 		final Activity a;
+		a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+/*//commented out by Mike, 20180427
 		if ((getIntent().getExtras().getInt("activity caller")==0) 
 				|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
 			a = UsbongMainActivity.getInstance();
@@ -614,6 +628,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 		else {
 			a = UsbongDecisionTreeEngineActivity.getInstance();						
 		}
+*/
 
 		//edited by Mike, 20170525
 		finish();
@@ -991,6 +1006,9 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				//return to UsbongDecisionTreeEngineActivity
 				//added by Mike, 20170525
 				final Activity a;
+				a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+/*//commented out by Mike, 20180427
 				if ((getIntent().getExtras().getInt("activity caller")==0) 
 						|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
 					a = UsbongMainActivity.getInstance();
@@ -998,7 +1016,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				else {
 					a = UsbongDecisionTreeEngineActivity.getInstance();						
 				}
-
+*/
 				//edited by Mike, 20170525
 				finish();
 				Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());

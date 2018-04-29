@@ -16,8 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"        
-        android:src="@drawable/ic_launcher" />
+        android:layout_marginBottom="2dp" />
     <TextView
 		android:id="@+id/tree_item"
 		android:gravity="center"

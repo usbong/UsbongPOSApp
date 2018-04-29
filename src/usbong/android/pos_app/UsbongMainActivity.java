@@ -89,8 +89,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	public static String timeStamp;
 	
 //	private static Date startTime;	
-	
-	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
+
+//commented out by Mike, 20180427	
+//	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
 	protected SettingsActivity mySettingsActivity;
 	
 	private ProgressDialog myProgressDialog;
@@ -109,7 +110,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	private UsbongDbHelper myDbHelper;
 	private SQLiteDatabase mySQLiteDatabase;
 	
-	private int currProductTypeId = UsbongConstants.PRODUCT_TYPE_BOOKS; //default
+	//edited by Mike, 20180427
+	private int currProductTypeId = UsbongConstants.PRODUCT_TYPE_NON_MED; //default //UsbongConstants.PRODUCT_TYPE_BOOKS; //default
 	private static boolean isInMerchantShop=false;
 	private static boolean hasPerformedSearch=false;
 	private String searchEditTextString="";
@@ -834,7 +836,25 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		
 		//added by Mike, 20170813
 		merchantId=-1; //search product items of all merchants
-				
+
+		//edited by Mike, 20180427
+        Button medButton = (Button)findViewById(R.id.med_button);
+        medButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
+            }
+        });    
+
+        Button nonMedButton = (Button)findViewById(R.id.non_med_button);
+        nonMedButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
+            }
+        });    
+		
+/*		
         Button booksButton = (Button)findViewById(R.id.books_button);
         booksButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -922,7 +942,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
                 initTreeLoader(UsbongConstants.PRODUCT_TYPE_PROMOS);
             }
         });    
-
+*/
+		
 		//edited by Mike, 20170530
 		if (!hasPerformedSearch) {
 			performSearch(null);			
@@ -932,6 +953,19 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		}
 		
         switch (currProductTypeId) {
+        	//edited by Mike, 20180427
+    	case UsbongConstants.PRODUCT_TYPE_MED:
+            medButton.setTypeface(Typeface.DEFAULT_BOLD);
+            nonMedButton.setTypeface(Typeface.DEFAULT);                
+            mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
+            break;
+    	case UsbongConstants.PRODUCT_TYPE_NON_MED:
+            medButton.setTypeface(Typeface.DEFAULT);
+            nonMedButton.setTypeface(Typeface.DEFAULT_BOLD);                
+            mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
+            break;
+
+/*        
         	case UsbongConstants.PRODUCT_TYPE_BOOKS:
                 booksButton.setTypeface(Typeface.DEFAULT_BOLD);
                 childrensButton.setTypeface(Typeface.DEFAULT);                
@@ -1072,6 +1106,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
                 promosButton.setTypeface(Typeface.DEFAULT);            
                 mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
                 break;
+*/                
         }
 		mCustomAdapter.sort(); //edited by Mike, 20170203
 		
@@ -1673,6 +1708,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	                    final String folderName; //added by Mike, 20170725
 	                    	                	
                     	switch(currProductTypeId) {
+/*                    	
 			    			case UsbongConstants.PRODUCT_TYPE_BEVERAGES:
 			    				folderName = UsbongConstants.PRODUCT_TYPE_BEVERAGES_STRING;
 			    				break;
@@ -1706,9 +1742,18 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			    			default:
 			    				folderName = UsbongConstants.PRODUCT_TYPE_BOOKS_STRING;
 			    				break;
+*/			    				
+                    		//edited by Mike, 20180427
+			    			case UsbongConstants.PRODUCT_TYPE_MED:
+			    				folderName = UsbongConstants.PRODUCT_TYPE_MED_STRING;
+			    				break;		
+			    			default:
+			    				folderName = UsbongConstants.PRODUCT_TYPE_NON_MED_STRING;
+			    				break;
                     	}
 	                    
                     	switch(currProductTypeId) {
+/*//commented out by Mike, 20180427                    	
 			    			case UsbongConstants.PRODUCT_TYPE_BEVERAGES:		                    		
 			    				tempS = o.toString().replace("\n", "<br>");
 			    				s = tempS.subSequence(0, tempS.indexOf("MerchantName: ")).toString();
@@ -1718,6 +1763,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		                    		.replace("'","")
 		                    		.replace(":","")+".jpg"; //edited by Mike, 20170202
 			    				break;
+*/			    				
 			    			default:
 			    				tempS = o.toString().replace("\n", "<br>");
 			    				s = tempS.subSequence(0, tempS.indexOf("MerchantName: ")).toString();

@@ -30,95 +30,22 @@
 			android:background="#706f5630"
 			>
 				<Button 
-				    android:id="@+id/books_button"
+				    android:id="@+id/med_button"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:textColor="#554223"
 				    android:textStyle="bold"
 				    android:background="@android:color/transparent"		    
-				    android:text="    Books    "
+				    android:text="    MED    "
 				    />
 				<Button 
-				    android:id="@+id/childrens_button"
+				    android:id="@+id/non_med_button"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:textColor="#554223"
 				    android:background="@android:color/transparent"		    
-				    android:text="    Children's    "
-				    />			
-				<Button 
-				    android:id="@+id/textbooks_button"
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Textbooks    "
-				    />	
-				<Button 
-				    android:id="@+id/medical_button"		    
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Medical    "
-				    />
-				<Button 
-				    android:id="@+id/food_button"		    
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Food    "
-				    />				
-				<Button 
-				    android:id="@+id/beverages_button"		    
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Beverages    "
-				    />		
-				<Button 
-				    android:id="@+id/comics_button"		    
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Comics    "
-				    />			    
-				<Button 
-				    android:id="@+id/manga_button"		    
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Manga    "
-				    />			    				
-				<Button 
-				    android:id="@+id/toys_collectibles_button"		    
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Toys &amp; Collectibles    "
-				    />			    								
-				<Button 
-				    android:id="@+id/miscellaneous_button"		    
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Miscellaneous    "
-				    />								
-				<Button 
-				    android:id="@+id/promos_button"		    
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:textColor="#554223"
-				    android:background="@android:color/transparent"		    
-				    android:text="    Promos    "
-				    />
-				
+				    android:text="    NON-MED    "
+				    />							
 			</LinearLayout>
 		</HorizontalScrollView>	
 		<ListView

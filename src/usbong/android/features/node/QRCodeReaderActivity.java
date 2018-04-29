@@ -3,13 +3,15 @@ package usbong.android.features.node;
 import usbong.android.pos_app.BuyActivity;
 import usbong.android.pos_app.RequestActivity;
 import usbong.android.pos_app.SellActivity;
-import usbong.android.pos_app.UsbongDecisionTreeEngineActivity;
+import usbong.android.pos_app.UsbongMainActivity;
 import usbong.android.utils.UsbongConstants;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Window;
+//commented out by Mike, 20180427
+//import usbong.android.pos_app.UsbongDecisionTreeEngineActivity;
 
 /*
  * Reference: answer by Seshu Vinay at stackoverflow
@@ -96,7 +98,9 @@ public class QRCodeReaderActivity extends Activity
                 		processCallingActivityIntent(toCallingActivityIntent, content);
                 		break;
                 	case UsbongConstants.ITEM_LIST_ACTIVITY:
-                		toCallingActivityIntent = new Intent(QRCodeReaderActivity.this, UsbongDecisionTreeEngineActivity.class);
+                		//edited by Mike, 20180427
+                		//toCallingActivityIntent = new Intent(QRCodeReaderActivity.this, UsbongDecisionTreeEngineActivity.class);
+                		toCallingActivityIntent = new Intent(QRCodeReaderActivity.this, UsbongMainActivity.class);
                 		processCallingActivityIntent(toCallingActivityIntent, content);
                 		break;
                 }

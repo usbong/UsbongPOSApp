@@ -88,6 +88,7 @@ public class UsbongConstants {
 	public final static int REQUEST_ACTIVITY=2;
 	public final static int ITEM_LIST_ACTIVITY=3; //UsbongDecisionTreeEngineActivity		
 	
+/*	
 	//added by Mike, 20170520
 	public final static int PRODUCT_TYPE_ALL=1;
 	public final static int PRODUCT_TYPE_BOOKS=2;
@@ -102,7 +103,12 @@ public class UsbongConstants {
 	public final static int PRODUCT_TYPE_FOOD=11;
 	public final static int PRODUCT_TYPE_MISCELLANEOUS=12;
 	public final static int PRODUCT_TYPE_MEDICAL=13;
-	
+*/
+	//edited by Mike, 20180427
+	public final static int PRODUCT_TYPE_NON_MED=13;
+	public final static int PRODUCT_TYPE_MED=14;
+
+/*	
 	//added by Mike, 20170725
 	public final static String PRODUCT_TYPE_BOOKS_STRING ="books";
 	public final static String PRODUCT_TYPE_BEVERAGES_STRING ="beverages";
@@ -116,6 +122,10 @@ public class UsbongConstants {
 	public final static String PRODUCT_TYPE_FOOD_STRING = "food";
 	public final static String PRODUCT_TYPE_MISCELLANEOUS_STRING ="miscellaneous";
 	public final static String PRODUCT_TYPE_MEDICAL_STRING ="medical";
+*/
+	public final static String PRODUCT_TYPE_NON_MED_STRING ="non-med";
+	public final static String PRODUCT_TYPE_MED_STRING ="med";
+	
 	
 	//added by Mike, 20170525
 	public final static int USBONG_MAIN_ACTIVITY=0;

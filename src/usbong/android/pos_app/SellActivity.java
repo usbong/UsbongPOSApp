@@ -91,7 +91,8 @@ public class SellActivity extends AppCompatActivity/*Activity*/
 	public static Intent captureISBN10Intent;
 	public static Intent captureISBN13Intent;
 	
-	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
+	//commented out by Mike, 20180427
+//	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
 	protected SettingsActivity mySettingsActivity;
 	
 	private static Activity myActivityInstance;
@@ -724,6 +725,7 @@ public class SellActivity extends AppCompatActivity/*Activity*/
                 //Write your code if there's no result
             }            
             
+/*  //commented out by Mike, 20180427          
             //added by Mike, 20170225
 	    	if (isSendingData) {
 	    		isSendingData=false;
@@ -734,6 +736,7 @@ public class SellActivity extends AppCompatActivity/*Activity*/
 				toUsbongDecisionTreeEngineActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 				startActivity(toUsbongDecisionTreeEngineActivityIntent);
 	    	}
+*/	    	
         }
     }//onActivityResult
 
@@ -750,15 +753,19 @@ public class SellActivity extends AppCompatActivity/*Activity*/
 			myMediaPlayer.stop();
 		}
 */
-    	//added by Mike, 20170525
+    			//added by Mike, 20170525
     			final Activity a;
+				a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+/*//commented out by Mike, 20180427
     			if ((getIntent().getExtras().getInt("activity caller")==0) 
     					|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
     				a = UsbongMainActivity.getInstance();
     			}
-    			else {
-    				a = UsbongDecisionTreeEngineActivity.getInstance();						
-    			}
+				else {
+					a = UsbongDecisionTreeEngineActivity.getInstance();						
+				}
+*/
 
     			//edited by Mike, 20170525
     			finish();
@@ -1123,6 +1130,9 @@ public class SellActivity extends AppCompatActivity/*Activity*/
 				processReturnToMainMenuActivity();
 */				    	//added by Mike, 20170216
 				final Activity a;
+				a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+/*//commented out by Mike, 20180427
 				if ((getIntent().getExtras().getInt("activity caller")==0) 
 						|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
 					a = UsbongMainActivity.getInstance();
@@ -1130,6 +1140,7 @@ public class SellActivity extends AppCompatActivity/*Activity*/
 				else {
 					a = UsbongDecisionTreeEngineActivity.getInstance();						
 				}
+*/
 
 				//edited by Mike, 20170525
 				finish();

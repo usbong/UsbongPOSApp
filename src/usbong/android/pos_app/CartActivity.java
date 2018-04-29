@@ -15,13 +15,14 @@
 package usbong.android.pos_app;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
-import usbong.android.pos_app.CartActivity;
-import usbong.android.pos_app.UsbongDecisionTreeEngineActivity;
-import usbong.android.pos_app.R;
 import usbong.android.utils.UsbongConstants;
 import usbong.android.utils.UsbongUtils;
 import android.app.Activity;
@@ -34,7 +35,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
@@ -64,6 +64,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+//commented out by Mike, 20180427
+//import usbong.android.pos_app.UsbongDecisionTreeEngineActivity;
 
 /*
  * This is Usbong's Main Menu activity. 
@@ -102,7 +104,8 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	
 //	private static Date startTime;	
 	
-	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
+//commented out by Mike, 20180427
+//	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
 	protected SettingsActivity mySettingsActivity;
 	
 	private static Activity myActivityInstance;
@@ -648,6 +651,9 @@ public class CartActivity extends AppCompatActivity/*Activity*/
     //added by Mike, 20170801
     public void returnToProductSelection() {
 		final Activity a;
+		a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+/*//commented out by Mike, 20180427
 		if ((getIntent().getExtras().getInt("activity caller")==0) 
 				|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
 			a = UsbongMainActivity.getInstance();
@@ -655,6 +661,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		else {
 			a = UsbongDecisionTreeEngineActivity.getInstance();						
 		}
+*/
 
 		//edited by Mike, 20170525
 		finish();
@@ -1041,6 +1048,9 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				//return to UsbongDecisionTreeEngineActivity
 				//added by Mike, 20170525
 				final Activity a;
+				a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+/*//commented out by Mike, 20180427
 				if ((getIntent().getExtras().getInt("activity caller")==0) 
 						|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
 					a = UsbongMainActivity.getInstance();
@@ -1048,6 +1058,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				else {
 					a = UsbongDecisionTreeEngineActivity.getInstance();						
 				}
+*/
 
 				//edited by Mike, 20170525
 				finish();
@@ -1143,8 +1154,54 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		                    		.replace("'","")
 		                    		.replace(":","")+".jpg"; //edited by Mike, 20170202
 */
-	                    final Drawable myDrawableImage = Drawable.createFromStream(myRes.getAssets().open(imageFileName), null); //edited by Mike, 20170202
-	            		final ImageView image = (ImageView) v.findViewById(R.id.tree_item_image_view);
+		    			
+		            	InputStream myInputStream;
+		            	String folderName = imageFileName.substring(0, imageFileName.indexOf("/"));
+		            	
+		    		    List<String> myList = Arrays.asList(myRes.getAssets().list(folderName));
+		    		    if (myList.contains(imageFileName.replace(folderName +"/",""))) {
+		/*
+		            	if (Arrays.asList(getResources().getAssets().list("folderName")).contains(imageFileName.replace("/"+folderName,""))) {
+		*/                    	
+		                	myInputStream = myRes.getAssets().open(imageFileName);
+		            	}
+		            	else {
+		            		myInputStream = UsbongUtils.getFileFromSDCardAsInputStream(UsbongUtils.BASE_IMAGE_FILE_PATH + imageFileName);
+		            	}
+		    			
+		    			
+		    			//edited by Mike, 20180429
+//			    			InputStream is = myRes.getAssets().open(imageFileName);		    				
+		    			if (myInputStream!=null) {
+		                    final Drawable myDrawableImage = Drawable.createFromStream(myInputStream, null); //edited by Mike, 20170202		    				
+		            		final ImageView image = (ImageView) v.findViewById(R.id.tree_item_image_view);
+		                    
+		                	if (myDrawableImage!=null) {
+		                		image.setImageDrawable(myDrawableImage);                		
+		                		image.setOnClickListener(new OnClickListener() {
+		                			@Override
+		                			public void onClick(View v) {
+		/*
+		                				//added by Mike, 20170203
+		                            	setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_VARIABLE_NAME, s);
+		                				setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_IMAGE_NAME, imageFileName); //added by Mike, 20160203
+		                        		image.setImageDrawable(myDrawableImage);	
+		                				initParser(UsbongConstants.TREE_TYPE_BUY); //added by Mike, 20160202          				                	
+		*/
+		                				
+		/*//commented out by Mike, 20180429                				
+		                				//added by Mike, 20170216
+			            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
+			            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, s);
+			            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
+			            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantName); //added by Mike, 20170529        				
+			            				startActivityForResult(toBuyActivityIntent,1);
+		*/	            				
+		                			}
+		                		});	                		
+		                	}
+
+		    			}
 		            	
 	                	dataCurrentTextView.setText(Html.fromHtml(s));
 //	                	dataCurrentTextView.setText(o.toString());
@@ -1159,40 +1216,18 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	                        	initParser(UsbongConstants.TREE_TYPE_BUY);           				
 */
 	            				
+/*	            				//commented out by Mike, 20180429
                 				//added by Mike, 20170216
 	            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, s);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantName); //added by Mike, 20170529        				
 	            				startActivityForResult(toBuyActivityIntent,1);
+*/	            				
 	            			}
 	                	});
-                		image.setImageDrawable(myDrawableImage);                		
-/*
-                		//added by Mike, 20170203
-                		//make the image icon in the list smaller
-                		image.setAdjustViewBounds(true);
-                		image.setMaxHeight(100);
-                		image.setMaxWidth(100);                		
-*/                		
-                		image.setOnClickListener(new OnClickListener() {
-                			@Override
-                			public void onClick(View v) {
-/*
-                				//added by Mike, 20170203
-                            	setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_VARIABLE_NAME, s);
-                				setVariableOntoMyUsbongVariableMemory(UsbongConstants.ITEM_IMAGE_NAME, imageFileName); //added by Mike, 20160203
-                        		image.setImageDrawable(myDrawableImage);	
-                				initParser(UsbongConstants.TREE_TYPE_BUY); //added by Mike, 20160202          				                	
-*/
-                				//added by Mike, 20170216
-	            				Intent toBuyActivityIntent = new Intent().setClass(getInstance(), BuyActivity.class);
-	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, s);
-	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
-	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantName); //added by Mike, 20170529        				
-	            				startActivityForResult(toBuyActivityIntent,1);
-                			}
-                		});
+	                	
+	                	
 /*                		
                 		//added by Mike, 20170505
 	            		TextView quantity = (TextView) v.findViewById(R.id.quantity);

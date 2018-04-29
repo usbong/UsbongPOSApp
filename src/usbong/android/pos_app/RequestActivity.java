@@ -91,7 +91,8 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 	public static Intent captureISBN10Intent;
 	public static Intent captureISBN13Intent;
 	
-	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
+	//commented out by Mike, 20180427
+//	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
 	protected SettingsActivity mySettingsActivity;
 	
 	private static Activity myActivityInstance;
@@ -815,6 +816,9 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 */
     	//added by Mike, 20170525
 		final Activity a;
+		a = UsbongMainActivity.getInstance(); //commented out by Mike, 20180427
+
+/*//commented out by Mike, 20180427		
 		if ((getIntent().getExtras().getInt("activity caller")==0) 
 				|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
 			a = UsbongMainActivity.getInstance();
@@ -822,6 +826,7 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 		else {
 			a = UsbongDecisionTreeEngineActivity.getInstance();						
 		}
+*/
 
 		//edited by Mike, 20170525
 		finish();
@@ -1187,6 +1192,9 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 */				    	//added by Mike, 20170216
 				//return to UsbongDecisionTreeEngineActivity
 				final Activity a;
+				a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+/*//commented out by Mike, 20180427
 				if ((getIntent().getExtras().getInt("activity caller")==0) 
 						|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
 					a = UsbongMainActivity.getInstance();
@@ -1194,6 +1202,7 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 				else {
 					a = UsbongDecisionTreeEngineActivity.getInstance();						
 				}
+*/
 
 				//edited by Mike, 20170525
 				finish();
