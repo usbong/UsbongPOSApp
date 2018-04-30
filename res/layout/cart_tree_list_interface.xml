@@ -63,21 +63,6 @@
 			android:background="#306f5630"
 		>
 		<TextView
-	        android:id="@+id/less_70pesos"
-	        android:textSize="22sp"
-	        android:textStyle="bold"
-	        android:textColor="#6f5630"
-	        android:layout_height="wrap_content"
-	        android:layout_width="fill_parent"
-	        android:gravity="bottom|right"/>
-	</LinearLayout>		
-	<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:background="#306f5630"
-		>
-		<TextView
 	        android:id="@+id/order_subtotal"
 	        android:textSize="22sp"
 	        android:textStyle="bold"

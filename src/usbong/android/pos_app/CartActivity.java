@@ -116,8 +116,9 @@ public class CartActivity extends AppCompatActivity/*Activity*/
     private ArrayList<String> quantityList; //added by Mike, 20170505
     private ArrayList<String> tempList; //added by Mike, 20170511
     private int orderSubtotalCost; //added by Mike, 20170511
+/*    
     private int less70pesosPromoTotal; //added by Mike, 20170902
-    
+*/    
     
     @Override
     public void onCreate(Bundle savedInstanceState) 
@@ -260,18 +261,21 @@ public class CartActivity extends AppCompatActivity/*Activity*/
     //edited by Mike, 20170928
     public void processPromoAndOrderTotal() {    	
 		orderSubtotalCost = 0;
+/*		
     	less70pesosPromoTotal = 0;
-    	
+*/    	
 		for (int i=0; i<tempList.size(); i++) { 
 			String s = tempList.get(i); 	
 
 			String sPart1 = s.substring(s.indexOf("₱"));	            				
 			String item_price = sPart1.substring(0,sPart1.indexOf("<"));//("("));//(used), (new)				
-
+/*
 			less70pesosPromoTotal+=Integer.parseInt(quantityList.get(i))*70;				
+*/			
 			orderSubtotalCost+=Integer.parseInt(item_price.replace("₱", "").trim())*Integer.parseInt(quantityList.get(i));							
 		}	
 
+/*		
 		//edited by Mike, 20170930
 		if (tempList.size()>0) {
 			less70pesosPromoTotal-=70;		
@@ -281,6 +285,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		less70pesosTextView.setText("Less ₱70 promo: -₱"+less70pesosPromoTotal);		 				
 		
 		orderSubtotalCost-=less70pesosPromoTotal;
+*/
 		
 		TextView orderSubtotalCostTextView = (TextView)findViewById(R.id.order_subtotal);
 		orderSubtotalCostTextView.setText("Order Total: ₱"+orderSubtotalCost);		 				
@@ -384,8 +389,9 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 							}
 						}
 						buySummary.append("--\n");
+/*						
 						buySummary.append("Less ₱70 promo: -₱"+less70pesosPromoTotal+"\n");
-						
+*/						
 						int paymentMethodRadioButtonID = paymentMethodRadioButtonGroup.getCheckedRadioButtonId();					
 						RadioButton paymentMethodRadioButton = (RadioButton) paymentMethodRadioButtonGroup.findViewById(paymentMethodRadioButtonID);
 						String paymentMethodSelectedText = paymentMethodRadioButton.getText().toString();	 
