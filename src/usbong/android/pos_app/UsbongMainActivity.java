@@ -111,7 +111,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	private SQLiteDatabase mySQLiteDatabase;
 	
 	//edited by Mike, 20180427
-	private int currProductTypeId = UsbongConstants.PRODUCT_TYPE_NON_MED; //default //UsbongConstants.PRODUCT_TYPE_BOOKS; //default
+	private int currProductTypeId = UsbongConstants.PRODUCT_TYPE_MED; //default //UsbongConstants.PRODUCT_TYPE_BOOKS; //default
+
 	private static boolean isInMerchantShop=false;
 	private static boolean hasPerformedSearch=false;
 	private String searchEditTextString="";
@@ -321,7 +322,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		setContentView(R.layout.tree_list_interface);				
     	initSearch(); //added by Mike, 20170529		
 		
-		merchantName = merchantName.substring(2); //remove "隨假ｿｽ "
+		merchantName = merchantName.substring(2); //remove "☗ "
 /*		
     	myDbHelper = new UsbongDbHelper(this);
         myDbHelper.initializeDataBase();
@@ -446,9 +447,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					 
 					 categoryLinearLayout.addView(b);
 					 categoryButtonsList.add(b);
-				}								
+				}					
+				//edited by Mike, 20180430
 				currProductTypeId = categoryListInteger.get(0);
-	     		 
 				
 				//added by Mike, 20170825
 				 String getMerchantProductsForFirstCategoryOnly = "select * from '" + "product" + "'" + " where merchant_id="+merchantId+" and product_type_id="+categoryListInteger.get(0);
@@ -838,7 +839,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		merchantId=-1; //search product items of all merchants
 
 		//edited by Mike, 20180427
-        Button medButton = (Button)findViewById(R.id.med_button);
+		Button medButton = (Button)findViewById(R.id.med_button);
         medButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

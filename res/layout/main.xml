@@ -37,7 +37,7 @@
 				    android:textStyle="bold"
 				    android:background="@android:color/transparent"		    
 				    android:text="    MED    "
-				    />
+				    />	
 				<Button 
 				    android:id="@+id/non_med_button"
 				    android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
 				    android:textColor="#554223"
 				    android:background="@android:color/transparent"		    
 				    android:text="    NON-MED    "
-				    />							
+				    />											
 			</LinearLayout>
 		</HorizontalScrollView>	
 		<ListView
