@@ -75,6 +75,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*
  * This is Usbong's Main Menu activity. 
@@ -210,6 +211,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
   			UsbongUtils.initUsbongConfigFile();
     	}
     	catch(IOException ioe) {
+    		Toast.makeText(this, "Unable to detect your SD Card.", Toast.LENGTH_LONG).show();
+
     		ioe.printStackTrace();
     	}
 		
@@ -1474,9 +1477,11 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				toContactActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(toContactActivityIntent);
 				return true;
+/*				
 			case(R.id.refresh):
 				new UsbongHTTPConnect(this).execute();
 				return true;
+*/				
 			case(R.id.about):
 		    	new AlertDialog.Builder(UsbongMainActivity.this).setTitle("About")
 				.setMessage(UsbongUtils.readTextFileInAssetsFolder(UsbongMainActivity.this,"credits.txt")) //don't add a '/', otherwise the file would not be found

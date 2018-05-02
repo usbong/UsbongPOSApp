@@ -14,9 +14,6 @@
 	<item android:id="@+id/contact"
 		  android:title="Help &amp; Feedback"
 	/>		        
-	<item android:id="@+id/refresh"
-		  android:title="Refresh"
-	/>		        	
 	<item android:id="@+id/account"
 		  android:title="My Account"
 	/>		    

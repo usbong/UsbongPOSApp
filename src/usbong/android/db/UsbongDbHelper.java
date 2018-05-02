@@ -85,9 +85,13 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
         DB_PATH = myContext.getDatabasePath(DB_NAME).getAbsolutePath();
         
 //		 getWritableDatabase(); // In the constructor
-        
+                
         try {
         	SQLiteDatabase.deleteDatabase(new File(DB_PATH));              		         	
+        }
+        //added by Mike, 20180501
+        catch(NoSuchMethodError e) {
+            myContext.deleteDatabase(DB_NAME);
         }
         catch (NullPointerException e) {
         	//no DB to delete
