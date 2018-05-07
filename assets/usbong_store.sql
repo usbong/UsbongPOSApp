@@ -36,8 +36,8 @@ CREATE TABLE product (
   merchant_id INTEGER,
   product_type_id INTEGER,
   name TEXT,
-  price INTEGER,
-  previous_price INTEGER,
+  price REAL,
+  previous_price REAL,
   language TEXT,
   author TEXT,
   supplier TEXT,
@@ -549,12 +549,12 @@ INSERT INTO product (product_id, merchant_id, product_type_id, name, price, prev
 (490, 5, 13, 'Back Support (Xtra-Large)', 1700, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'Back Support (Xtra-Large)<br><br><strong>Also available:</strong><br><a href=''''https://store.usbong.ph/w/Back-Support-Small-/487''''>Back Support (Small)</a><br><a href=''''https://store.usbong.ph/w/Back-Support-Medium-/488''''>Back Support (Medium)</a><br><a href=''''https://store.usbong.ph/w/Back-Support-Large-/489''''>Back Support (Large)</a><br>', NULL, 11, 0, NULL, 1, '', '', 0),
 (491, 5, 14, 'Lagaflex (carisoprodol/paracetamol 300/250)', 23, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'ANALGESIC/MUSCLE RELAXANT', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
 (492, 5, 14, 'Paradrinforte (Para + orphanadrinecitrate)', 19, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'ANALGESIC/MUSCLE RELAXANT', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
-(493, 5, 14, 'Loraox (Loratadine 10m)', 7, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'ANTI-ALLERGIES', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
-(494, 5, 14, 'Gabaron 300mg (Gabapentin)', 25, NULL, 'English', NULL, NULL, '', NULL, NULL, 1, NULL, 'ANTI-CONVULSANT', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
-(495, 5, 14, 'Gabix 100mg (Gabapentin)', 24, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'ANTI-CONVULSANT', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
-(496, 5, 14, 'Gabix 300mg (Gabapentin)', 30, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'ANTI-CONVULSANT', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
-(497, 5, 14, 'Adiac 500mg (Metformin 500mg)', 2, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'ANTI-DIABETIC', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
-(498, 5, 14, 'Zebet 80 (Gliclazide 80mg)', 6, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'ANTI-DIABETIC', NULL, 0, 0, NULL, 1, NULL, NULL, 0);
+(493, 5, 14, 'Loraox (Loratadine 10m)', 7, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 144, NULL, 'ANTI-ALLERGIES', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
+(494, 5, 14, 'Gabaron 300mg (Gabapentin)', 25, NULL, 'English', NULL, NULL, '', NULL, NULL, 600, NULL, 'ANTI-CONVULSANT', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
+(495, 5, 14, 'Gabix 100mg (Gabapentin)', 23.9, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 76, NULL, 'ANTI-CONVULSANT', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
+(496, 5, 14, 'Gabix 300mg (Gabapentin)', 30, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 57, NULL, 'ANTI-CONVULSANT', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
+(497, 5, 14, 'Adiac 500mg (Metformin 500mg)', 1.7, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 168, NULL, 'ANTI-DIABETIC', NULL, 0, 0, NULL, 1, NULL, NULL, 0),
+(498, 5, 14, 'Zebet 80 (Gliclazide 80mg)', 5.8, NULL, 'English', NULL, NULL, NULL, NULL, NULL, 164, NULL, 'ANTI-DIABETIC', NULL, 0, 0, NULL, 1, NULL, NULL, 0);
 
 
 
