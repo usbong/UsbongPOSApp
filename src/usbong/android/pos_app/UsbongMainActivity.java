@@ -471,6 +471,12 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				        		else {
 				        			price = "₱" + c2.getDouble(c.getColumnIndex("price"));
 				        			
+				        			if (price.contains(".")) {
+				        				if (price.substring(price.indexOf(".")).length()-1 < 2) {
+				        					price = price.concat("0");
+				        				}
+				        			}
+				        			
 				        			//edited by Mike, 20180508
 					        		prevPrice = ""+c2.getDouble(c2.getColumnIndex("previous_price"));
 //					        		if (prevPrice!=null) {
@@ -623,6 +629,12 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			        		}
 			        		else {
 			        			price = "₱" + c.getDouble(c.getColumnIndex("price"));
+
+			        			if (price.contains(".")) {
+			        				if (price.substring(price.indexOf(".")).length()-1 < 2) {
+			        					price = price.concat("0");
+			        				}
+			        			}
 			        			
 			        			//edited by Mike, 20180508
 				        		prevPrice = ""+c.getDouble(c.getColumnIndex("previous_price"));

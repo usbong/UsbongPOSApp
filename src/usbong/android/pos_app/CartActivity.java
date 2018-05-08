@@ -290,7 +290,17 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 */
 		
 		TextView orderSubtotalCostTextView = (TextView)findViewById(R.id.order_subtotal);
-		orderSubtotalCostTextView.setText("Order Total: ₱"+orderSubtotalCost);		 				
+		
+		//edited by Mike, 20180508
+//		int subtotalNumber = quantity*Integer.parseInt(item_price.replace("₱", "").trim());
+		String orderSubtotalCostString = "₱" + orderSubtotalCost; 
+		if (orderSubtotalCostString.contains(".")) {
+			if (orderSubtotalCostString.substring(orderSubtotalCostString.indexOf(".")).length()-1 < 2) {
+				orderSubtotalCostString = orderSubtotalCostString.concat("0");
+			}
+		}
+
+		orderSubtotalCostTextView.setText("Order Total: "+orderSubtotalCostString);		 				
     }
     
     public void init()
@@ -1357,7 +1367,14 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		//edited by Mike, 20180508
 //		int subtotalNumber = quantity*Integer.parseInt(item_price.replace("₱", "").trim());
 		Double subtotalNumber = quantity*Double.parseDouble(item_price.replace("₱", "").trim());
-		subtotal.setText("₱"+subtotalNumber+"\n(Subtotal)");		
+		String subTotalString = "₱" + subtotalNumber; 
+		if (subTotalString.contains(".")) {
+			if (subTotalString.substring(subTotalString.indexOf(".")).length()-1 < 2) {
+				subTotalString = subTotalString.concat("0");
+			}
+		}
+
+		subtotal.setText(subTotalString+"\nSubtotal");		
 	}
 	
 	public void updateItemsInCart(ArrayList<String> items) {
