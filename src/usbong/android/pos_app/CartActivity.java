@@ -115,7 +115,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
     
     private ArrayList<String> quantityList; //added by Mike, 20170505
     private ArrayList<String> tempList; //added by Mike, 20170511
-    private int orderSubtotalCost; //added by Mike, 20170511
+    private Double orderSubtotalCost; //edited by Mike, 20180508
 /*    
     private int less70pesosPromoTotal; //added by Mike, 20170902
 */    
@@ -260,7 +260,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
     
     //edited by Mike, 20170928
     public void processPromoAndOrderTotal() {    	
-		orderSubtotalCost = 0;
+		orderSubtotalCost = 0.00;
 /*		
     	less70pesosPromoTotal = 0;
 */    	
@@ -272,7 +272,9 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 /*
 			less70pesosPromoTotal+=Integer.parseInt(quantityList.get(i))*70;				
 */			
-			orderSubtotalCost+=Integer.parseInt(item_price.replace("₱", "").trim())*Integer.parseInt(quantityList.get(i));							
+//			orderSubtotalCost+=Integer.parseInt(item_price.replace("₱", "").trim())*Integer.parseInt(quantityList.get(i));							
+			//edited by Mike, 20180508
+			orderSubtotalCost+=Double.parseDouble(item_price.replace("₱", "").trim())*Integer.parseInt(quantityList.get(i));										
 		}	
 
 /*		
@@ -1259,6 +1261,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	            		
 	            		//edited by Mike, 20170508
 	            		final int quantity = Integer.parseInt(quantityList.get(position));
+	            		
 	            		ArrayList<String> quantityItems = new ArrayList<String>();
 	            		for (int i=quantity; i>0; i--) {
 	            			quantityItems.add("  "+i+"  ");
@@ -1313,6 +1316,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 										updateItemsInCart(items);
 										
 					            		processSubtotal(v, Integer.parseInt(q), s);
+										
 										//processOrderTotal();
 					            		processPromoAndOrderTotal();
 //									}
@@ -1349,7 +1353,10 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		
 		//added by Mike, 20170508
 		TextView subtotal = (TextView) v.findViewById(R.id.subtotal);
-		int subtotalNumber = quantity*Integer.parseInt(item_price.replace("₱", "").trim());
+		
+		//edited by Mike, 20180508
+//		int subtotalNumber = quantity*Integer.parseInt(item_price.replace("₱", "").trim());
+		Double subtotalNumber = quantity*Double.parseDouble(item_price.replace("₱", "").trim());
 		subtotal.setText("₱"+subtotalNumber+"\n(Subtotal)");		
 	}
 	

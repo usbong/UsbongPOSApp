@@ -469,16 +469,17 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				        			price = "out of stock";
 				        		}
 				        		else {
-				        			price = "₱" + c2.getString(c.getColumnIndex("price"));
+				        			price = "₱" + c2.getDouble(c.getColumnIndex("price"));
 				        			
-				        			//added by Mike, 2017
-					        		prevPrice = c2.getString(c2.getColumnIndex("previous_price"));
-					        		if (prevPrice!=null) {
+				        			//edited by Mike, 20180508
+					        		prevPrice = ""+c2.getDouble(c2.getColumnIndex("previous_price"));
+//					        		if (prevPrice!=null) {
+					        		if (!prevPrice.equals("0.0")) {
 					        			prevPrice = "\n<i>(from ₱" + prevPrice + ")</i>";
-					        		}			     
+					        		}/*			     
 					        		else {
 					        			prevPrice="";
-					        		}
+					        		}*/
 				        		}
 
 				        		//added by Mike, 20170725			        		 
@@ -500,7 +501,11 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			   							 "MerchantName: "+merchantName+
 			   							 "currProductTypeId: "+currProductTypeId;
 */				        		
-			    				//edited by Mike, 20180419
+			    				//edited by Mike, 20180508
+			    				if (prevPrice.equals("0.0")) {
+			    					prevPrice="";
+			    				}
+
 				        		productDetails =  "<b>"+c2.getString(c2.getColumnIndex("name"))+"</b>\n"+
 			   							 authorString+
 			   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\n[Free Delivery]</font>"+
@@ -617,16 +622,17 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			        			price = "out of stock";
 			        		}
 			        		else {
-			        			price = "₱" + c.getString(c.getColumnIndex("price"));
+			        			price = "₱" + c.getDouble(c.getColumnIndex("price"));
 			        			
-			        			//added by Mike, 2017
-				        		prevPrice = c.getString(c.getColumnIndex("previous_price"));
-				        		if (prevPrice!=null) {
+			        			//edited by Mike, 20180508
+				        		prevPrice = ""+c.getDouble(c.getColumnIndex("previous_price"));
+//				        		if (prevPrice!=null) {
+				        		if (!prevPrice.equals("0.0")) {
 				        			prevPrice = "\n<i>(from ₱" + prevPrice + ")</i>";
-				        		}			     
+				        		}/*			     
 				        		else {
 				        			prevPrice="";
-				        		}
+				        		}*/
 			        		}
 			        		
 /*			        		
@@ -668,7 +674,11 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					    					authorString = authorString +"\n";
 					    				}
 					    				
-					    				//edited by Mike, 20180419
+					    				//edited by Mike, 20180508
+					    				if (prevPrice.equals("0.0")) {
+					    					prevPrice="";
+					    				}
+					    				
 						        		productDetails =  "<b>"+c.getString(c.getColumnIndex("name"))+"</b>\n"+
 					   							 authorString+
 					   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\n[Free Delivery]</font>"+
