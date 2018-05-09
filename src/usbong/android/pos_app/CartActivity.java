@@ -116,6 +116,8 @@ public class CartActivity extends AppCompatActivity/*Activity*/
     private ArrayList<String> quantityList; //added by Mike, 20170505
     private ArrayList<String> tempList; //added by Mike, 20170511
     private Double orderSubtotalCost; //edited by Mike, 20180508
+    private String orderSubtotalCostString; //edited by Mike, 20180509
+    
 /*    
     private int less70pesosPromoTotal; //added by Mike, 20170902
 */    
@@ -250,9 +252,30 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 					UsbongUtils.cartIconDrawableResourceId = R.drawable.cart_icon_not_empty;
 					myActivityInstance.invalidateOptionsMenu();
 					
+/*					//commented out by Mike, 20180509
 					currScreen=ACCOUNT_SCREEN;
 					setContentView(R.layout.account);	
 					init();
+*/
+					new AlertDialog.Builder(CartActivity.this).setTitle("CHECKOUT")
+					.setMessage("Customer's Order Total: " + orderSubtotalCostString)
+					.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {					
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+				    		UsbongUtils.cartIconDrawableResourceId = R.drawable.cart_icon;
+				    		UsbongMainActivity.getInstance().invalidateOptionsMenu();
+							UsbongUtils.itemsInCart.clear();			            						    	
+							
+							returnToProductSelection();
+						}
+					})
+					.setNegativeButton("Cancel",  new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int id) {
+					        //ACTION
+					    }
+					})
+					.show();	        		        	
+
 				}
 			}
     	});    	
@@ -291,9 +314,9 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		
 		TextView orderSubtotalCostTextView = (TextView)findViewById(R.id.order_subtotal);
 		
-		//edited by Mike, 20180508
+		//edited by Mike, 20180509
 //		int subtotalNumber = quantity*Integer.parseInt(item_price.replace("₱", "").trim());
-		String orderSubtotalCostString = "₱" + orderSubtotalCost; 
+		orderSubtotalCostString = "₱" + orderSubtotalCost; 
 		if (orderSubtotalCostString.contains(".")) {
 			if (orderSubtotalCostString.substring(orderSubtotalCostString.indexOf(".")).length()-1 < 2) {
 				orderSubtotalCostString = orderSubtotalCostString.concat("0");
