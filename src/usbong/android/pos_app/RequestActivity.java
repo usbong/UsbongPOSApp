@@ -195,6 +195,12 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 
 	    	initTakePhotoScreen();
 //	    }  	
+	    	
+    	//added by Mike, 20180510
+    	final EditText quantityEditText = (EditText)findViewById(R.id.quantity);    	
+		quantityEditText.setFocusable(true);
+		quantityEditText.setText("");
+		
     	        
     	//added by Mike, 20160126
     	requestButton = (Button)findViewById(R.id.request_button);    	
@@ -291,8 +297,16 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 									"N/A\n");
 						}
 */
+						
+						//edited by Mike, 20180510
+						int quantityNumber = 1;
+						String quantityString = ((TextView)findViewById(R.id.quantity)).getText().toString();
+						if (!quantityString.equals("")) {
+							quantityNumber = Integer.parseInt(quantityString);
+						}
+						
 						requestSummary.append("Quantity: "+
-								((TextView)findViewById(R.id.quantity)).getText().toString()+"\n");
+								quantityNumber+"\n");
 
 						EditText totalBudgetSelectedText = (EditText)findViewById(R.id.total_budget);
 /*
@@ -694,12 +708,15 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 	          }
     	        //added by Mike, 20170303
     	        RadioGroup itemTypeRadioButtonGroup = ((RadioGroup)findViewById(R.id.item_type_radiogroup));
-    		    ((RadioButton)itemTypeRadioButtonGroup.getChildAt(0)).setChecked(true);
+    		    ((RadioButton)itemTypeRadioButtonGroup.getChildAt(1)).setChecked(true); //set the default value to "New"
 
     	        //added by Mike, 20170330
     	        EditText totalBudget = ((EditText)findViewById(R.id.total_budget));
 /*    		    ((RadioButton)totalBudgetRadioButtonGroup.getChildAt(0)).setChecked(true);
 */    		    
+    	        //edited by Mike, 20180510
+    	        totalBudget.setText("N/A (Usbong Store Product Item)");	        	  
+    	        
     		    reset();
 	    	}
 	        else {
