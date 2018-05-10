@@ -591,6 +591,12 @@ public class UsbongUtils {
 		return dateTimeStamp;
     }
 
+    //added by Mike, 20180509
+    public static String getHumanReadableDateTimeStamp() {
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
+    }
+
+    
     public static void generateTimeStamp() {
 		Calendar date = Calendar.getInstance();
 		int hour = date.get(Calendar.HOUR_OF_DAY);

@@ -254,8 +254,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
     	//added by Mike, 20160126
     	confirmButton = (Button)findViewById(R.id.confirm_button);    	
     	
-    	//added by Mike, 20180131
-    	EditText quantityEditText = (EditText)findViewById(R.id.quantity);    	
+    	//edited by Mike, 20180510
+    	final EditText quantityEditText = (EditText)findViewById(R.id.quantity);    	
 
 		if (productDetails.contains("out of stock")) {
 			confirmButton.setText("REQUEST ITEM");
@@ -265,7 +265,16 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 		else {
 			confirmButton.setText("ADD TO CART");			
 			quantityEditText.setFocusable(true);
-			quantityEditText.setText("1");
+			quantityEditText.setText("");
+/*			
+			//edited by Mike, 20180510
+			quantityEditText.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {		
+					quantityEditText.setText("");					
+				}
+			});
+*/			
 		}
     	
     	confirmButton.setOnClickListener(new OnClickListener() {
@@ -315,7 +324,13 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 		        		UsbongUtils.itemsInCart = new ArrayList<String>();
 		        	}        	
 					
-					int quantityNumber = Integer.parseInt(quantity.getText().toString());
+					//edited by Mike, 20180510
+					int quantityNumber = 1;
+					String quantityString = quantity.getText().toString();
+					if (!quantityString.equals("")) {
+						quantityNumber = Integer.parseInt(quantityString);
+					}
+					
 					for (int i=0; i<quantityNumber; i++) {
 						//edited by Mike, 20170725
 //			        	UsbongUtils.itemsInCart.add(productDetails);						

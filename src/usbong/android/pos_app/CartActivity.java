@@ -17,11 +17,14 @@ package usbong.android.pos_app;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import usbong.android.utils.UsbongConstants;
 import usbong.android.utils.UsbongUtils;
@@ -257,7 +260,9 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 					setContentView(R.layout.account);	
 					init();
 */
+										
 					new AlertDialog.Builder(CartActivity.this).setTitle("CHECKOUT")
+//					.setMessage(UsbongUtils.getHumanReadableDateTimeStamp() +"\nCustomer's Order Total: " + orderSubtotalCostString)
 					.setMessage("Customer's Order Total: " + orderSubtotalCostString)
 					.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {					
 						@Override
