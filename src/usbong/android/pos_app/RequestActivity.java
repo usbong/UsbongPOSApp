@@ -1050,6 +1050,7 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 					startActivity(toCartActivityIntent);
 				}
 				return true;
+/*				
 			case(R.id.sell): //added by Mike, 20170308
 				finish();
 				//added by Mike, 20170216
@@ -1059,6 +1060,7 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 				toSellActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(toSellActivityIntent);
 				return true;
+*/				
 			case(R.id.request):
 				finish();
 				//added by Mike, 20170216
