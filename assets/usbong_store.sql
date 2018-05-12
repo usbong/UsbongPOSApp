@@ -162,4 +162,12 @@ INSERT INTO product_type (product_type_id, product_type_name) VALUES
 (13, 'NON-MED'),
 (14, 'MED');
 
+CREATE TABLE cart (
+  cart_id INTEGER PRIMARY KEY,
+  product_id INTEGER,
+  quantity INTEGER,
+  price INTEGER,
+  purchased_datetime_stamp TEXT
+); 
+
 COMMIT;
