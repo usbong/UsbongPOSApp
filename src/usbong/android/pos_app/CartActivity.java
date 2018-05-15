@@ -17,6 +17,7 @@ package usbong.android.pos_app;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,11 +27,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import usbong.android.utils.UsbongConstants;
 import usbong.android.utils.UsbongUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -270,6 +275,9 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				    		UsbongUtils.cartIconDrawableResourceId = R.drawable.cart_icon;
 				    		UsbongMainActivity.getInstance().invalidateOptionsMenu();
 							UsbongUtils.itemsInCart.clear();			            						    	
+							
+							//TODO: update the DB
+							
 							
 							returnToProductSelection();
 						}

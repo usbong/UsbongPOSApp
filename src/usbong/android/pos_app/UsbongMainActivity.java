@@ -113,7 +113,10 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	
 	//edited by Mike, 20180427
 	private int currProductTypeId = UsbongConstants.PRODUCT_TYPE_MED; //default //UsbongConstants.PRODUCT_TYPE_BOOKS; //default
-
+	
+	//added by Mike, 20180515
+	private int currProductId;
+	
 	private static boolean isInMerchantShop=false;
 	private static boolean hasPerformedSearch=false;
 	private String searchEditTextString="";
@@ -490,7 +493,10 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 
 				        		//added by Mike, 20170725			        		 
 							    currProductTypeId = c2.getInt(c2.getColumnIndex("product_type_id"));
-				        		
+
+				        		//added by Mike, 20180515 
+							    currProductId = c2.getInt(c2.getColumnIndex("product_id"));
+							    
 				        		String productDetails="";
 
 			    				String authorString = c2.getString(c2.getColumnIndex("author"));
@@ -517,6 +523,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\n[Free Delivery]</font>"+
 			   							 "MerchantName: "+merchantName+
 			   							 "currProductTypeId: "+currProductTypeId+
+			   							 "currProductId: "+currProductId+
 			   							 "productOverview: " + c2.getString(c2.getColumnIndex("product_overview"));//added by Mike, 20180419
 
 					        	listOfTreesArrayList.add(productDetails);
@@ -660,6 +667,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			        		//added by Mike, 20170725			        		 
 						    currProductTypeId = c.getInt(c.getColumnIndex("product_type_id"));
 			        		
+			        		//added by Mike, 20180515 
+						    currProductId = c.getInt(c.getColumnIndex("product_id"));
+
 			        		String productDetails="";
 /*			        		if (s==null) {
   */
@@ -696,6 +706,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\n[Free Delivery]</font>"+
 					   							 "MerchantName: "+merchantName+
 					   							 "currProductTypeId: "+currProductTypeId+
+					   							 "currProductId: "+currProductId+
 					   							 "productOverview: " + c.getString(c.getColumnIndex("product_overview"));//added by Mike, 20180419
 /*					    				break;
 				        		}
@@ -1725,8 +1736,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
                     	
                     	//added by Mike, 20170810
 	    				String tempS2 = o.toString();
-	    				String currProductTypeIdWithLabel = tempS2.substring(tempS2.indexOf("currProductTypeId: "), tempS2.indexOf("productOverview: "));
-	    				currProductTypeId = Integer.parseInt(currProductTypeIdWithLabel.substring("currProductTypeId: ".length()));
+	    				String currProductTypeIdWithLabel = tempS2.substring(tempS2.indexOf("currProductTypeId: "), tempS2.indexOf("currProductId: ")); //edited by Mike, 20180515
+	    				currProductTypeId = Integer.parseInt(currProductTypeIdWithLabel.substring("currProductTypeId: ".length())); 
 	    						
 	    				//added by Mike, 20180419
 	    				String tempS3 = o.toString();
