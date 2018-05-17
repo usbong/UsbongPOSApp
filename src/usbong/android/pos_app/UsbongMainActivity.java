@@ -27,7 +27,6 @@ import org.json.JSONArray;
 
 import usbong.android.db.UsbongDbHelper;
 import usbong.android.utils.UsbongConstants;
-import usbong.android.utils.UsbongHTTPConnect;
 import usbong.android.utils.UsbongUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -115,7 +114,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	private int currProductTypeId = UsbongConstants.PRODUCT_TYPE_MED; //default //UsbongConstants.PRODUCT_TYPE_BOOKS; //default
 	
 	//added by Mike, 20180515
-	private int currProductId;
+//	private int currProductId;
 	
 	private static boolean isInMerchantShop=false;
 	private static boolean hasPerformedSearch=false;
@@ -495,7 +494,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 							    currProductTypeId = c2.getInt(c2.getColumnIndex("product_type_id"));
 
 				        		//added by Mike, 20180515 
-							    currProductId = c2.getInt(c2.getColumnIndex("product_id"));
+							    int currProductId = c2.getInt(c2.getColumnIndex("product_id"));
 							    
 				        		String productDetails="";
 
@@ -668,7 +667,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 						    currProductTypeId = c.getInt(c.getColumnIndex("product_type_id"));
 			        		
 			        		//added by Mike, 20180515 
-						    currProductId = c.getInt(c.getColumnIndex("product_id"));
+						    int currProductId = c.getInt(c.getColumnIndex("product_id"));
 
 			        		String productDetails="";
 /*			        		if (s==null) {
@@ -1494,6 +1493,24 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				startActivity(toSellActivityIntent);
 				return true;
 */				
+			//added by Mike, 20180517
+			case(R.id.submit_report):
+				//TODO: create .csv file and save it in the SD Card
+/*	        	myDbHelper = new UsbongDbHelper(this);
+            	myDbHelper.initializeDataBase();
+*/
+				if (myDbHelper!=null) {
+		            mySQLiteDatabase = myDbHelper.getReadableDatabase();
+					myDbHelper.generateReportForTheDay(mySQLiteDatabase);					
+				}
+
+				final Activity a;
+				a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+				finish();
+				Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
+				toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+				startActivity(toCallingActivityIntent);		
+				return true;
 			case(R.id.request):
 				finish();
 				//added by Mike, 20170216
@@ -1739,6 +1756,13 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	    				String currProductTypeIdWithLabel = tempS2.substring(tempS2.indexOf("currProductTypeId: "), tempS2.indexOf("currProductId: ")); //edited by Mike, 20180515
 	    				currProductTypeId = Integer.parseInt(currProductTypeIdWithLabel.substring("currProductTypeId: ".length())); 
 	    						
+
+	    				//added by Mike, 20180517
+	    				String currProductIdWithLabel = tempS2.substring(tempS2.indexOf("currProductId: "), tempS2.indexOf("productOverview: "));
+	    				final int currProductId = Integer.parseInt(currProductIdWithLabel.substring("currProductId: ".length())); 	    				
+	    				
+	    				Log.d(">>>currProductId", ""+currProductId);
+	    				
 	    				//added by Mike, 20180419
 	    				String tempS3 = o.toString();
 	    				final String currProductOverview = tempS3.substring(tempS3.indexOf("productOverview: ")+"productOverview: ".length()).toString();
@@ -1864,6 +1888,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantNameButton.getText().toString()); //added by Mike, 20170528        					            				
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW, currProductOverview); //added by Mike, 20180419
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_ID, currProductId); //added by Mike, 20180517	
 	            				startActivityForResult(toBuyActivityIntent,1);
 	            			}
 	                	});
@@ -1891,6 +1916,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantNameButton.getText().toString()); //added by Mike, 20170529   				
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW, currProductOverview); //added by Mike, 20180419
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_ID, currProductId); //added by Mike, 20180517	
 	            				toBuyActivityIntent.putExtra("activityCaller", UsbongConstants.USBONG_MAIN_ACTIVITY); //added by Mike, 20170525	            				
 	            				startActivityForResult(toBuyActivityIntent,1);
                 			}

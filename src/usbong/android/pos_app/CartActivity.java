@@ -15,32 +15,25 @@
 package usbong.android.pos_app;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.text.Normalizer;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import usbong.android.db.UsbongDbHelper;
 import usbong.android.utils.UsbongConstants;
 import usbong.android.utils.UsbongUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -87,7 +80,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	//added by Mike, 20170427
 	public ListView treesListView;	
 	private CustomDataAdapter mCustomAdapter;
-	private ArrayList<String> listOfTreesArrayList;
+	private ArrayList<String> listOfItemsArrayList;
 
 	private static CartActivity instance;
 	
@@ -181,17 +174,17 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 
     	//edited by Mike, 20170429
 //    	String currCategory = UsbongConstants.ITEMS_LIST_BOOKS;
-//        listOfTreesArrayList = UsbongUtils.getItemArrayList(UsbongUtils.USBONG_TREES_FILE_PATH + currCategory+".txt");
+//        listOfItemsArrayList = UsbongUtils.getItemArrayList(UsbongUtils.USBONG_TREES_FILE_PATH + currCategory+".txt");
     	if (UsbongUtils.itemsInCart!=null) {
 	    	Collections.sort(UsbongUtils.itemsInCart); //added by Mike, 20170509
-    		listOfTreesArrayList = UsbongUtils.itemsInCart;
+    		listOfItemsArrayList = UsbongUtils.itemsInCart;
     	}        	
     	else {
-    		listOfTreesArrayList = new ArrayList<String>();
+    		listOfItemsArrayList = new ArrayList<String>();
     	}
 /*    	    	
-    	int listOfTreesArrayListSize = listOfTreesArrayList.size();  
-    	if (listOfTreesArrayListSize==0) {
+    	int listOfItemsArrayListSize = listOfItemsArrayList.size();  
+    	if (listOfItemsArrayListSize==0) {
     		return;
     	}
 */    	
@@ -200,37 +193,37 @@ public class CartActivity extends AppCompatActivity/*Activity*/
     	tempList = new ArrayList<String>();
     	quantityList = new ArrayList<String>();
     	
-/*    	listOfTreesArrayList = noQuantityList;
+/*    	listOfItemsArrayList = noQuantityList;
  */
-    	int listOfTreesArrayListSize = listOfTreesArrayList.size();    	
+    	int listOfItemsArrayListSize = listOfItemsArrayList.size();    	
     	
-    	if (listOfTreesArrayListSize != 0) {
-//	    	Collections.sort(listOfTreesArrayList);
+    	if (listOfItemsArrayListSize != 0) {
+//	    	Collections.sort(listOfItemsArrayList);
 	    	
-	    	for (int i=0; i<listOfTreesArrayListSize; i++) {    					    		
+	    	for (int i=0; i<listOfItemsArrayListSize; i++) {    					    		
 	    		if (prev.equals("")) {
 	    			quantity++;
-	        		prev = listOfTreesArrayList.get(i);    			
+	        		prev = listOfItemsArrayList.get(i);    			
 	    		}
-	    		else if (listOfTreesArrayList.get(i).equals(prev)) {
+	    		else if (listOfItemsArrayList.get(i).equals(prev)) {
 	    			quantity++;
 	    		}
 	    		else {
-	    			Log.d(">>>>>>listOfTreesArrayList.get(i)", i+": "+listOfTreesArrayList.get(i));
+	    			Log.d(">>>>>>listOfItemsArrayList.get(i)", i+": "+listOfItemsArrayList.get(i));
 	    			Log.d(">>>>>>prev", prev);
 	    			
-	    			tempList.add(listOfTreesArrayList.get(i-1).toString());
+	    			tempList.add(listOfItemsArrayList.get(i-1).toString());
 	    			quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
-	        		prev = listOfTreesArrayList.get(i);    			
+	        		prev = listOfItemsArrayList.get(i);    			
 	        		quantity=1;
 	    		}
 	    	}    	
-			tempList.add(listOfTreesArrayList.get(listOfTreesArrayListSize-1));
+			tempList.add(listOfItemsArrayList.get(listOfItemsArrayListSize-1));
 			quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
-			//listOfTreesArrayList = tempList;
+			//listOfItemsArrayList = tempList;
     	}
     	
-    	mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader_cart, tempList); //listOfTreesArrayList
+    	mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader_cart, tempList); //listOfItemsArrayList
 //		mCustomAdapter.sort(); //edited by Mike, 20170203
     			
     	/*
@@ -274,11 +267,28 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 						public void onClick(DialogInterface dialog, int which) {
 				    		UsbongUtils.cartIconDrawableResourceId = R.drawable.cart_icon;
 				    		UsbongMainActivity.getInstance().invalidateOptionsMenu();
-							UsbongUtils.itemsInCart.clear();			            						    	
 							
 							//TODO: update the DB
+				        	UsbongDbHelper myDbHelper = new UsbongDbHelper(instance);
+				            myDbHelper.initializeDataBase();
+
+				            SQLiteDatabase mySQLiteDatabase = myDbHelper.getReadableDatabase();
+			
+				            
+				            int listOfItemsArrayListSize = listOfItemsArrayList.size();    	
+				        	
+				        	if (listOfItemsArrayListSize != 0) {				    	    	
+				    	    	for (int i=0; i<listOfItemsArrayListSize; i++) {
+				    	    		Log.d(">>>", listOfItemsArrayList.get(i));
+				    	    	}    	
+				        	}
+				            
+//				            myDbHelper.updateCartTable()
 							
-							
+
+				            //edited by Mike, 20180517
+							UsbongUtils.itemsInCart.clear();			            						    	
+				            
 							returnToProductSelection();
 						}
 					})

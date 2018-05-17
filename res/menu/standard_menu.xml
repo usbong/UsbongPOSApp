@@ -5,6 +5,9 @@
 		  android:icon="@drawable/cart_icon"
 		  usbong:showAsAction="always"
 	/>		    
+    <item android:id="@+id/submit_report"
+		  android:title="Submit Report"
+	/>		    	           
     <item android:id="@+id/request"
 		  android:title="Request"
 	/>		    	        

@@ -47,6 +47,8 @@ public class UsbongConstants {
 
 	//added by Mike, 20180419
 	public final static String ITEM_PRODUCT_OVERVIEW="item_product_overview";
+	//added by Mike, 20180517
+	public final static String ITEM_PRODUCT_ID="item_product_id";
 	
 	//added by Mike, 20170330
 	public static final String ITEMS_LIST_DEFAULT = "items_list_books";

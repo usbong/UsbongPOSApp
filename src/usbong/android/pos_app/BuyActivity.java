@@ -156,7 +156,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
         	productDetails = getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME)+
         			"MerchantName: "+getIntent().getStringExtra(UsbongConstants.MERCHANT_NAME)+
         			"ImageFileName: "+getIntent().getStringExtra(UsbongConstants.ITEM_IMAGE_NAME)+
-					"ProductOverview: "+getIntent().getStringExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW);
+					"ProductOverview: "+getIntent().getStringExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW)+
+					"ProductId: "+getIntent().getIntExtra(UsbongConstants.ITEM_PRODUCT_ID,-1);
         	
     		ImageView myTextImageDisplayImageView = (ImageView)findViewById(R.id.image_display_imageview);
 

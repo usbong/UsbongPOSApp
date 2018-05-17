@@ -35,6 +35,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import usbong.android.pos_app.R;
 import usbong.android.pos_app.UsbongMainActivity;
 import usbong.android.utils.UsbongDownloadImageTask;
 import android.content.ContentValues;
@@ -43,8 +44,11 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.provider.BaseColumns;
+import android.text.Html;
 import android.util.Log;
+import android.widget.TextView;
 
 public class UsbongDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
@@ -484,5 +488,26 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
         }catch (Exception ex) {
         	ex.printStackTrace();
     	}	
+    }
+    
+    //added by Mike, 20180517
+    public void generateReportForTheDay(SQLiteDatabase db) {
+    	 //TODO: update this
+/*    	
+	     String getMerchantId = "select * from '" + "merchant" + "'" + " where merchant_name LIKE '%"+merchantName+"%'";
+	     Cursor cMerchantId = mySQLiteDatabase.rawQuery(getMerchantId, null);
+	     
+	     merchantId=1; //1 is the default
+	     if (cMerchantId != null) {
+		     if (cMerchantId.moveToFirst()) {
+	     		 merchantId = Integer.parseInt(cMerchantId.getString(cMerchantId.getColumnIndex("merchant_id")));
+		     }
+	     }
+*/
+   }
+    
+   //added by Mike, 20180517
+    public void updateCartTable(SQLiteDatabase db, ArrayList<String> listOfItemsArrayList) {
+    	//TODO: update this
     }
 }
