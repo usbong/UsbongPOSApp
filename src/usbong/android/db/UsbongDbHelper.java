@@ -52,7 +52,7 @@ import android.widget.TextView;
 
 public class UsbongDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 28;
+    public static final int DATABASE_VERSION = 29;
 //    public static final String DB_NAME = "usbong_store.db";
     
 //    private static String DB_DIR = "/data/data/usbong.android.store_app/databases/";
@@ -509,5 +509,50 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
    //added by Mike, 20180517
     public void updateCartTable(SQLiteDatabase db, ArrayList<String> listOfItemsArrayList) {
     	//TODO: update this
+    	
+/*    	
+		ContentValues insertValues = new ContentValues();        	
+		
+		for (int i=0; i<listOfItemsArrayList.size(); i++) {
+			String s = listOfItemsArrayList.get(i).toString();
+			
+			String currProductIdWithLabel = s.substring(s.indexOf("currProductId: "), s.indexOf("productOverview: "));
+			int currProductId = Integer.parseInt(currProductIdWithLabel.substring("currProductId: ".length())); 	    				
+
+			
+		}
+*/		
+		//TODO: add quantity
+		
+/*		
+		tempList.add(listOfItemsArrayList.get(listOfItemsArrayListSize-1));
+		quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
+*/
+
+/*    	
+		//added by Mike, 20180419
+		String tempS3 = o.toString();
+		final String currProductOverview = tempS3.substring(tempS3.indexOf("productOverview: ")+"productOverview: ".length()).toString();
+		
+		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
+        Resources myRes = instance.getResources();
+        final String imageFileName;	                    
+        final String folderName; //added by Mike, 20170725
+        
+        
+		
+		  cart_id INTEGER PRIMARY KEY,
+		  product_id INTEGER,
+		  quantity INTEGER,
+		  price INTEGER,
+		  purchased_datetime_stamp TEXT
+			   
+          insertValues.put("product_id", jo_inside.getString("product_id"));
+    	  insertValues.put("quantity", jo_inside.getString("merchant_id"));
+    	  insertValues.put("price", jo_inside.getString("product_type_id"));
+    	  insertValues.put("purchased_datetime_stamp", jo_inside.getString("name"));
+	                	
+    	  db.insert("product", null, insertValues);	      
+*/  	
     }
 }

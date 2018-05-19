@@ -16,6 +16,7 @@ package usbong.android.pos_app;
 
 import java.io.File;
 import java.io.InputStream;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -272,8 +273,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				        	UsbongDbHelper myDbHelper = new UsbongDbHelper(instance);
 				            myDbHelper.initializeDataBase();
 
-				            SQLiteDatabase mySQLiteDatabase = myDbHelper.getReadableDatabase();
-			
+				            SQLiteDatabase mySQLiteDatabase = myDbHelper.getReadableDatabase();		
 				            
 				            int listOfItemsArrayListSize = listOfItemsArrayList.size();    	
 				        	
@@ -337,15 +337,21 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		
 		TextView orderSubtotalCostTextView = (TextView)findViewById(R.id.order_subtotal);
 		
+		//edited by Mike, 20180519
+		NumberFormat formatter = NumberFormat.getNumberInstance();
+		formatter.setMinimumFractionDigits(2);
+		formatter.setMaximumFractionDigits(2);
+		String output = formatter.format(orderSubtotalCost);
+		
 		//edited by Mike, 20180509
 //		int subtotalNumber = quantity*Integer.parseInt(item_price.replace("₱", "").trim());
-		orderSubtotalCostString = "₱" + orderSubtotalCost; 
-		if (orderSubtotalCostString.contains(".")) {
+		orderSubtotalCostString = "₱" + output;//orderSubtotalCost; 
+/*		if (orderSubtotalCostString.contains(".")) {
 			if (orderSubtotalCostString.substring(orderSubtotalCostString.indexOf(".")).length()-1 < 2) {
 				orderSubtotalCostString = orderSubtotalCostString.concat("0");
 			}
 		}
-
+*/
 		orderSubtotalCostTextView.setText("Order Total: "+orderSubtotalCostString);		 				
     }
     
@@ -1415,13 +1421,20 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		//edited by Mike, 20180508
 //		int subtotalNumber = quantity*Integer.parseInt(item_price.replace("₱", "").trim());
 		Double subtotalNumber = quantity*Double.parseDouble(item_price.replace("₱", "").trim());
-		String subTotalString = "₱" + subtotalNumber; 
-		if (subTotalString.contains(".")) {
+		
+		//edited by Mike, 20180519
+		NumberFormat formatter = NumberFormat.getNumberInstance();
+		formatter.setMinimumFractionDigits(2);
+		formatter.setMaximumFractionDigits(2);
+		String output = formatter.format(subtotalNumber);
+				
+		String subTotalString = "₱" + output;//subtotalNumber; 
+/*		if (subTotalString.contains(".")) {
 			if (subTotalString.substring(subTotalString.indexOf(".")).length()-1 < 2) {
 				subTotalString = subTotalString.concat("0");
 			}
 		}
-
+*/
 		subtotal.setText(subTotalString+"\nSubtotal");		
 	}
 	
