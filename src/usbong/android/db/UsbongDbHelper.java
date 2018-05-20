@@ -507,21 +507,98 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
    }
     
    //added by Mike, 20180517
-    public void updateCartTable(SQLiteDatabase db, ArrayList<String> listOfItemsArrayList) {
-    	//TODO: update this
-    	
-/*    	
-		ContentValues insertValues = new ContentValues();        	
-		
+   public void updateCartTable(SQLiteDatabase db, ArrayList<String> listOfItemsArrayList) {    	
+		ContentValues insertValues = new ContentValues();    
+/*		
+		String prev = "";
+		int quantity = 0;
+*/		
 		for (int i=0; i<listOfItemsArrayList.size(); i++) {
 			String s = listOfItemsArrayList.get(i).toString();
+			Log.d(">>>>", s);
+/*			
+			if (prev.equals("")) {
+				quantity=1;
+			}
+			else {				
+			}
+*/			
+		}
+
+/*	
+		String prev="";
+    	int quantity=0;
+    	ArrayList<String> tempList = new ArrayList<String>();
+    	ArrayList<String> quantityList = new ArrayList<String>();
+    	
+    	int listOfItemsArrayListSize = listOfItemsArrayList.size();    	
+    	
+    	if (listOfItemsArrayListSize != 0) {
+	    	for (int i=0; i<listOfItemsArrayListSize; i++) {    					    		
+	    		if (prev.equals("")) {
+	    			quantity++;
+	        		prev = listOfItemsArrayList.get(i);    			
+	    		}
+	    		else if (listOfItemsArrayList.get(i).equals(prev)) {
+	    			quantity++;
+	    		}
+	    		else {
+	    			Log.d(">>>>>>listOfItemsArrayList.get(i-1)", ""+listOfItemsArrayList.get(i-1));
+	    			Log.d(">>>>>>quantity", ""+quantity);
+	    			
+	    			tempList.add(listOfItemsArrayList.get(i-1).toString());
+	    			quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
+	        		prev = listOfItemsArrayList.get(i);    			
+	        		quantity=1;
+	    		}
+	    	}    	
+			tempList.add(listOfItemsArrayList.get(listOfItemsArrayListSize-1));
+			quantityList.add(""+quantity);
+    	}
+*/		
+		
+/*  	
+    	Log.d(">>> listOfItemsArrayList.size()", ""+listOfItemsArrayList.size());
+*/    	
+/*		
+    	String prev = "";
+    	int quantity = 0;
+    	String s="";
+    			
+    	if (listOfItemsArrayList.size()==1) {
+			s = listOfItemsArrayList.get(0).toString();
+			quantity = 1;
 			
+			Log.d(">>>>", s);
+			Log.d(">>>> quantity: ", ""+quantity);
+    	}
+    	else {
+    		for (int i=0; i<listOfItemsArrayList.size(); i++) {
+	    		if (prev.equals("")) {
+	    			quantity++;
+	        		prev = listOfItemsArrayList.get(i);    			
+	    		}
+	    		else if (listOfItemsArrayList.get(i).equals(prev)) {
+	    			quantity++;
+	    		}
+	    		else {    			
+	    			s = listOfItemsArrayList.get(i).toString();
+	    			Log.d(">>>>", s);
+	    			Log.d(">>>> quantity: ", ""+quantity);	    			
+
+//	    			tempList.add(listOfItemsArrayList.get(i-1).toString());
+//	    			quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
+	        		prev = listOfItemsArrayList.get(i);    			
+	        		quantity=1;
+	    		}    		
+    	}
+
 			String currProductIdWithLabel = s.substring(s.indexOf("currProductId: "), s.indexOf("productOverview: "));
 			int currProductId = Integer.parseInt(currProductIdWithLabel.substring("currProductId: ".length())); 	    				
+*/			
+//		}
 
-			
-		}
-*/		
+		
 		//TODO: add quantity
 		
 /*		

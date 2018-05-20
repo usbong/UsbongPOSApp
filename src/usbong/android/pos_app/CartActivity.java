@@ -275,6 +275,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 
 				            SQLiteDatabase mySQLiteDatabase = myDbHelper.getReadableDatabase();		
 				            
+/*				            
 				            int listOfItemsArrayListSize = listOfItemsArrayList.size();    	
 				        	
 				        	if (listOfItemsArrayListSize != 0) {				    	    	
@@ -282,8 +283,8 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				    	    		Log.d(">>>", listOfItemsArrayList.get(i));
 				    	    	}    	
 				        	}
-				            
-//				            myDbHelper.updateCartTable()
+*/				            
+				            myDbHelper.updateCartTable(mySQLiteDatabase, listOfItemsArrayList);
 							
 
 				            //edited by Mike, 20180517

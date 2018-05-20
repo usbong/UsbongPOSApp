@@ -82,8 +82,8 @@ public class UsbongHTTPConnect extends AsyncTask<Void, Void, String> {
 			
 			OutputStream out = conn.getOutputStream();
 
-		    out.write(postData);
-		    out.close();
+		    out.write(Data);
+		    .close();
 */
 	        if(conn.getResponseCode() != HttpsURLConnection.HTTP_OK) {
 	            throw new RuntimeException("Failed : HTTP error code : "
