@@ -167,7 +167,7 @@ CREATE TABLE cart (
   cart_id INTEGER PRIMARY KEY,
   product_id INTEGER,
   quantity INTEGER,
-  price INTEGER,
+  price REAL,
   purchased_datetime_stamp TEXT
 ); 
 

@@ -35,20 +35,17 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import usbong.android.pos_app.R;
 import usbong.android.pos_app.UsbongMainActivity;
 import usbong.android.utils.UsbongDownloadImageTask;
+import usbong.android.utils.UsbongUtils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
 import android.provider.BaseColumns;
-import android.text.Html;
 import android.util.Log;
-import android.widget.TextView;
 
 public class UsbongDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
@@ -509,23 +506,12 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
    //added by Mike, 20180517
    public void updateCartTable(SQLiteDatabase db, ArrayList<String> listOfItemsArrayList) {    	
 		ContentValues insertValues = new ContentValues();    
-/*		
-		String prev = "";
-		int quantity = 0;
-*/		
-		for (int i=0; i<listOfItemsArrayList.size(); i++) {
-			String s = listOfItemsArrayList.get(i).toString();
-			Log.d(">>>>", s);
-/*			
-			if (prev.equals("")) {
-				quantity=1;
-			}
-			else {				
-			}
-*/			
-		}
-
-/*	
+			
+		//TODO: put this portion of code in UsbongUtils, since I use this more than once; the other is in CartActivity
+		//This creates two lists: 1) unique product items, 2) the quantity of each unique product item; 
+		//The index used for the product list, i.e. tempList, matches with the index for the quantity list
+		//This is to properly identify the product item in both lists.
+		//------------------------------------------------------------
 		String prev="";
     	int quantity=0;
     	ArrayList<String> tempList = new ArrayList<String>();
@@ -543,9 +529,9 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 	    			quantity++;
 	    		}
 	    		else {
-	    			Log.d(">>>>>>listOfItemsArrayList.get(i-1)", ""+listOfItemsArrayList.get(i-1));
+/*	    			Log.d(">>>>>>listOfItemsArrayList.get(i-1)", ""+listOfItemsArrayList.get(i-1).toString());
 	    			Log.d(">>>>>>quantity", ""+quantity);
-	    			
+*/	    			
 	    			tempList.add(listOfItemsArrayList.get(i-1).toString());
 	    			quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
 	        		prev = listOfItemsArrayList.get(i);    			
@@ -555,7 +541,44 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 			tempList.add(listOfItemsArrayList.get(listOfItemsArrayListSize-1));
 			quantityList.add(""+quantity);
     	}
-*/		
+		//------------------------------------------------------------
+
+    	
+    	for (int i=0; i<tempList.size(); i++) {    					    		
+    		String s = tempList.get(i);
+    		int currProductId = Integer.parseInt(s.substring(s.indexOf("ProductId: ")+"ProductId: ".length()).toString());
+    		
+    		String priceStartString = s.substring(s.indexOf("₱")+"₱".length());
+    		String priceString = priceStartString.substring(0, priceStartString.indexOf("</b>"));
+    		
+    		Double price = Double.parseDouble(priceString);
+    		String dateTimeStamp = UsbongUtils.getDateTimeStamp();
+    		
+            insertValues.put("product_id", currProductId);
+      	    insertValues.put("quantity", quantityList.get(i));
+      	    insertValues.put("price", price);
+      	    insertValues.put("purchased_datetime_stamp", dateTimeStamp);
+  	                	
+      	    db.insert("cart", null, insertValues);	         		
+    	}
+			   
+	     String getCart = "select * from 'cart'";
+	     Cursor c = db.rawQuery(getCart, null);
+	     
+	     if (c != null) {
+		     if (c.moveToFirst()) {
+	        	while (!c.isAfterLast()) {			        		
+			    	Log.d(">>> getCartId", c.getString(c.getColumnIndex("cart_id")));
+			    	Log.d(">>> getProductId", c.getString(c.getColumnIndex("product_id")));
+			    	Log.d(">>> quantity", c.getString(c.getColumnIndex("quantity")));
+			    	Log.d(">>> price", c.getString(c.getColumnIndex("price")));
+			    	Log.d(">>> purchased_datetime_stamp", c.getString(c.getColumnIndex("purchased_datetime_stamp")));
+		        	
+		        	c.moveToNext();
+		        }		    	 
+		     }
+	     }
+		
 		
 /*  	
     	Log.d(">>> listOfItemsArrayList.size()", ""+listOfItemsArrayList.size());

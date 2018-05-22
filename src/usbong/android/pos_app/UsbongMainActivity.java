@@ -1117,8 +1117,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
         	case UsbongConstants.PRODUCT_TYPE_TOYS_AND_COLLECTIBLES:
                 booksButton.setTypeface(Typeface.DEFAULT);
                 childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT);            
+                textbooksButton.setTypeface(Typeface.DEFAULT             medicalButton.setTypeface(Typeface.DEFAULT);            
                 foodButton.setTypeface(Typeface.DEFAULT);
                 beveragesButton.setTypeface(Typeface.DEFAULT);
                 comicsButton.setTypeface(Typeface.DEFAULT);
