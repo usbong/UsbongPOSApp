@@ -270,7 +270,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				    		UsbongMainActivity.getInstance().invalidateOptionsMenu();
 							
 							//TODO: update the DB
-				        	UsbongDbHelper myDbHelper = new UsbongDbHelper(instance);
+				        	UsbongDbHelper myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance()); //edited by Mike, 20180524
 				            myDbHelper.initializeDataBase();
 
 				            SQLiteDatabase mySQLiteDatabase = myDbHelper.getReadableDatabase();		

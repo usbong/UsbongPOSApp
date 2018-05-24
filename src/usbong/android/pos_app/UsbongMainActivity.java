@@ -1500,7 +1500,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 */
 				if (myDbHelper!=null) {
 		            mySQLiteDatabase = myDbHelper.getReadableDatabase();
-					myDbHelper.generateReportForTheDay(mySQLiteDatabase);					
+					myDbHelper.submitReportForTheDay(mySQLiteDatabase);
 				}
 
 				final Activity a;

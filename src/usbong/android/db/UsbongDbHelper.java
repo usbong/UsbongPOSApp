@@ -49,7 +49,7 @@ import android.util.Log;
 
 public class UsbongDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 29;
+    public static final int DATABASE_VERSION = 30;
 //    public static final String DB_NAME = "usbong_store.db";
     
 //    private static String DB_DIR = "/data/data/usbong.android.store_app/databases/";
@@ -86,7 +86,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
         DB_PATH = myContext.getDatabasePath(DB_NAME).getAbsolutePath();
         
 //		 getWritableDatabase(); // In the constructor
-                
+                    
         try {
         	SQLiteDatabase.deleteDatabase(new File(DB_PATH));              		         	
         }
@@ -489,18 +489,48 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     
     //added by Mike, 20180517
     public void generateReportForTheDay(SQLiteDatabase db) {
-    	 //TODO: update this
-/*    	
-	     String getMerchantId = "select * from '" + "merchant" + "'" + " where merchant_name LIKE '%"+merchantName+"%'";
-	     Cursor cMerchantId = mySQLiteDatabase.rawQuery(getMerchantId, null);
+    	String getCart = "select * from 'cart'";
+	    Cursor c = db.rawQuery(getCart, null);
 	     
-	     merchantId=1; //1 is the default
-	     if (cMerchantId != null) {
-		     if (cMerchantId.moveToFirst()) {
-	     		 merchantId = Integer.parseInt(cMerchantId.getString(cMerchantId.getColumnIndex("merchant_id")));
+	    StringBuffer outputStringBuffer = new StringBuffer();
+		outputStringBuffer.append(
+		    	"cart_id"+","+
+    			"product_id"+","+
+    			"quantity"+","+
+    			"price"+","+
+    			"purchased_datetime_stamp"+"\n");
+
+	    if (c != null) {
+		     if (c.moveToFirst()) {
+		    	 
+		    	//TODO: fix this 
+	        	while (!c.isAfterLast()) {
+	        		outputStringBuffer.append(
+	        				c.getString(c.getColumnIndex("cart_id"))+","+
+	        				c.getString(c.getColumnIndex("product_id"))+","+
+	        				c.getString(c.getColumnIndex("quantity"))+","+
+	        				c.getString(c.getColumnIndex("price"))+","+
+	        				c.getString(c.getColumnIndex("purchased_datetime_stamp")));
+		        	c.moveToNext();
+		        }		    	 
 		     }
-	     }
-*/
+	    }
+
+	    String myOutputDirectory=UsbongUtils.getDateTimeStamp()+"/";
+		try {
+			UsbongUtils.createNewOutputFolderStructure();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		UsbongUtils.storeOutputInSDCard(UsbongUtils.BASE_FILE_PATH + myOutputDirectory + UsbongUtils.getDateTimeStamp() + ".csv", outputStringBuffer.toString());
+   }
+    
+   //added by Mike, 20180524
+   public void submitReportForTheDay(SQLiteDatabase db) {
+		this.generateReportForTheDay(db);					
+		
+		//TODO: -add: email the report
    }
     
    //added by Mike, 20180517
@@ -509,12 +539,12 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 			
 		//TODO: put this portion of code in UsbongUtils, since I use this more than once; the other is in CartActivity
 		//This creates two lists: 1) unique product items, 2) the quantity of each unique product item; 
-		//The index used for the product list, i.e. tempList, matches with the index for the quantity list
+		//The index used for the product list, i.e. productsList, matches with the index for the quantity list
 		//This is to properly identify the product item in both lists.
 		//------------------------------------------------------------
 		String prev="";
     	int quantity=0;
-    	ArrayList<String> tempList = new ArrayList<String>();
+    	ArrayList<String> productsList = new ArrayList<String>();
     	ArrayList<String> quantityList = new ArrayList<String>();
     	
     	int listOfItemsArrayListSize = listOfItemsArrayList.size();    	
@@ -532,20 +562,20 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 /*	    			Log.d(">>>>>>listOfItemsArrayList.get(i-1)", ""+listOfItemsArrayList.get(i-1).toString());
 	    			Log.d(">>>>>>quantity", ""+quantity);
 */	    			
-	    			tempList.add(listOfItemsArrayList.get(i-1).toString());
+	    			productsList.add(listOfItemsArrayList.get(i-1).toString());
 	    			quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
 	        		prev = listOfItemsArrayList.get(i);    			
 	        		quantity=1;
 	    		}
 	    	}    	
-			tempList.add(listOfItemsArrayList.get(listOfItemsArrayListSize-1));
+			productsList.add(listOfItemsArrayList.get(listOfItemsArrayListSize-1));
 			quantityList.add(""+quantity);
     	}
 		//------------------------------------------------------------
 
     	
-    	for (int i=0; i<tempList.size(); i++) {    					    		
-    		String s = tempList.get(i);
+    	for (int i=0; i<productsList.size(); i++) {    					    		
+    		String s = productsList.get(i);
     		int currProductId = Integer.parseInt(s.substring(s.indexOf("ProductId: ")+"ProductId: ".length()).toString());
     		
     		String priceStartString = s.substring(s.indexOf("₱")+"₱".length());
@@ -561,7 +591,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
   	                	
       	    db.insert("cart", null, insertValues);	         		
     	}
-			   
+/*			   
 	     String getCart = "select * from 'cart'";
 	     Cursor c = db.rawQuery(getCart, null);
 	     
@@ -578,81 +608,6 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 		        }		    	 
 		     }
 	     }
-		
-		
-/*  	
-    	Log.d(">>> listOfItemsArrayList.size()", ""+listOfItemsArrayList.size());
-*/    	
-/*		
-    	String prev = "";
-    	int quantity = 0;
-    	String s="";
-    			
-    	if (listOfItemsArrayList.size()==1) {
-			s = listOfItemsArrayList.get(0).toString();
-			quantity = 1;
-			
-			Log.d(">>>>", s);
-			Log.d(">>>> quantity: ", ""+quantity);
-    	}
-    	else {
-    		for (int i=0; i<listOfItemsArrayList.size(); i++) {
-	    		if (prev.equals("")) {
-	    			quantity++;
-	        		prev = listOfItemsArrayList.get(i);    			
-	    		}
-	    		else if (listOfItemsArrayList.get(i).equals(prev)) {
-	    			quantity++;
-	    		}
-	    		else {    			
-	    			s = listOfItemsArrayList.get(i).toString();
-	    			Log.d(">>>>", s);
-	    			Log.d(">>>> quantity: ", ""+quantity);	    			
-
-//	    			tempList.add(listOfItemsArrayList.get(i-1).toString());
-//	    			quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
-	        		prev = listOfItemsArrayList.get(i);    			
-	        		quantity=1;
-	    		}    		
-    	}
-
-			String currProductIdWithLabel = s.substring(s.indexOf("currProductId: "), s.indexOf("productOverview: "));
-			int currProductId = Integer.parseInt(currProductIdWithLabel.substring("currProductId: ".length())); 	    				
-*/			
-//		}
-
-		
-		//TODO: add quantity
-		
-/*		
-		tempList.add(listOfItemsArrayList.get(listOfItemsArrayListSize-1));
-		quantityList.add(""+quantity); //"<b>Quantity:</b> "+quantity
-*/
-
-/*    	
-		//added by Mike, 20180419
-		String tempS3 = o.toString();
-		final String currProductOverview = tempS3.substring(tempS3.indexOf("productOverview: ")+"productOverview: ".length()).toString();
-		
-		//Reference: http://www.anddev.org/tinytut_-_get_resources_by_name__getidentifier_-t460.html; last accessed 14 Sept 2011
-        Resources myRes = instance.getResources();
-        final String imageFileName;	                    
-        final String folderName; //added by Mike, 20170725
-        
-        
-		
-		  cart_id INTEGER PRIMARY KEY,
-		  product_id INTEGER,
-		  quantity INTEGER,
-		  price INTEGER,
-		  purchased_datetime_stamp TEXT
-			   
-          insertValues.put("product_id", jo_inside.getString("product_id"));
-    	  insertValues.put("quantity", jo_inside.getString("merchant_id"));
-    	  insertValues.put("price", jo_inside.getString("product_type_id"));
-    	  insertValues.put("purchased_datetime_stamp", jo_inside.getString("name"));
-	                	
-    	  db.insert("product", null, insertValues);	      
-*/  	
+*/		  	
     }
 }
