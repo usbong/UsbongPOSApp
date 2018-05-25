@@ -1499,8 +1499,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
             	myDbHelper.initializeDataBase();
 */
 				if (myDbHelper!=null) {
-		            mySQLiteDatabase = myDbHelper.getReadableDatabase();
-					myDbHelper.submitReportForTheDay(mySQLiteDatabase);
+//		            mySQLiteDatabase = myDbHelper.getReadableDatabase();
+					myDbHelper.submitReportForTheDay();//mySQLiteDatabase);
 				}
 
 				final Activity a;
@@ -1938,7 +1938,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
             myDbHelper.initializeDataBase();
 
             mySQLiteDatabase = myDbHelper.getReadableDatabase();
-	        myDbHelper.syncInternalDBwithServerDB(mySQLiteDatabase, obj);
+	        myDbHelper.syncInternalDBwithServerDB(/*mySQLiteDatabase, */obj);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

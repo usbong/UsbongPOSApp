@@ -58,6 +58,8 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 //    private static String OLD_DB_PATH = DB_DIR + "old_" + DB_NAME;
     
     private final Context myContext;
+    
+    private static SQLiteDatabase db; //added by Mike, 20180525
 
     private boolean createDatabase = false;
     private boolean upgradeDatabase = false;
@@ -327,7 +329,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 */
     
     //added by Mike, 20180213
-    public void syncInternalDBwithServerDB(SQLiteDatabase db, JSONArray serverProductsTable) {
+    public void syncInternalDBwithServerDB(/*SQLiteDatabase db,*/ JSONArray serverProductsTable) {
         try {		        	        	
         		//check first if the internal DB is already synced
             	int serverProductsTableLength = serverProductsTable.length();        	
@@ -488,7 +490,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     }
     
     //added by Mike, 20180517
-    public void generateReportForTheDay(SQLiteDatabase db) {
+    public void generateReportForTheDay(){//SQLiteDatabase db) {
     	String getCart = "select * from 'cart'";
 	    Cursor c = db.rawQuery(getCart, null);
 	     
@@ -502,7 +504,6 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 
 	    if (c != null) {
 		     if (c.moveToFirst()) {
-		    	 
 		    	//TODO: fix this 
 	        	while (!c.isAfterLast()) {
 	        		outputStringBuffer.append(
@@ -510,7 +511,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 	        				c.getString(c.getColumnIndex("product_id"))+","+
 	        				c.getString(c.getColumnIndex("quantity"))+","+
 	        				c.getString(c.getColumnIndex("price"))+","+
-	        				c.getString(c.getColumnIndex("purchased_datetime_stamp")));
+	        				c.getString(c.getColumnIndex("purchased_datetime_stamp"))+"\n");
 		        	c.moveToNext();
 		        }		    	 
 		     }
@@ -527,15 +528,17 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
    }
     
    //added by Mike, 20180524
-   public void submitReportForTheDay(SQLiteDatabase db) {
-		this.generateReportForTheDay(db);					
+   public void submitReportForTheDay(/*SQLiteDatabase db*/) {
+		this.generateReportForTheDay();//db);					
 		
 		//TODO: -add: email the report
    }
     
    //added by Mike, 20180517
    public void updateCartTable(SQLiteDatabase db, ArrayList<String> listOfItemsArrayList) {    	
-		ContentValues insertValues = new ContentValues();    
+	    this.db = db;
+	   
+	    ContentValues insertValues = new ContentValues();    
 			
 		//TODO: put this portion of code in UsbongUtils, since I use this more than once; the other is in CartActivity
 		//This creates two lists: 1) unique product items, 2) the quantity of each unique product item; 
