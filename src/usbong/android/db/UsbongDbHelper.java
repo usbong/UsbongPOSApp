@@ -60,6 +60,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     private final Context myContext;
     
     private static SQLiteDatabase db; //added by Mike, 20180525
+    private static UsbongDbHelper instance; //added by Mike, 20180528
 
     private boolean createDatabase = false;
     private boolean upgradeDatabase = false;
@@ -86,6 +87,8 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
         myContext = context;
         // Get the path of the database that is based on the context.
         DB_PATH = myContext.getDatabasePath(DB_NAME).getAbsolutePath();
+        
+        instance = this; //added by Mike, 20180528
         
 //		 getWritableDatabase(); // In the constructor
                     
@@ -210,6 +213,10 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
     	if (!upgradeDatabase) {   	
+/*    		
+    		//added by Mike, 20180529
+        	UsbongDbHelper.db = db;
+*/    		
 	        /*
 	         * Signal that a new database needs to be copied. The copy process must
 	         * be performed after the database in the cache has been closed causing
@@ -260,6 +267,11 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+/*
+    	//added by Mike, 20180529
+    	UsbongDbHelper.db = db;
+*/
+    	
         /*
          * Signal that the database needs to be upgraded for the copy method of
          * creation. The copy process must be performed after the database has
@@ -328,6 +340,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     }
 */
     
+    //TODO: update this; use UsbongDbHelper.db
     //added by Mike, 20180213
     public void syncInternalDBwithServerDB(/*SQLiteDatabase db,*/ JSONArray serverProductsTable) {
         try {		        	        	
@@ -491,8 +504,12 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     
     //added by Mike, 20180517
     public void generateReportForTheDay(){//SQLiteDatabase db) {
+/*
+    	//edited by Mike, 20180530
+	   	UsbongDbHelper.db = UsbongDbHelper.instance.getReadableDatabase();		
+*/
     	String getCart = "select * from 'cart'";
-	    Cursor c = db.rawQuery(getCart, null);
+	    Cursor c = UsbongDbHelper.db.rawQuery(getCart, null);
 	     
 	    StringBuffer outputStringBuffer = new StringBuffer();
 		outputStringBuffer.append(
@@ -528,17 +545,26 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
    }
     
    //added by Mike, 20180524
-   public void submitReportForTheDay(/*SQLiteDatabase db*/) {
+   public void submitReportForTheDay(){//SQLiteDatabase db) {
 		this.generateReportForTheDay();//db);					
 		
 		//TODO: -add: email the report
    }
     
-   //added by Mike, 20180517
-   public void updateCartTable(SQLiteDatabase db, ArrayList<String> listOfItemsArrayList) {    	
-	    this.db = db;
-	   
-	    ContentValues insertValues = new ContentValues();    
+   //edited by Mike, 20180530
+   public void updateCartTable(/*SQLiteDatabase db, */ArrayList<String> listOfItemsArrayList) {    	
+/*
+	    if ((UsbongDbHelper.db!=null) && (!UsbongDbHelper.db.isOpen())) {
+		   UsbongDbHelper.db = UsbongDbHelper.instance.getReadableDatabase();		
+	    }
+	    else {
+		   UsbongDbHelper.db = db;		   
+	    }
+*/	    
+
+	   	UsbongDbHelper.db = UsbongDbHelper.instance.getWritableDatabase();		
+
+	   	ContentValues insertValues = new ContentValues();    
 			
 		//TODO: put this portion of code in UsbongUtils, since I use this more than once; the other is in CartActivity
 		//This creates two lists: 1) unique product items, 2) the quantity of each unique product item; 
@@ -592,8 +618,11 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
       	    insertValues.put("price", price);
       	    insertValues.put("purchased_datetime_stamp", dateTimeStamp);
   	                	
-      	    db.insert("cart", null, insertValues);	         		
+      	    UsbongDbHelper.db.insert("cart", null, insertValues);	         		
     	}
+/*    	
+	   	UsbongDbHelper.instance.close();
+*/
 /*			   
 	     String getCart = "select * from 'cart'";
 	     Cursor c = db.rawQuery(getCart, null);

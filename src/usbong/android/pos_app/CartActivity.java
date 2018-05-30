@@ -269,12 +269,14 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				    		UsbongUtils.cartIconDrawableResourceId = R.drawable.cart_icon;
 				    		UsbongMainActivity.getInstance().invalidateOptionsMenu();
 							
-							//TODO: update the DB
+							//TODO: //do this only once				
+/*				    		
 				        	UsbongDbHelper myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance()); //edited by Mike, 20180524
 				            myDbHelper.initializeDataBase();
 
 				            SQLiteDatabase mySQLiteDatabase = myDbHelper.getReadableDatabase();		
-				            
+*/
+				    		
 /*				            
 				            int listOfItemsArrayListSize = listOfItemsArrayList.size();    	
 				        	
@@ -284,7 +286,8 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				    	    	}    	
 				        	}
 */				            
-				            myDbHelper.updateCartTable(mySQLiteDatabase, listOfItemsArrayList);
+				    		//edited by Mike, 20180529
+				    		UsbongMainActivity.getInstance().updateDbHelperCartTable(/*mySQLiteDatabase,*/listOfItemsArrayList);
 							
 
 				            //edited by Mike, 20180517

@@ -173,7 +173,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
         	Bundle extras = getIntent().getExtras();
         	if (extras!=null) {
         		//added by Mike, 20170606
-            	myDbHelper = new UsbongDbHelper(this);
+            	myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance());
                 myDbHelper.initializeDataBase();
         		
     			String merchantName = getIntent().getExtras().getString("loadMerchantStore");
@@ -224,7 +224,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		UsbongUtils.clearTempFolder();
 
 		//added by Mike, 20170605
-    	myDbHelper = new UsbongDbHelper(this);
+    	myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance());
         myDbHelper.initializeDataBase();
 		
 		initSearch();			
@@ -754,7 +754,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			     }
         } catch (Exception ex) {
            ex.printStackTrace();
-        } finally {
+        }/* finally {
             try {
                 myDbHelper.close();
             } catch (Exception ex) {
@@ -762,7 +762,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
             } finally {
                 myDbHelper.close();
             }        	 
-        }
+        }*/
     }
 
     public void showSearchResults() {
@@ -1498,11 +1498,14 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 /*	        	myDbHelper = new UsbongDbHelper(this);
             	myDbHelper.initializeDataBase();
 */
+/*				
 				if (myDbHelper!=null) {
-//		            mySQLiteDatabase = myDbHelper.getReadableDatabase();
+			        mySQLiteDatabase = myDbHelper.getReadableDatabase();
+*/			        
 					myDbHelper.submitReportForTheDay();//mySQLiteDatabase);
+/*
 				}
-
+*/
 				final Activity a;
 				a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
 				finish();
@@ -1929,12 +1932,14 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
         }
 	}
 
+	//TODO: fix this
 	//added by Mike, 20180214
 	public void syncDB(String result) {		
 		try {			
 			JSONArray obj = new JSONArray(result);			
 
-        	myDbHelper = new UsbongDbHelper(this);
+	    	myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance());
+//        	myDbHelper = new UsbongDbHelper(this);
             myDbHelper.initializeDataBase();
 
             mySQLiteDatabase = myDbHelper.getReadableDatabase();
@@ -1952,5 +1957,13 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
                 myDbHelper.close();
             }        	 
         }
+	}
+	
+	public void updateDbHelperCartTable(ArrayList<String> listOfItemsArrayList) {
+		if (myDbHelper!=null) {
+/*	        mySQLiteDatabase = myDbHelper.getReadableDatabase();
+ */
+			myDbHelper.updateCartTable(/*mySQLiteDatabase, */listOfItemsArrayList);
+		}
 	}
 }
