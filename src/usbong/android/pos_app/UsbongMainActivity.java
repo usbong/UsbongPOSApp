@@ -41,6 +41,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -85,6 +86,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 //	private int currCategory = UsbongConstants.PRODUCT_TYPE_ALL;//ITEMS_LIST_DEFAULT;
 
 	private static UsbongMainActivity instance;
+	
+	private List<String> attachmentFilePaths; //added by Mike, 20180531
+
 				
 	public static String timeStamp;
 	
@@ -136,6 +140,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
         instance=this;
+        
+    	attachmentFilePaths = new ArrayList<String>(); //added by Mike, 20180531
         
         //added by Mike, 25 Sept. 2015
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -1510,14 +1516,22 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						myDbHelper.submitReportForTheDay();		
-						
+						String output_path = myDbHelper.submitReportForTheDay();		
+
+						//only add path if it's not already in attachmentFilePaths
+						if (!attachmentFilePaths.contains(output_path)) {
+							attachmentFilePaths.add(output_path);
+						}
+
+						emailReport();
+/*						
 						final Activity a;
 						a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
 						finish();
 						Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
 						toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 						startActivity(toCallingActivityIntent);		
+*/						
 					}
 				})
 				.setNegativeButton("No", new DialogInterface.OnClickListener() {					
@@ -1980,4 +1994,47 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			myDbHelper.updateCartTable(/*mySQLiteDatabase, */listOfItemsArrayList);
 		}
 	}
+	
+	
+	//added by Mike, 20180531
+    public void emailReport() {
+	    StringBuffer emailSummary = new StringBuffer();
+	   	emailSummary.append("-Report for the Day-\n");    							
+	   	//TODO: update this
+	   	emailSummary.append("Location: Marikina Orthpedic Specialty Clinic (MOSC)\n");    							
+	   	emailSummary.append("Thank you.");    							
+		
+		//http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application;
+		//answer by: Jeremy Logan, 20100204
+		//added by Mike, 20170220
+	    Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE); //changed from ACTION_SEND to ACTION_SEND_MULTIPLE by Mike, 20170313
+	    i.setType("message/rfc822"); //remove all non-email apps that support send intent from chooser
+	    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{UsbongConstants.ADMIN_EMAIL_ADDRESS});
+	    i.putExtra(Intent.EXTRA_SUBJECT, "Usbong MOSC: Report for the Day");
+	    i.putExtra(Intent.EXTRA_TEXT   , emailSummary.toString());
+	    
+	    //added by Mike, 20170310
+		//Reference: http://stackoverflow.com/questions/2264622/android-multiple-email-attachments-using-intent
+		//last accessed: 14 March 2012
+		//has to be an ArrayList
+	    ArrayList<Uri> uris = new ArrayList<Uri>();
+	    //convert from paths to Android friendly Parcelable Uri's
+	    for (String file : attachmentFilePaths)
+	    {
+	        File fileIn = new File(file);		        
+	        if (fileIn.exists()) { //added by Mike, May 13, 2012		        		        
+		        Uri u = Uri.fromFile(fileIn);
+		        uris.add(u);
+//			        System.out.println(">>>>>>>>>>>>>>>>>> u: "+u);
+	        }
+	    }
+	    i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+	    
+	    try {
+//	    	isSendingData=true; //added by Mike, 20170225
+	        startActivityForResult(Intent.createChooser(i, "Sending email..."), 1); 
+	    } catch (android.content.ActivityNotFoundException ex) {
+	        Toast.makeText(UsbongMainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+	    }	
+   }
 }

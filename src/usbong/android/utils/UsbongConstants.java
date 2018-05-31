@@ -69,6 +69,7 @@ public class UsbongConstants {
     public static final String SELL_EMAIL_ADDRESS= "sell@usbong.ph";
     public static final String HELP_EMAIL_ADDRESS= "help@usbong.ph";
     public static final String FEEDBACK_EMAIL_ADDRESS= "feedback@usbong.ph";
+    public static final String ADMIN_EMAIL_ADDRESS= "admin@usbong.ph";
     
     //added by Mike, 20170225
 	public final static int MEETUP=0;

@@ -35,25 +35,32 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import usbong.android.pos_app.R;
+import usbong.android.pos_app.RequestActivity;
 import usbong.android.pos_app.UsbongMainActivity;
+import usbong.android.utils.UsbongConstants;
 import usbong.android.utils.UsbongDownloadImageTask;
 import usbong.android.utils.UsbongUtils;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class UsbongDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 31;
 //    public static final String DB_NAME = "usbong_store.db";
-    
+        
 //    private static String DB_DIR = "/data/data/usbong.android.store_app/databases/";
     private static String DB_NAME = "usbong_store.sql";//"database.sqlite";
     private static String DB_PATH;// = DB_DIR + DB_NAME;
@@ -90,7 +97,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
         // Get the path of the database that is based on the context.
         DB_PATH = myContext.getDatabasePath(DB_NAME).getAbsolutePath();
         
-        instance = this; //added by Mike, 20180528
+        instance = this; //added by Mike, 20180528       
         
 //		 getWritableDatabase(); // In the constructor
                     
@@ -505,7 +512,7 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     }
     
     //added by Mike, 20180517
-    public void generateReportForTheDay(){//SQLiteDatabase db) {
+    public String generateReportForTheDay(){//SQLiteDatabase db) {
     	//edited by Mike, 20180530
 	   	UsbongDbHelper.db = UsbongDbHelper.instance.getReadableDatabase();		
 
@@ -544,15 +551,20 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		UsbongUtils.storeOutputInSDCard(UsbongUtils.BASE_FILE_PATH + offset + myOutputDirectory + UsbongUtils.getDateTimeStamp() + ".csv", outputStringBuffer.toString());
+		
+		String output_path = UsbongUtils.BASE_FILE_PATH + offset + myOutputDirectory + UsbongUtils.getDateTimeStamp() + ".csv";
+		UsbongUtils.storeOutputInSDCard(output_path, outputStringBuffer.toString());
+		
+		return output_path;
    }
     
    //edited by Mike, 20180531
-   public void submitReportForTheDay(){//SQLiteDatabase db) {
-		generateReportForTheDay();//db);					
-	    //TODO: -add: email the report
+   //the return String is the output_path to be used to attach the .csv file to the email
+   public String submitReportForTheDay(){//SQLiteDatabase db) {
+		return generateReportForTheDay();//db);					
    }
     
+   
    //edited by Mike, 20180530
    public void updateCartTable(/*SQLiteDatabase db, */ArrayList<String> listOfItemsArrayList) {    	
 /*
