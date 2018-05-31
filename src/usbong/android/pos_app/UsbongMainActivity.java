@@ -1501,18 +1501,32 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 /*				
 				if (myDbHelper!=null) {
 			        mySQLiteDatabase = myDbHelper.getReadableDatabase();
-*/			        
 					myDbHelper.submitReportForTheDay();//mySQLiteDatabase);
-/*
 				}
 */
-				final Activity a;
-				a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
-				finish();
-				Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
-				toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-				startActivity(toCallingActivityIntent);		
-				return true;
+			
+				new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Report for the Day")
+				.setMessage("Are you sure you want to submit the report now?")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						myDbHelper.submitReportForTheDay();		
+						
+						final Activity a;
+						a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+						finish();
+						Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
+						toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+						startActivity(toCallingActivityIntent);		
+					}
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).show();	        		        				
+			
+				return true;			
 			case(R.id.request):
 				finish();
 				//added by Mike, 20170216

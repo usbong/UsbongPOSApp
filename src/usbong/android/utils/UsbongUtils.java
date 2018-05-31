@@ -127,7 +127,7 @@ public class UsbongUtils {
 	public final static String API_KEY = "AIzaSyB5mM_lk_bbdT5nUWQTO6S5FyZ9IgaxqXc"; //added by Mike, 20151120
 
 	public static String DEFAULT_UTREE_TO_LOAD=UsbongConstants.TREE_TYPE_BUY;//"usbong_specialty_bookstore"; //updated by Mike, 20160418
-	public static String BASE_FILE_PATH = Environment.getExternalStorageDirectory()+"/usbong_pos_app/";
+	public static String BASE_FILE_PATH = Environment.getExternalStorageDirectory()+"/usbong_pos_app/";	
 	public static String BASE_FILE_PATH_TEMP = BASE_FILE_PATH+"temp/";
 	public static String USBONG_TREES_FILE_PATH = BASE_FILE_PATH + "usbong_trees/"; //will be changed later in UsbongDecisionTreeEngineActivity.java
 
@@ -647,6 +647,19 @@ public class UsbongUtils {
     		throw new IOException("Base File Path to file could not be created.");
     	}    			
 	}	
+	
+	//added by Mike, 20180531
+	public static void createNewOutputFolderStructure(String offset) throws IOException {
+//		String baseFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "usbong/";
+		File directory = new File(BASE_FILE_PATH + offset + UsbongUtils.getDateTimeStamp()+"/");
+		System.out.println(">>>> Directory: " + directory.getAbsolutePath());
+		
+		if (!directory.exists() && !directory.mkdirs()) 
+    	{
+    		throw new IOException("Base File Path to file could not be created.");
+    	}    			
+	}	
+
 	
     public static String readTextFileInAssetsFolder(Activity a, String filename) {
 		//READ A FILE

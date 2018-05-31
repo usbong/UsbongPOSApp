@@ -38,8 +38,10 @@ import org.json.JSONObject;
 import usbong.android.pos_app.UsbongMainActivity;
 import usbong.android.utils.UsbongDownloadImageTask;
 import usbong.android.utils.UsbongUtils;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -49,7 +51,7 @@ import android.util.Log;
 
 public class UsbongDbHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 30;
+    public static final int DATABASE_VERSION = 31;
 //    public static final String DB_NAME = "usbong_store.db";
     
 //    private static String DB_DIR = "/data/data/usbong.android.store_app/databases/";
@@ -504,11 +506,10 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     
     //added by Mike, 20180517
     public void generateReportForTheDay(){//SQLiteDatabase db) {
-/*
     	//edited by Mike, 20180530
 	   	UsbongDbHelper.db = UsbongDbHelper.instance.getReadableDatabase();		
-*/
-    	String getCart = "select * from 'cart'";
+
+	   	String getCart = "select * from 'cart'";
 	    Cursor c = UsbongDbHelper.db.rawQuery(getCart, null);
 	     
 	    StringBuffer outputStringBuffer = new StringBuffer();
@@ -534,21 +535,22 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 		     }
 	    }
 
+	    
 	    String myOutputDirectory=UsbongUtils.getDateTimeStamp()+"/";
+	    String offset = "output/reportForTheDay/";
 		try {
-			UsbongUtils.createNewOutputFolderStructure();
+			UsbongUtils.createNewOutputFolderStructure(offset);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		UsbongUtils.storeOutputInSDCard(UsbongUtils.BASE_FILE_PATH + myOutputDirectory + UsbongUtils.getDateTimeStamp() + ".csv", outputStringBuffer.toString());
+		UsbongUtils.storeOutputInSDCard(UsbongUtils.BASE_FILE_PATH + offset + myOutputDirectory + UsbongUtils.getDateTimeStamp() + ".csv", outputStringBuffer.toString());
    }
     
-   //added by Mike, 20180524
+   //edited by Mike, 20180531
    public void submitReportForTheDay(){//SQLiteDatabase db) {
-		this.generateReportForTheDay();//db);					
-		
-		//TODO: -add: email the report
+		generateReportForTheDay();//db);					
+	    //TODO: -add: email the report
    }
     
    //edited by Mike, 20180530
