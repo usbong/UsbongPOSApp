@@ -578,9 +578,14 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 		   UsbongDbHelper.db = db;		   
 	    }
 */	    
-
+/*
 	   	UsbongDbHelper.db = UsbongDbHelper.instance.getWritableDatabase();		
-
+*/
+	    //added by Mike, 20180602
+	    if (UsbongDbHelper.db==null) {
+		   	UsbongDbHelper.db = UsbongDbHelper.instance.getWritableDatabase();		
+	    }
+	   
 	   	ContentValues insertValues = new ContentValues();    
 			
 		//TODO: put this portion of code in UsbongUtils, since I use this more than once; the other is in CartActivity
