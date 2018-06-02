@@ -1518,12 +1518,14 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					public void onClick(DialogInterface dialog, int which) {
 						String output_path = myDbHelper.submitReportForTheDay();		
 
-						//only add path if it's not already in attachmentFilePaths
-						if (!attachmentFilePaths.contains(output_path)) {
-							attachmentFilePaths.add(output_path);
-						}
+						if (output_path!=null) {
+							//only add path if it's not already in attachmentFilePaths
+							if (!attachmentFilePaths.contains(output_path)) {
+								attachmentFilePaths.add(output_path);
+							}
 
-						emailReport();
+							emailReport();							
+						}
 /*						
 						final Activity a;
 						a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
@@ -2001,9 +2003,11 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	    StringBuffer emailSummary = new StringBuffer();
 	   	emailSummary.append("-Report for the Day-\n");    							
 	   	//TODO: update this
-	   	emailSummary.append("Location: Marikina Orthpedic Specialty Clinic (MOSC)\n");    							
-	   	emailSummary.append("Thank you.");    							
-		
+	   	emailSummary.append("Location: Marikina Orthpedic Specialty Clinic (MOSC)\n\n");    							
+	   	emailSummary.append("Thank you.\n\n");    							
+	   	emailSummary.append("-End of Report-");    							
+
+	   	
 		//http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application;
 		//answer by: Jeremy Logan, 20100204
 		//added by Mike, 20170220

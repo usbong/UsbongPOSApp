@@ -514,8 +514,12 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     //added by Mike, 20180517
     public String generateReportForTheDay(){//SQLiteDatabase db) {
     	//edited by Mike, 20180530
-	   	UsbongDbHelper.db = UsbongDbHelper.instance.getReadableDatabase();		
-
+//	   	UsbongDbHelper.db = UsbongDbHelper.instance.getReadableDatabase();		
+	   	
+    	if (UsbongDbHelper.db==null) {
+    		return null;
+    	}
+    	
 	   	String getCart = "select * from 'cart'";
 	    Cursor c = UsbongDbHelper.db.rawQuery(getCart, null);
 	     
@@ -529,7 +533,6 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 
 	    if (c != null) {
 		     if (c.moveToFirst()) {
-		    	//TODO: fix this 
 	        	while (!c.isAfterLast()) {
 	        		outputStringBuffer.append(
 	        				c.getString(c.getColumnIndex("cart_id"))+","+
