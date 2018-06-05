@@ -1,19 +1,5 @@
 
 BEGIN;
-CREATE TABLE fields (
-  fields_id INTEGER PRIMARY KEY,
-  fields_name TEXT,
-  product_type_id INTEGER
-); 
-
-INSERT INTO fields (fields_id, fields_name, product_type_id) VALUES
-(1, 'name', 1),
-(2, 'price', 1),
-(3, 'supplier', 1),
-(4, 'description', 1),
-(5, 'image_location', 1),
-(6, 'author', 2),
-(7, 'language', 2);
 
 CREATE TABLE merchant (
   merchant_id INTEGER PRIMARY KEY,
