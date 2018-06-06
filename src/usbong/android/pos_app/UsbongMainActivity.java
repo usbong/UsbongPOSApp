@@ -522,7 +522,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			    				if (prevPrice.equals("0.0")) {
 			    					prevPrice="";
 			    				}
-
+/*
 				        		productDetails =  "<b>"+c2.getString(c2.getColumnIndex("name"))+"</b>\n"+
 			   							 authorString+
 			   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\n[Free Delivery]</font>"+
@@ -530,7 +530,17 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			   							 "currProductTypeId: "+currProductTypeId+
 			   							 "currProductId: "+currProductId+
 			   							 "productOverview: " + c2.getString(c2.getColumnIndex("product_overview"));//added by Mike, 20180419
-
+*/
+			    				//edited by Mike, 20180606
+				        		productDetails =  "<b>"+c2.getString(c2.getColumnIndex("name"))+"</b>\n"+
+			   							 authorString+
+			   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\nIn-stock: "+quantityInStock+"</font>"+
+			   							 "MerchantName: "+merchantName+
+			   							 "currProductTypeId: "+currProductTypeId+
+			   							 "currProductId: "+currProductId+
+			   							 "productOverview: " + c2.getString(c2.getColumnIndex("product_overview"));//added by Mike, 20180419
+			    				
+			    				
 					        	listOfTreesArrayList.add(productDetails);
 					        	
 					        	//edited by Mike, 20170610
@@ -705,7 +715,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					    				if (prevPrice.equals("0.0")) {
 					    					prevPrice="";
 					    				}
-					    				
+/*					    				
 						        		productDetails =  "<b>"+c.getString(c.getColumnIndex("name"))+"</b>\n"+
 					   							 authorString+
 					   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\n[Free Delivery]</font>"+
@@ -713,6 +723,15 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					   							 "currProductTypeId: "+currProductTypeId+
 					   							 "currProductId: "+currProductId+
 					   							 "productOverview: " + c.getString(c.getColumnIndex("product_overview"));//added by Mike, 20180419
+*/
+						        		productDetails =  "<b>"+c.getString(c.getColumnIndex("name"))+"</b>\n"+
+					   							 authorString+
+					   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\nIn-stock: "+quantityInStock+"</font>"+
+					   							 "MerchantName: "+merchantName+
+					   							 "currProductTypeId: "+currProductTypeId+
+					   							 "currProductId: "+currProductId+
+					   							 "productOverview: " + c.getString(c.getColumnIndex("product_overview"));//added by Mike, 20180419
+					    				
 /*					    				break;
 				        		}
 */				        		
