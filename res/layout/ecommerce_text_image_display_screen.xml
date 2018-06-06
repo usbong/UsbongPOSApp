@@ -48,7 +48,7 @@
 			<TextView android:id="@+id/text_image_display_textview"
 			    style="@style/UsbongDefaultTextView"	    	
 			    android:text="@string/default_textview" 
-			    android:textSize="24dp"
+			    android:textSize="24sp"
 			    android:gravity="left"
 			/>	    
 		    <ImageView android:id="@+id/image_display_imageview"
@@ -57,16 +57,16 @@
 			<TextView android:id="@+id/product_overview_textview"
 			    style="@style/UsbongDefaultTextView"	    	
 			    android:text="@string/default_textview" 
-			    android:textSize="24dp"
+			    android:textSize="24sp"
 			    android:textStyle="bold"
-			    android:gravity="left"
+			    android:gravity="center_vertical|center_horizontal"
 			/>	    	    	    
 		    <TextView android:id="@+id/product_overview_content_textview"
 			    style="@style/UsbongDefaultTextView"	    	
 			    android:text="@string/default_textview" 
-			    android:textSize="22dp"
+			    android:textSize="22sp"
 			    android:textColor="#644d17"		    
-			    android:gravity="left"
+			    android:gravity="center_vertical|center_horizontal"
 			/>	    	    
 		</LinearLayout>	
 	</ScrollView>	

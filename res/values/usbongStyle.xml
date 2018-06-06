@@ -109,7 +109,7 @@
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:isScrollContainer">true</item>
-		<item name="android:layout_weight">0.6</item>
+ 		<item name="android:layout_weight">0.6</item>
 	</style>	   
 	
 	<style name="UsbongDefaultMainLayout">
@@ -126,7 +126,9 @@
 	<style name="UsbongTextImageMainLayout">
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">fill_parent</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
+<!--         <item name="android:gravity">center_vertical|center_horizontal</item>
+		<item name="android:gravity">left</item>
+-->		
         <item name="android:layout_weight">0.9</item>
         <item name="android:orientation">vertical</item>   
         <item name="android:paddingTop">16dp</item>                
@@ -187,7 +189,7 @@
     </style>	   
     
 	<style name="UsbongDefaultTextView">
-		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#4a452a</item>
         <item name="android:textSize">32dp</item>
