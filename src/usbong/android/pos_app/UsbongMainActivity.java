@@ -1530,36 +1530,50 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				}
 */
 			
-				new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Report for the Day")
-				.setMessage("Are you sure you want to submit the report now?")
-				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						String output_path = myDbHelper.submitReportForTheDay();		
-
-						if (output_path!=null) {
-							//only add path if it's not already in attachmentFilePaths
-							if (!attachmentFilePaths.contains(output_path)) {
-								attachmentFilePaths.add(output_path);
-							}
-
-							emailReport();							
+				//edited by Mike, 20180607
+				if ((UsbongUtils.itemsInCart==null) || (!UsbongUtils.itemsInCart.isEmpty())) {		
+					String s = "<br>Please confirm <font color='#74bc1e'><b>CHECKOUT</b></font> of your <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report.<br>";
+					new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Hey there!")
+//					.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
+					.setMessage(Html.fromHtml(s))
+					.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
 						}
-/*						
-						final Activity a;
-						a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
-						finish();
-						Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
-						toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-						startActivity(toCallingActivityIntent);		
-*/						
-					}
-				})
-				.setNegativeButton("No", new DialogInterface.OnClickListener() {					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).show();	        		        				
+					}).show();	        		        				
+				}
+				else {					
+					new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Report for the Day")
+					.setMessage("Are you sure you want to submit the report now?")
+					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							String output_path = myDbHelper.submitReportForTheDay();		
+
+							if (output_path!=null) {
+								//only add path if it's not already in attachmentFilePaths
+								if (!attachmentFilePaths.contains(output_path)) {
+									attachmentFilePaths.add(output_path);
+								}
+
+								emailReport();							
+							}
+	/*						
+							final Activity a;
+							a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+							finish();
+							Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
+							toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+							startActivity(toCallingActivityIntent);		
+	*/						
+						}
+					})
+					.setNegativeButton("No", new DialogInterface.OnClickListener() {					
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).show();	        		        									
+				}
 			
 				return true;			
 			case(R.id.request):
@@ -2022,7 +2036,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	    StringBuffer emailSummary = new StringBuffer();
 	   	emailSummary.append("-Report for the Day-\n");    							
 	   	//TODO: update this
-	   	emailSummary.append("Location: Marikina Orthpedic Specialty Clinic (MOSC)\n\n");    							
+	   	emailSummary.append("Location: Marikina Orthopedic Specialty Clinic (MOSC)\n\n");    							
 	   	emailSummary.append("Thank you.\n\n");    							
 	   	emailSummary.append("-End of Report-");    							
 
