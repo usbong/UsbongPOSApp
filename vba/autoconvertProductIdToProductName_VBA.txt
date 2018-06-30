@@ -31,11 +31,174 @@ myOutput.Range("F" & RowCount) = "name"
 
 
 For Each row In myInput.Rows
-       If (InStr(myInput.Range("B" & RowCount).Value, 528)) Then
+       'In this case, the value, 487, is the product_id
+       If (InStr(myInput.Range("B" & RowCount).Value, 487)) Then
+            myOutput.Range("F" & RowCount) = "Back Support (Small)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 488)) Then
+            myOutput.Range("F" & RowCount) = "Back Support (Medium)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 489)) Then
+            myOutput.Range("F" & RowCount) = "Back Support (Large)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 490)) Then
+            myOutput.Range("F" & RowCount) = "Back Support (Xtra-Large)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 491)) Then
+            myOutput.Range("F" & RowCount) = "Lagaflex (carisoprodol/paracetamol 300/250)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 492)) Then
+            myOutput.Range("F" & RowCount) = "Paradrinforte (Para + orphanadrinecitrate)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 493)) Then
+            myOutput.Range("F" & RowCount) = "Proparforte 650/35 (Para + orphanadrinecitrate)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 494)) Then
+            myOutput.Range("F" & RowCount) = "Loraox (Loratadine 10m)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 495)) Then
+            myOutput.Range("F" & RowCount) = "Gabaron 300mg (Gabapentin)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 496)) Then
+            myOutput.Range("F" & RowCount) = "Gabix 100mg (Gabapentin)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 497)) Then
+            myOutput.Range("F" & RowCount) = "Gabix 300mg (Gabapentin)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 498)) Then
+            myOutput.Range("F" & RowCount) = "Adiac 500mg (Metformin 500mg)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 499)) Then
+            myOutput.Range("F" & RowCount) = "Zebet 80 (Gliclazide 80mg)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 500)) Then
+            myOutput.Range("F" & RowCount) = "Allopurinol 100mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 501)) Then
+            myOutput.Range("F" & RowCount) = "Colchicine 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 502)) Then
+            myOutput.Range("F" & RowCount) = "Rhea (colchicine) 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 503)) Then
+            myOutput.Range("F" & RowCount) = "Lodipex 5mg (Amlodipine)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 504)) Then
+            myOutput.Range("F" & RowCount) = "Diadipine 10mg (Amlodipine)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 505)) Then
+            myOutput.Range("F" & RowCount) = "Zenobloc 50mg (Atenolol)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 506)) Then
+            myOutput.Range("F" & RowCount) = "Zenobloc 100mg (Atenolol)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 507)) Then
+            myOutput.Range("F" & RowCount) = "Amgel 50mg (Losartan)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 508)) Then
+            myOutput.Range("F" & RowCount) = "Losac 100mg (Losartan)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 509)) Then
+            myOutput.Range("F" & RowCount) = "Prolol 50mg (Metoprolol)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 510)) Then
+            myOutput.Range("F" & RowCount) = "Prolol 100mg (Metoprolol)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 511)) Then
+            myOutput.Range("F" & RowCount) = "Arcoxia 120mg (Etoricoxib)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 512)) Then
+            myOutput.Range("F" & RowCount) = "Xibra 60mg (Etoricoxib)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 513)) Then
+            myOutput.Range("F" & RowCount) = "Dologesic 325/37.5 (Para + Tramadol HCI)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 514)) Then
+            myOutput.Range("F" & RowCount) = "Cetradol 325/37.5 (Para + Tramadol HCI)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 515)) Then
+            myOutput.Range("F" & RowCount) = "Trap 325/37.5 (Para + Tramadol HCI)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 516)) Then
+            myOutput.Range("F" & RowCount) = "Tramadol 50mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 517)) Then
+            myOutput.Range("F" & RowCount) = "Clanza 100mg (Aceclofenac)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 518)) Then
+            myOutput.Range("F" & RowCount) = "Diclotol 100mg (Aceclofenac)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 519)) Then
+            myOutput.Range("F" & RowCount) = "Dolowin SR 200mg (Aceclofenac)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 520)) Then
+            myOutput.Range("F" & RowCount) = "Dolowin Plus 100mg (Aceclofenac + Para)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 521)) Then
+            myOutput.Range("F" & RowCount) = "Ibuprofen 200mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 522)) Then
+            myOutput.Range("F" & RowCount) = "Ibuprofen 400mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 523)) Then
+            myOutput.Range("F" & RowCount) = "Ketesse 25mg (Dexcetoprofen)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 524)) Then
+            myOutput.Range("F" & RowCount) = "Mefenamic 250mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 525)) Then
+            myOutput.Range("F" & RowCount) = "Mefenamic 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 526)) Then
+            myOutput.Range("F" & RowCount) = "Meloxican 15mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 527)) Then
+            myOutput.Range("F" & RowCount) = "Naproxen 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 528)) Then
             myOutput.Range("F" & RowCount) = "Subsyde CR 100mg (Diclofenac Na)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 529)) Then
+            myOutput.Range("F" & RowCount) = "Zornica - 4 (Lornoxican)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 530)) Then
+            myOutput.Range("F" & RowCount) = "Amoxicillin 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 531)) Then
+            myOutput.Range("F" & RowCount) = "Cefalaxin 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 532)) Then
+            myOutput.Range("F" & RowCount) = "Cefixin 200mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 533)) Then
+            myOutput.Range("F" & RowCount) = "Cefuroxine 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 534)) Then
+            myOutput.Range("F" & RowCount) = "Ciprofloxacin 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 535)) Then
+            myOutput.Range("F" & RowCount) = "Clindamycin 300mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 536)) Then
+            myOutput.Range("F" & RowCount) = "Cloxacillin 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 537)) Then
+            myOutput.Range("F" & RowCount) = "Co Amoxiclav 625mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 538)) Then
+            myOutput.Range("F" & RowCount) = "Doxycycline Hyclate 100mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 539)) Then
+            myOutput.Range("F" & RowCount) = "Ofloxacin 200mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 540)) Then
+            myOutput.Range("F" & RowCount) = "Ofloxacin 400mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 541)) Then
+            myOutput.Range("F" & RowCount) = "Aldren 70mg (Alendronete Sodium)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 542)) Then
+            myOutput.Range("F" & RowCount) = "Alendra 70mg (Alendronete Sodium)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 543)) Then
+            myOutput.Range("F" & RowCount) = "Reventa 70mg (Alendronete Sodium)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 544)) Then
+            myOutput.Range("F" & RowCount) = "Prednisone 5mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 545)) Then
+            myOutput.Range("F" & RowCount) = "Omeprazele 20mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 546)) Then
+            myOutput.Range("F" & RowCount) = "Omeprazele 40mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 547)) Then
+            myOutput.Range("F" & RowCount) = "Agmaset 44mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 548)) Then
+            myOutput.Range("F" & RowCount) = "Alanerve"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 549)) Then
+            myOutput.Range("F" & RowCount) = "Artiflex"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 550)) Then
+            myOutput.Range("F" & RowCount) = "Calcium Plus 800/6 (KIRKLAND)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 551)) Then
+            myOutput.Range("F" & RowCount) = "CALCIUMADE"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 552)) Then
+            myOutput.Range("F" & RowCount) = "Glucosamine Sulfate 500mg (Exact)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 553)) Then
+            myOutput.Range("F" & RowCount) = "Glucosamine Sulfate 750mg (KIRKLAND)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 554)) Then
+            myOutput.Range("F" & RowCount) = "Piascledine"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 555)) Then
+            myOutput.Range("F" & RowCount) = "Viartril-S 500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 556)) Then
+            myOutput.Range("F" & RowCount) = "Viartril-S Sachet"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 557)) Then
+            myOutput.Range("F" & RowCount) = "Sovit-Cee 500mg (Sodium Ascorbate)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 558)) Then
+            myOutput.Range("F" & RowCount) = "Fastum Gel 30g"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 559)) Then
+            myOutput.Range("F" & RowCount) = "Dicloran Gel 20g (Diclofenac)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 560)) Then
+            myOutput.Range("F" & RowCount) = "Reparil-N Gel 40g"
        ElseIf (InStr(myInput.Range("B" & RowCount).Value, 561)) Then
             myOutput.Range("F" & RowCount) = "Vigel Cream 15g"
-       End If
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 562)) Then
+            myOutput.Range("F" & RowCount) = "Dehydrosol Powd."
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 563)) Then
+            myOutput.Range("F" & RowCount) = "Synvisc 3 inj."
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 564)) Then
+            myOutput.Range("F" & RowCount) = "Angioflux 250mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 565)) Then
+            myOutput.Range("F" & RowCount) = "Zerodol - P 100/500mg"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 566)) Then
+            myOutput.Range("F" & RowCount) = "Dycon SR 100mg (Diclofenac Na)"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 567)) Then
+            myOutput.Range("F" & RowCount) = "Alfa - Calcinol"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 568)) Then
+            myOutput.Range("F" & RowCount) = "Trevoca Cap"
+       ElseIf (InStr(myInput.Range("B" & RowCount).Value, 569)) Then
+            myOutput.Range("F" & RowCount) = "Diclofenac 50mg"
+	   End If
        
        If IsEmpty(myInput.Range("A" & RowCount).Value) Then
             Exit For
