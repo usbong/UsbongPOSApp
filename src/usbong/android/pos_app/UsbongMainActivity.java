@@ -630,6 +630,17 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				     query = "select * from '" + table + "'" + " where product_type_id="+currProductTypeId
 								 							 + " AND merchant_id="+merchantId;		    		 
 		    	 }
+
+/*
+		    	 //edited by Mike, 20180714
+		    	 if (merchantId==-1) {
+				     query = "select * from '" + table + "'" + " where product_type_id="+currProductTypeId + " order by 'quantity_in_stock' desc";		    		 
+		    	 }
+		    	 else {
+				     query = "select * from '" + table + "'" + " where product_type_id="+currProductTypeId
+								 							 + " AND merchant_id="+merchantId;		    		 
+		    	 }
+*/		    	 
 		     }
 		     else {
 			     query = "select * from '"+table+"' where NAME like '%"+s+"%' OR author LIKE '%"+s+"%'";		     		    	 
@@ -792,8 +803,11 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 
     public void showSearchResults() {
     	mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-		mCustomAdapter.sort(); //edited by Mike, 20170203
-	
+/*		mCustomAdapter.sort(); //edited by Mike, 20170203
+*/
+    	//edited by Mike, 20180714
+    	mCustomAdapter.sortQuantityInStockAscending();
+    	
 		/*
 		//Reference: http://stackoverflow.com/questions/8908549/sorting-of-listview-by-name-of-the-product-using-custom-adaptor;
 		//last accessed: 2 Jan. 2014; answer by Alex Lockwood
@@ -1167,9 +1181,13 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
                 mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
                 break;
 */                
-        }
-		mCustomAdapter.sort(); //edited by Mike, 20170203
-		
+        }        
+/*		mCustomAdapter.sort(); //edited by Mike, 20170203
+*/
+        //edited by Mike, 20180714
+    	mCustomAdapter.sortQuantityInStockAscending();
+        
+        
 /*
 		//Reference: http://stackoverflow.com/questions/8908549/sorting-of-listview-by-name-of-the-product-using-custom-adaptor;
 		//last accessed: 2 Jan. 2014; answer by Alex Lockwood
@@ -1764,6 +1782,23 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			Collections.sort(items, new Comparator<String>() {
 			    public int compare(String arg0, String arg1) {
 			        return arg0.compareTo(arg1);
+			    }
+			});			
+		}
+		
+		//added by Mike, 20180714
+		public void sortQuantityInStockAscending() {
+			//Reference: http://stackoverflow.com/questions/8908549/sorting-of-listview-by-name-of-the-product-using-custom-adaptor;
+			//last accessed: 2 Jan. 2014; answer by Alex Lockwood
+			Collections.sort(items, new Comparator<String>() {
+			    public int compare(String arg0, String arg1) {                	
+                	String arg0QuantityInStockWithLabel = arg0.substring(arg0.indexOf("In-stock: "), arg0.indexOf("</font>"));
+                	int arg0QuantityInStock = Integer.parseInt(arg0QuantityInStockWithLabel.substring("In-stock: ".length()));
+    						
+                	String arg1QuantityInStockWithLabel = arg1.substring(arg1.indexOf("In-stock: "), arg1.indexOf("</font>"));
+                	int arg1QuantityInStock = Integer.parseInt(arg1QuantityInStockWithLabel.substring("In-stock: ".length()));
+			    	
+			        return Integer.compare(arg0QuantityInStock,arg1QuantityInStock);
 			    }
 			});			
 		}
