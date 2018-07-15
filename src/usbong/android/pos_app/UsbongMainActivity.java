@@ -129,6 +129,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	
 	private static int merchantId;
 	
+	//added by Mike, 20180715
+	private static boolean sortQuantityInStockAscendingOptionSelected;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
@@ -805,9 +808,18 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
     	mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
 /*		mCustomAdapter.sort(); //edited by Mike, 20170203
 */
+		if (!sortQuantityInStockAscendingOptionSelected) {
+			mCustomAdapter.sort(); //default
+		}
+		else {
+			sortQuantityInStockAscendingOptionSelected=false;
+	    	mCustomAdapter.sortQuantityInStockAscending();
+		}
+		
+/*    	
     	//edited by Mike, 20180714
     	mCustomAdapter.sortQuantityInStockAscending();
-    	
+*/    	
 		/*
 		//Reference: http://stackoverflow.com/questions/8908549/sorting-of-listview-by-name-of-the-product-using-custom-adaptor;
 		//last accessed: 2 Jan. 2014; answer by Alex Lockwood
@@ -1184,9 +1196,18 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
         }        
 /*		mCustomAdapter.sort(); //edited by Mike, 20170203
 */
+		if (!sortQuantityInStockAscendingOptionSelected) {
+			mCustomAdapter.sort(); //default
+		}
+		else {
+			sortQuantityInStockAscendingOptionSelected=false;
+	    	mCustomAdapter.sortQuantityInStockAscending();
+		}
+
+/*        
         //edited by Mike, 20180714
     	mCustomAdapter.sortQuantityInStockAscending();
-        
+*/        
         
 /*
 		//Reference: http://stackoverflow.com/questions/8908549/sorting-of-listview-by-name-of-the-product-using-custom-adaptor;
@@ -1602,6 +1623,40 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				toRequestActivityIntent.putExtra("activityCaller", UsbongConstants.USBONG_MAIN_ACTIVITY); //added by Mike, 20170525	            				
 				toRequestActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(toRequestActivityIntent);
+				return true;
+			//added by Mike, 20180715
+			case(R.id.sort_remaining_in_stock):
+    			sortQuantityInStockAscendingOptionSelected=true;
+/*			
+				initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
+*/
+
+			TextView tv = new TextView(this);
+			tv.setText("\nWhich list do you want to sort?");
+			tv.setGravity(Gravity.CENTER_HORIZONTAL);
+			tv.setTextSize(16);
+
+			new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Sort Remaining In-stock")
+			.setView(tv)
+//			.setMessage("Sort which list?")
+			.setPositiveButton("NON-MED list", new DialogInterface.OnClickListener() {					
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
+				}
+			})
+			.setNeutralButton("MED list", new DialogInterface.OnClickListener() {					
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
+				}
+			})
+			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {					
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+	    			sortQuantityInStockAscendingOptionSelected=false;
+				}
+			}).show();	    
 				return true;
 			case(R.id.contact):
 				finish();
