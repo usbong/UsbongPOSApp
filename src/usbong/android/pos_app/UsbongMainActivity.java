@@ -180,30 +180,59 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
     		
     		//edited by Mike, 20170530
         	Bundle extras = getIntent().getExtras();
-        	if (extras!=null) {
+        	if (extras!=null) {        		
         		//added by Mike, 20170606
             	myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance());
                 myDbHelper.initializeDataBase();
+
         		
-    			String merchantName = getIntent().getExtras().getString("loadMerchantStore");
-    			
-    			//added by Mike, 20180416
-    			if (merchantName!=null) {
-        			loadMerchantStore(merchantName);			    				
-    			}
-    			else {
-        			loadMerchantStore(UsbongConstants.MERCHANT_NAME);			    				
-    			}
+        		if (extras.getBoolean(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_NON_MED)) {
+/*            		//edited by Mike, 20180716
+            		processInitTreeLoader();        			
+*/
+					sortQuantityInStockAscendingOptionSelected=true;
+					initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
+        		}
+        		else if (extras.getBoolean(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_MED)){
+					sortQuantityInStockAscendingOptionSelected=true;
+					initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);        			
+        		}
+        		else {            		
+/*        			
+            		//added by Mike, 20170606
+                	myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance());
+                    myDbHelper.initializeDataBase();
+*/
+        			String merchantName = getIntent().getExtras().getString("loadMerchantStore");
+        			
+        			//added by Mike, 20180416
+        			if (merchantName!=null) {
+            			loadMerchantStore(merchantName);			    				
+        			}
+        			else {
+            			loadMerchantStore(UsbongConstants.MERCHANT_NAME);			    				
+        			}        			
+        		}
     		} 
         	else {
+        		//edited by Mike, 20180716
+        		processInitTreeLoader();
+/*        		
         		myProgressDialog = ProgressDialog.show(instance, "Loading...",
         				  "This takes only a short while.", true, false);				  
         		new MyBackgroundTask().execute();    
+*/        		
     		}
     }
     
     public static UsbongMainActivity getInstance() {
     	return instance;
+    }
+    
+    public void processInitTreeLoader() {
+		myProgressDialog = ProgressDialog.show(instance, "Loading...",
+				  "This takes only a short while.", true, false);				  
+		new MyBackgroundTask().execute();        	
     }
     
     /*
@@ -1630,33 +1659,33 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 /*			
 				initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
 */
-
-			TextView tv = new TextView(this);
-			tv.setText("\nWhich list do you want to sort?");
-			tv.setGravity(Gravity.CENTER_HORIZONTAL);
-			tv.setTextSize(16);
-
-			new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Sort Remaining In-stock")
-			.setView(tv)
-//			.setMessage("Sort which list?")
-			.setPositiveButton("NON-MED list", new DialogInterface.OnClickListener() {					
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
-				}
-			})
-			.setNeutralButton("MED list", new DialogInterface.OnClickListener() {					
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
-				}
-			})
-			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {					
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-	    			sortQuantityInStockAscendingOptionSelected=false;
-				}
-			}).show();	    
+	
+				TextView tv = new TextView(this);
+				tv.setText("\nWhich list do you want to sort?");
+				tv.setGravity(Gravity.CENTER_HORIZONTAL);
+				tv.setTextSize(16);
+	
+				new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Sort Remaining In-stock")
+				.setView(tv)
+	//			.setMessage("Sort which list?")
+				.setPositiveButton("NON-MED list", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
+					}
+				})
+				.setNeutralButton("MED list", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
+					}
+				})
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+		    			sortQuantityInStockAscendingOptionSelected=false;
+					}
+				}).show();	    
 				return true;
 			case(R.id.contact):
 				finish();

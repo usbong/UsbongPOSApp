@@ -111,6 +111,11 @@ public class UsbongConstants {
 	public final static int PRODUCT_TYPE_NON_MED=13;
 	public final static int PRODUCT_TYPE_MED=14;
 
+	//added by Mike, 20180716
+	public final static String SORT_QUANTITY_IN_STOCK_ASCENDING_NON_MED = "sortQuantityInStockAscendingNonMed";
+	public final static String SORT_QUANTITY_IN_STOCK_ASCENDING_MED = "sortQuantityInStockAscendingMed";
+	
+	
 /*	
 	//added by Mike, 20170725
 	public final static String PRODUCT_TYPE_BOOKS_STRING ="books";
