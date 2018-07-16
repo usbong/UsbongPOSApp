@@ -184,18 +184,28 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
         		//added by Mike, 20170606
             	myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance());
                 myDbHelper.initializeDataBase();
-
         		
         		if (extras.getBoolean(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_NON_MED)) {
-/*            		//edited by Mike, 20180716
+					sortQuantityInStockAscendingOptionSelected=true;
+
+        			//edited by Mike, 20180716
             		processInitTreeLoader();        			
-*/
+
+/*        			
 					sortQuantityInStockAscendingOptionSelected=true;
 					initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
+*/					
         		}
         		else if (extras.getBoolean(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_MED)){
 					sortQuantityInStockAscendingOptionSelected=true;
+
+        			//edited by Mike, 20180716
+            		processInitTreeLoader();        			
+
+/*        			
+					sortQuantityInStockAscendingOptionSelected=true;
 					initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);        			
+*/					
         		}
         		else {            		
 /*        			
@@ -912,10 +922,24 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		            Handler mainHandler = new Handler(getInstance().getBaseContext().getMainLooper());
 		            Runnable myRunnable = new Runnable() {
 		            	@Override
-		            	public void run() {		            		
+		            	public void run() {		     
+		            		//edited by Mike, 20180716
+							if (sortQuantityInStockAscendingOptionSelected) {							
+				        		if (getIntent().getExtras().getBoolean(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_NON_MED)) {
+									initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
+				        		}
+				        		else {
+									initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);				        			
+				        		}
+							}
+							else {
+			    				//added by Mike, 20170525
+			    				initTreeLoader();								
+							}
+/*		            		
 		    				//added by Mike, 20170525
 		    				initTreeLoader();
-		    				
+*/		    				
 						    if (instance.myProgressDialog != null) {
 						        instance.myProgressDialog.dismiss();
 						    }				            		
