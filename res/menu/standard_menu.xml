@@ -11,6 +11,9 @@
     <item android:id="@+id/request"
 		  android:title="Request"
 	/>		    	        
+	<item android:id="@+id/sort_remaining_in_stock"
+		  android:title="Sort Remaining In-stock"
+	/>		    	            
 	<item android:id="@+id/contact"
 		  android:title="Help &amp; Feedback"
 	/>		        

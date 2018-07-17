@@ -1,6 +1,6 @@
 --Usbong POS App--
-ver: 1.0.3
-date: 20180602
+ver: 1.0.5
+date: 20180717
 
 Usbong Social Systems, Inc.
 
@@ -22,6 +22,7 @@ Marikina Orthopedic Specialty Clinic
 Contact:
 Website: www.usbong.ph
 Online Store: store.usbong.ph
+Mobile Store: app.usbong.ph
 Email: support@usbong.ph
 
 Copyright 2018. All rights reserved.

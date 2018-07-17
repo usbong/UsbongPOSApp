@@ -1079,6 +1079,46 @@ public class RequestActivity extends AppCompatActivity/*Activity*/
 				toContactActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(toContactActivityIntent);
 				return true;
+			//added by Mike, 20180717
+			case(R.id.sort_remaining_in_stock):					
+				final Activity aSort;
+				aSort = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+				TextView tv = new TextView(this);
+				tv.setText("\nWhich list do you want to sort?");
+				tv.setGravity(Gravity.CENTER_HORIZONTAL);
+				tv.setTextSize(16);
+	
+				new AlertDialog.Builder(RequestActivity.myActivityInstance).setTitle("Sort Remaining In-stock")
+				.setView(tv)
+				.setPositiveButton("NON-MED list", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//edited by Mike, 20170525
+						finish();
+						Intent toCallingActivityIntent = new Intent(getInstance(), aSort.getClass());
+						toCallingActivityIntent.putExtra(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_NON_MED, true); //added by Mike, 20180716
+						toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+						startActivity(toCallingActivityIntent);		
+					}
+				})
+				.setNeutralButton("MED list", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//edited by Mike, 20170525
+						finish();
+						Intent toCallingActivityIntent = new Intent(getInstance(), aSort.getClass());
+						toCallingActivityIntent.putExtra(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_MED, true); //added by Mike, 20180716
+						toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+						startActivity(toCallingActivityIntent);		
+					}
+				})
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).show();	    
+				return true;				
 			case(R.id.about):
 		    	new AlertDialog.Builder(RequestActivity.this).setTitle("About")
 				.setMessage(UsbongUtils.readTextFileInAssetsFolder(RequestActivity.this,"credits.txt")) //don't add a '/', otherwise the file would not be found

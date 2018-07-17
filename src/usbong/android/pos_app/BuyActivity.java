@@ -882,8 +882,8 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				toContactActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(toContactActivityIntent);
 				return true;
-				//added by Mike, 20180716
-				case(R.id.sort_remaining_in_stock):					
+			//added by Mike, 20180716
+			case(R.id.sort_remaining_in_stock):					
 					final Activity aSort;
 					aSort = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
 
