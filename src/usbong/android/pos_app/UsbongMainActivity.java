@@ -347,8 +347,10 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
     	if (isInMerchantShop) {
     		isInMerchantShop=false;
     		searchEditTextString = searchEditText.getText().toString();
-        	setContentView(R.layout.main);
 
+/*//commented out by Mike, 20180718
+    		setContentView(R.layout.main);
+*/
         	hasPerformedSearch=true;
         	
         	initSearch();
@@ -972,6 +974,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	{
 //		setContentView(R.layout.tree_list_interface);				
 
+		//added by Mike, 20180718
+    	setContentView(R.layout.main);
+		
 		isInTreeLoader=true;
 		
 		//added by Mike, 20170813
@@ -1094,16 +1099,16 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		
         switch (currProductTypeId) {
         	//edited by Mike, 20180427
-    	case UsbongConstants.PRODUCT_TYPE_MED:
-            medButton.setTypeface(Typeface.DEFAULT_BOLD);
-            nonMedButton.setTypeface(Typeface.DEFAULT);                
-            mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-            break;
-    	case UsbongConstants.PRODUCT_TYPE_NON_MED:
-            medButton.setTypeface(Typeface.DEFAULT);
-            nonMedButton.setTypeface(Typeface.DEFAULT_BOLD);                
-            mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-            break;
+	    	case UsbongConstants.PRODUCT_TYPE_MED:
+	            medButton.setTypeface(Typeface.DEFAULT_BOLD);
+	            nonMedButton.setTypeface(Typeface.DEFAULT);                
+	            mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
+	            break;
+	    	case UsbongConstants.PRODUCT_TYPE_NON_MED:
+	            medButton.setTypeface(Typeface.DEFAULT);
+	            nonMedButton.setTypeface(Typeface.DEFAULT_BOLD);                
+	            mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
+	            break;
 
 /*        
         	case UsbongConstants.PRODUCT_TYPE_BOOKS:
