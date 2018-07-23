@@ -86,15 +86,14 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 //	private int currCategory = UsbongConstants.PRODUCT_TYPE_ALL;//ITEMS_LIST_DEFAULT;
 
 	private static UsbongMainActivity instance;
-	
+				
 	private List<String> attachmentFilePaths; //added by Mike, 20180531
 
-				
 	public static String timeStamp;
 	
 //	private static Date startTime;	
-
-//commented out by Mike, 20180427	
+	
+	//commented out by Mike, 20180427	
 //	protected UsbongDecisionTreeEngineActivity myUsbongDecisionTreeEngineActivity;
 	protected SettingsActivity mySettingsActivity;
 	
@@ -117,9 +116,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	//edited by Mike, 20180427
 	private int currProductTypeId = UsbongConstants.PRODUCT_TYPE_MED; //default //UsbongConstants.PRODUCT_TYPE_BOOKS; //default
 	
-	//added by Mike, 20180515
-//	private int currProductId;
-	
 	private static boolean isInMerchantShop=false;
 	private static boolean hasPerformedSearch=false;
 	private String searchEditTextString="";
@@ -131,7 +127,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	
 	//added by Mike, 20180715
 	private static boolean sortQuantityInStockAscendingOptionSelected;
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
@@ -143,8 +139,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
         instance=this;
-        
-    	attachmentFilePaths = new ArrayList<String>(); //added by Mike, 20180531
         
         //added by Mike, 25 Sept. 2015
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -180,9 +174,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
     		
     		//edited by Mike, 20170530
         	Bundle extras = getIntent().getExtras();
-        	if (extras!=null) {        		
+        	if (extras!=null) {
         		//added by Mike, 20170606
-            	myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance());
+            	myDbHelper = new UsbongDbHelper(this);
                 myDbHelper.initializeDataBase();
         		
         		if (extras.getBoolean(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_NON_MED)) {
@@ -190,22 +184,12 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 
         			//edited by Mike, 20180716
             		processInitTreeLoader();        			
-
-/*        			
-					sortQuantityInStockAscendingOptionSelected=true;
-					initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
-*/					
         		}
         		else if (extras.getBoolean(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_MED)){
 					sortQuantityInStockAscendingOptionSelected=true;
 
         			//edited by Mike, 20180716
             		processInitTreeLoader();        			
-
-/*        			
-					sortQuantityInStockAscendingOptionSelected=true;
-					initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);        			
-*/					
         		}
         		else {            		
 /*        			
@@ -223,6 +207,18 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
             			loadMerchantStore(UsbongConstants.MERCHANT_NAME);			    				
         			}        			
         		}
+        		
+/*        		
+    			String merchantName = getIntent().getExtras().getString("loadMerchantStore");
+    			
+    			//added by Mike, 20180416
+    			if (merchantName!=null) {
+        			loadMerchantStore(merchantName);			    				
+    			}
+    			else {
+        			loadMerchantStore(UsbongConstants.MERCHANT_NAME);			    				
+    			}
+*/    			
     		} 
         	else {
         		//edited by Mike, 20180716
@@ -261,8 +257,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
   			UsbongUtils.initUsbongConfigFile();
     	}
     	catch(IOException ioe) {
-    		Toast.makeText(this, "Unable to detect your SD Card.", Toast.LENGTH_LONG).show();
-
     		ioe.printStackTrace();
     	}
 		
@@ -272,7 +266,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		UsbongUtils.clearTempFolder();
 
 		//added by Mike, 20170605
-    	myDbHelper = new UsbongDbHelper(UsbongMainActivity.getInstance());
+    	myDbHelper = new UsbongDbHelper(this);
         myDbHelper.initializeDataBase();
 		
 		initSearch();			
@@ -347,10 +341,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
     	if (isInMerchantShop) {
     		isInMerchantShop=false;
     		searchEditTextString = searchEditText.getText().toString();
+        	setContentView(R.layout.main);
 
-/*//commented out by Mike, 20180718
-    		setContentView(R.layout.main);
-*/
         	hasPerformedSearch=true;
         	
         	initSearch();
@@ -502,9 +494,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					 
 					 categoryLinearLayout.addView(b);
 					 categoryButtonsList.add(b);
-				}					
-				//edited by Mike, 20180430
+				}								
 				currProductTypeId = categoryListInteger.get(0);
+	     		 
 				
 				//added by Mike, 20170825
 				 String getMerchantProductsForFirstCategoryOnly = "select * from '" + "product" + "'" + " where merchant_id="+merchantId+" and product_type_id="+categoryListInteger.get(0);
@@ -521,31 +513,24 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				        			price = "out of stock";
 				        		}
 				        		else {
-				        			price = "₱" + c2.getDouble(c.getColumnIndex("price"));
+				        			price = "₱" + c2.getString(c.getColumnIndex("price"));
 				        			
-				        			if (price.contains(".")) {
-				        				if (price.substring(price.indexOf(".")).length()-1 < 2) {
-				        					price = price.concat("0");
-				        				}
-				        			}
-				        			
-				        			//edited by Mike, 20180508
-					        		prevPrice = ""+c2.getDouble(c2.getColumnIndex("previous_price"));
-//					        		if (prevPrice!=null) {
-					        		if (!prevPrice.equals("0.0")) {
+				        			//added by Mike, 2017
+					        		prevPrice = c2.getString(c2.getColumnIndex("previous_price"));
+					        		if (prevPrice!=null) {
 					        			prevPrice = "\n<i>(from ₱" + prevPrice + ")</i>";
-					        		}/*			     
+					        		}			     
 					        		else {
 					        			prevPrice="";
-					        		}*/
+					        		}
 				        		}
 
 				        		//added by Mike, 20170725			        		 
 							    currProductTypeId = c2.getInt(c2.getColumnIndex("product_type_id"));
-
+				        		
 				        		//added by Mike, 20180515 
 							    int currProductId = c2.getInt(c2.getColumnIndex("product_id"));
-							    
+
 				        		String productDetails="";
 
 			    				String authorString = c2.getString(c2.getColumnIndex("author"));
@@ -562,19 +547,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			   							 "MerchantName: "+merchantName+
 			   							 "currProductTypeId: "+currProductTypeId;
 */				        		
-			    				//edited by Mike, 20180508
-			    				if (prevPrice.equals("0.0")) {
-			    					prevPrice="";
-			    				}
-/*
-				        		productDetails =  "<b>"+c2.getString(c2.getColumnIndex("name"))+"</b>\n"+
-			   							 authorString+
-			   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\n[Free Delivery]</font>"+
-			   							 "MerchantName: "+merchantName+
-			   							 "currProductTypeId: "+currProductTypeId+
-			   							 "currProductId: "+currProductId+
-			   							 "productOverview: " + c2.getString(c2.getColumnIndex("product_overview"));//added by Mike, 20180419
-*/
 			    				//edited by Mike, 20180606
 				        		productDetails =  "<b>"+c2.getString(c2.getColumnIndex("name"))+"</b>\n"+
 			   							 authorString+
@@ -583,8 +555,15 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			   							 "currProductTypeId: "+currProductTypeId+
 			   							 "currProductId: "+currProductId+
 			   							 "productOverview: " + c2.getString(c2.getColumnIndex("product_overview"));//added by Mike, 20180419
-			    				
-			    				
+/*
+			    				//edited by Mike, 20180419
+				        		productDetails =  "<b>"+c2.getString(c2.getColumnIndex("name"))+"</b>\n"+
+			   							 authorString+
+			   							 "<font color='#644d17'><b>"+price+prevPrice+"</b>\n[Free Delivery]</font>"+
+			   							 "MerchantName: "+merchantName+
+			   							 "currProductTypeId: "+currProductTypeId+
+			   							 "productOverview: " + c2.getString(c2.getColumnIndex("product_overview"));//added by Mike, 20180419
+*/
 					        	listOfTreesArrayList.add(productDetails);
 					        	
 					        	//edited by Mike, 20170610
@@ -674,17 +653,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				     query = "select * from '" + table + "'" + " where product_type_id="+currProductTypeId
 								 							 + " AND merchant_id="+merchantId;		    		 
 		    	 }
-
-/*
-		    	 //edited by Mike, 20180714
-		    	 if (merchantId==-1) {
-				     query = "select * from '" + table + "'" + " where product_type_id="+currProductTypeId + " order by 'quantity_in_stock' desc";		    		 
-		    	 }
-		    	 else {
-				     query = "select * from '" + table + "'" + " where product_type_id="+currProductTypeId
-								 							 + " AND merchant_id="+merchantId;		    		 
-		    	 }
-*/		    	 
 		     }
 		     else {
 			     query = "select * from '"+table+"' where NAME like '%"+s+"%' OR author LIKE '%"+s+"%'";		     		    	 
@@ -695,8 +663,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		     Cursor c = mySQLiteDatabase.rawQuery(query, null);
 		     if (c != null) {
 			        if (c.moveToFirst()) { // if Cursor is not empty
-			        	while (!c.isAfterLast()) {
-			        		//edited by Mike, 20170725
+			        	while (!c.isAfterLast()) {//edited by Mike, 20170725
 			        		String price="";
 			        		String prevPrice=""; //added by Mike, 20170825
 			        		
@@ -723,6 +690,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				        			prevPrice="";
 				        		}*/
 			        		}
+
 			        		
 /*			        		
 			        		String price = c.getString(c.getColumnIndex("price"));
@@ -739,10 +707,11 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			        		
 			        		//added by Mike, 20180515 
 						    int currProductId = c.getInt(c.getColumnIndex("product_id"));
-
+						    
 			        		String productDetails="";
 /*			        		if (s==null) {
   */
+			        		
 		    			     String queryMerchantName = "select merchant_name from '" + "merchant" + "'" + " where merchant_id="+c.getString(c.getColumnIndex("merchant_id"));
 		    			     Cursor cMerchantName = mySQLiteDatabase.rawQuery(queryMerchantName, null);
 		    			     String merchantName="N/A";
@@ -786,7 +755,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					   							 "currProductTypeId: "+currProductTypeId+
 					   							 "currProductId: "+currProductId+
 					   							 "productOverview: " + c.getString(c.getColumnIndex("product_overview"));//added by Mike, 20180419
-					    				
 /*					    				break;
 				        		}
 */				        		
@@ -834,7 +802,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			     }
         } catch (Exception ex) {
            ex.printStackTrace();
-        }/* finally {
+        } finally {
             try {
                 myDbHelper.close();
             } catch (Exception ex) {
@@ -842,7 +810,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
             } finally {
                 myDbHelper.close();
             }        	 
-        }*/
+        }
     }
 
     public void showSearchResults() {
@@ -856,11 +824,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			sortQuantityInStockAscendingOptionSelected=false;
 	    	mCustomAdapter.sortQuantityInStockAscending();
 		}
-		
-/*    	
-    	//edited by Mike, 20180714
-    	mCustomAdapter.sortQuantityInStockAscending();
-*/    	
+
 		/*
 		//Reference: http://stackoverflow.com/questions/8908549/sorting-of-listview-by-name-of-the-product-using-custom-adaptor;
 		//last accessed: 2 Jan. 2014; answer by Alex Lockwood
@@ -924,7 +888,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		            Handler mainHandler = new Handler(getInstance().getBaseContext().getMainLooper());
 		            Runnable myRunnable = new Runnable() {
 		            	@Override
-		            	public void run() {		     
+		            	public void run() {		            		
 		            		//edited by Mike, 20180716
 							if (sortQuantityInStockAscendingOptionSelected) {							
 				        		if (getIntent().getExtras().getBoolean(UsbongConstants.SORT_QUANTITY_IN_STOCK_ASCENDING_NON_MED)) {
@@ -942,6 +906,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		    				//added by Mike, 20170525
 		    				initTreeLoader();
 */		    				
+		    				
 						    if (instance.myProgressDialog != null) {
 						        instance.myProgressDialog.dismiss();
 						    }				            		
@@ -974,14 +939,17 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	{
 //		setContentView(R.layout.tree_list_interface);				
 
-		//added by Mike, 20180718
-    	setContentView(R.layout.main);
-		
 		isInTreeLoader=true;
-		
+/*		
+		//edited by Mike, 20180723
+		if (this.findViewById(R.layout.main)==null) {
+			//added by Mike, 20180718
+	    	setContentView(R.layout.main);	
+		}		
+*/		
 		//added by Mike, 20170813
 		merchantId=-1; //search product items of all merchants
-
+			
 		//edited by Mike, 20180427
 		Button medButton = (Button)findViewById(R.id.med_button);
         medButton.setOnClickListener(new OnClickListener() {
@@ -998,97 +966,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
                 initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
             }
         });    
-		
-/*		
-        Button booksButton = (Button)findViewById(R.id.books_button);
-        booksButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_BOOKS);
-            }
-        });    
 
-        Button childrensButton = (Button)findViewById(R.id.childrens_button);
-        childrensButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_CHILDRENS);
-            }
-        });    
-
-        Button textbooksButton = (Button)findViewById(R.id.textbooks_button);
-        textbooksButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_TEXTBOOKS);
-            }
-        });    
-
-        Button medicalButton = (Button)findViewById(R.id.medical_button);
-        medicalButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_MEDICAL);
-            }
-        });    
-
-        Button foodButton = (Button)findViewById(R.id.food_button);
-        foodButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_FOOD);
-            }
-        });    
-
-        Button beveragesButton = (Button)findViewById(R.id.beverages_button);
-        beveragesButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_BEVERAGES);
-            }
-        });    
-
-        Button comicsButton = (Button)findViewById(R.id.comics_button);
-        comicsButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_COMICS);
-            }
-        });    
-
-        Button mangaButton = (Button)findViewById(R.id.manga_button);
-        mangaButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_MANGA);
-            }
-        });    
-
-        Button toysAndCollectiblesButton = (Button)findViewById(R.id.toys_collectibles_button);
-        toysAndCollectiblesButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_TOYS_AND_COLLECTIBLES);
-            }
-        });    
-
-        Button miscellaneousButton = (Button)findViewById(R.id.miscellaneous_button);
-        miscellaneousButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_MISCELLANEOUS);
-            }
-        });    
-
-        Button promosButton = (Button)findViewById(R.id.promos_button);
-        promosButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initTreeLoader(UsbongConstants.PRODUCT_TYPE_PROMOS);
-            }
-        });    
-*/
-		
 		//edited by Mike, 20170530
 		if (!hasPerformedSearch) {
 			performSearch(null);			
@@ -1098,7 +976,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		}
 		
         switch (currProductTypeId) {
-        	//edited by Mike, 20180427
+	    	//edited by Mike, 20180427
 	    	case UsbongConstants.PRODUCT_TYPE_MED:
 	            medButton.setTypeface(Typeface.DEFAULT_BOLD);
 	            nonMedButton.setTypeface(Typeface.DEFAULT);                
@@ -1109,164 +987,9 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	            nonMedButton.setTypeface(Typeface.DEFAULT_BOLD);                
 	            mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
 	            break;
-
-/*        
-        	case UsbongConstants.PRODUCT_TYPE_BOOKS:
-                booksButton.setTypeface(Typeface.DEFAULT_BOLD);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT);
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_CHILDRENS:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT_BOLD);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT);
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_TEXTBOOKS:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT_BOLD);
-                medicalButton.setTypeface(Typeface.DEFAULT);
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_PROMOS:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT_BOLD);            
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader_alternative, listOfTreesArrayList);        	
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_FOOD:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT);            
-                foodButton.setTypeface(Typeface.DEFAULT_BOLD);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);            
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_BEVERAGES:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT);            
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT_BOLD);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);            
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_COMICS:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT);            
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT_BOLD);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);            
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_MANGA:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT);            
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT_BOLD);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);            
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_TOYS_AND_COLLECTIBLES:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT             medicalButton.setTypeface(Typeface.DEFAULT);            
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT_BOLD);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT);
-                promosButton.setTypeface(Typeface.DEFAULT);            
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-        	case UsbongConstants.PRODUCT_TYPE_MISCELLANEOUS:
-                booksButton.setTypeface(Typeface.DEFAULT);
-                childrensButton.setTypeface(Typeface.DEFAULT);                
-                textbooksButton.setTypeface(Typeface.DEFAULT);
-                medicalButton.setTypeface(Typeface.DEFAULT);            
-                foodButton.setTypeface(Typeface.DEFAULT);
-                beveragesButton.setTypeface(Typeface.DEFAULT);
-                comicsButton.setTypeface(Typeface.DEFAULT);
-                mangaButton.setTypeface(Typeface.DEFAULT);
-                toysAndCollectiblesButton.setTypeface(Typeface.DEFAULT);               
-                miscellaneousButton.setTypeface(Typeface.DEFAULT_BOLD);
-                promosButton.setTypeface(Typeface.DEFAULT);            
-                mCustomAdapter = new CustomDataAdapter(this, R.layout.tree_loader, listOfTreesArrayList);
-                break;
-*/                
-        }        
-/*		mCustomAdapter.sort(); //edited by Mike, 20170203
-*/
-		if (!sortQuantityInStockAscendingOptionSelected) {
-			mCustomAdapter.sort(); //default
-		}
-		else {
-			sortQuantityInStockAscendingOptionSelected=false;
-	    	mCustomAdapter.sortQuantityInStockAscending();
-		}
-
-/*        
-        //edited by Mike, 20180714
-    	mCustomAdapter.sortQuantityInStockAscending();
-*/        
-        
+        }
+		mCustomAdapter.sort(); //edited by Mike, 20170203
+		
 /*
 		//Reference: http://stackoverflow.com/questions/8908549/sorting-of-listview-by-name-of-the-product-using-custom-adaptor;
 		//last accessed: 2 Jan. 2014; answer by Alex Lockwood
@@ -1276,6 +999,14 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		    }
 		});
 */		
+		if (!sortQuantityInStockAscendingOptionSelected) {
+			mCustomAdapter.sort(); //default
+		}
+		else {
+			sortQuantityInStockAscendingOptionSelected=false;
+	    	mCustomAdapter.sortQuantityInStockAscending();
+		}		
+		
 		treesListView = (ListView)findViewById(R.id.tree_list_view);
 		treesListView.setLongClickable(true);
 		treesListView.setAdapter(mCustomAdapter);
@@ -1613,66 +1344,66 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				toSellActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(toSellActivityIntent);
 				return true;
-*/				
-			//added by Mike, 20180517
-			case(R.id.submit_report):
-				//TODO: create .csv file and save it in the SD Card
-/*	        	myDbHelper = new UsbongDbHelper(this);
-            	myDbHelper.initializeDataBase();
 */
-/*				
-				if (myDbHelper!=null) {
-			        mySQLiteDatabase = myDbHelper.getReadableDatabase();
-					myDbHelper.submitReportForTheDay();//mySQLiteDatabase);
-				}
-*/
-			
-				//edited by Mike, 20180607
-				if ((UsbongUtils.itemsInCart==null) || (!UsbongUtils.itemsInCart.isEmpty())) {		
-					String s = "<br>Please confirm <font color='#74bc1e'><b>CHECKOUT</b></font> of your <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report.<br>";
-					new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Hey there!")
-//					.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
-					.setMessage(Html.fromHtml(s))
-					.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-						}
-					}).show();	        		        				
-				}
-				else {					
-					new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Report for the Day")
-					.setMessage("Are you sure you want to submit the report now?")
-					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							String output_path = myDbHelper.submitReportForTheDay();		
-
-							if (output_path!=null) {
-								//only add path if it's not already in attachmentFilePaths
-								if (!attachmentFilePaths.contains(output_path)) {
-									attachmentFilePaths.add(output_path);
-								}
-
-								emailReport();							
+				//added by Mike, 20180517
+				case(R.id.submit_report):
+					//TODO: create .csv file and save it in the SD Card
+	/*	        	myDbHelper = new UsbongDbHelper(this);
+	            	myDbHelper.initializeDataBase();
+	*/
+	/*				
+					if (myDbHelper!=null) {
+				        mySQLiteDatabase = myDbHelper.getReadableDatabase();
+						myDbHelper.submitReportForTheDay();//mySQLiteDatabase);
+					}
+	*/
+				
+					//edited by Mike, 20180607
+					if ((UsbongUtils.itemsInCart==null) || (!UsbongUtils.itemsInCart.isEmpty())) {		
+						String s = "<br>Please confirm <font color='#74bc1e'><b>CHECKOUT</b></font> of your <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report.<br>";
+						new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Hey there!")
+//						.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
+						.setMessage(Html.fromHtml(s))
+						.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
 							}
-	/*						
-							final Activity a;
-							a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
-							finish();
-							Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
-							toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-							startActivity(toCallingActivityIntent);		
-	*/						
-						}
-					})
-					.setNegativeButton("No", new DialogInterface.OnClickListener() {					
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-						}
-					}).show();	        		        									
-				}
-			
-				return true;			
+						}).show();	        		        				
+					}
+					else {					
+						new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Report for the Day")
+						.setMessage("Are you sure you want to submit the report now?")
+						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								String output_path = myDbHelper.submitReportForTheDay();		
+
+								if (output_path!=null) {
+									//only add path if it's not already in attachmentFilePaths
+									if (!attachmentFilePaths.contains(output_path)) {
+										attachmentFilePaths.add(output_path);
+									}
+
+									emailReport();							
+								}
+		/*						
+								final Activity a;
+								a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+								finish();
+								Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
+								toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+								startActivity(toCallingActivityIntent);		
+		*/						
+							}
+						})
+						.setNegativeButton("No", new DialogInterface.OnClickListener() {					
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+							}
+						}).show();	        		        									
+					}
+				
+					return true;	
 			case(R.id.request):
 				finish();
 				//added by Mike, 20170216
@@ -1682,11 +1413,12 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				toRequestActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(toRequestActivityIntent);
 				return true;
-			//added by Mike, 20180715
+				//added by Mike, 20180715
 			case(R.id.sort_remaining_in_stock):
     			sortQuantityInStockAscendingOptionSelected=true;
+				
 /*			
-				initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
+//				initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
 */
 	
 				TextView tv = new TextView(this);
@@ -1700,22 +1432,34 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				.setPositiveButton("NON-MED list", new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						//edited by Mike, 20180723
+						if (instance.findViewById(R.layout.main)==null) {
+							//added by Mike, 20180718
+					    	setContentView(R.layout.main);	
+						}		
+						
 						initTreeLoader(UsbongConstants.PRODUCT_TYPE_NON_MED);
 					}
 				})
 				.setNeutralButton("MED list", new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						//edited by Mike, 20180723
+						if (instance.findViewById(R.layout.main)==null) {
+							//added by Mike, 20180718
+					    	setContentView(R.layout.main);	
+						}		
+
 						initTreeLoader(UsbongConstants.PRODUCT_TYPE_MED);
 					}
 				})
 				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-		    			sortQuantityInStockAscendingOptionSelected=false;
+						sortQuantityInStockAscendingOptionSelected=false;
 					}
 				}).show();	    
-				return true;
+				return true;				
 			case(R.id.contact):
 				finish();
 				//added by Mike, 20170216
@@ -1915,7 +1659,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			    }
 			});			
 		}
-		
+
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
             	final String o = items.get(position);
@@ -1969,13 +1713,10 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	    				String currProductTypeIdWithLabel = tempS2.substring(tempS2.indexOf("currProductTypeId: "), tempS2.indexOf("currProductId: ")); //edited by Mike, 20180515
 	    				currProductTypeId = Integer.parseInt(currProductTypeIdWithLabel.substring("currProductTypeId: ".length())); 
 	    						
-
 	    				//added by Mike, 20180517
 	    				String currProductIdWithLabel = tempS2.substring(tempS2.indexOf("currProductId: "), tempS2.indexOf("productOverview: "));
 	    				final int currProductId = Integer.parseInt(currProductIdWithLabel.substring("currProductId: ".length())); 	    				
-	    				
-	    				Log.d(">>>currProductId", ""+currProductId);
-	    				
+
 	    				//added by Mike, 20180419
 	    				String tempS3 = o.toString();
 	    				final String currProductOverview = tempS3.substring(tempS3.indexOf("productOverview: ")+"productOverview: ".length()).toString();
@@ -2020,8 +1761,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 			    			default:
 			    				folderName = UsbongConstants.PRODUCT_TYPE_BOOKS_STRING;
 			    				break;
-*/			    				
-                    		//edited by Mike, 20180427
+*/
+	                    	//edited by Mike, 20180427
 			    			case UsbongConstants.PRODUCT_TYPE_MED:
 			    				folderName = UsbongConstants.PRODUCT_TYPE_MED_STRING;
 			    				break;		
@@ -2031,7 +1772,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
                     	}
 	                    
                     	switch(currProductTypeId) {
-/*//commented out by Mike, 20180427                    	
+/*//commented out by Mike, 20180427                    	                    	
 			    			case UsbongConstants.PRODUCT_TYPE_BEVERAGES:		                    		
 			    				tempS = o.toString().replace("\n", "<br>");
 			    				s = tempS.subSequence(0, tempS.indexOf("MerchantName: ")).toString();
@@ -2100,6 +1841,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, s);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantNameButton.getText().toString()); //added by Mike, 20170528        					            				
+	            				
+	            				//added by Mike, 20170528        					            				
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW, currProductOverview); //added by Mike, 20180419
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_ID, currProductId); //added by Mike, 20180517	
 	            				startActivityForResult(toBuyActivityIntent,1);
@@ -2129,7 +1872,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantNameButton.getText().toString()); //added by Mike, 20170529   				
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW, currProductOverview); //added by Mike, 20180419
-	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_ID, currProductId); //added by Mike, 20180517	
 	            				toBuyActivityIntent.putExtra("activityCaller", UsbongConstants.USBONG_MAIN_ACTIVITY); //added by Mike, 20170525	            				
 	            				startActivityForResult(toBuyActivityIntent,1);
                 			}
@@ -2143,7 +1885,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
         }
 	}
 
-	//TODO: fix this
 	//added by Mike, 20180214
 	public void syncDB(String result) {		
 		try {			
