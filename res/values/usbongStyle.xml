@@ -275,14 +275,15 @@
 		<item name="android:scrollHorizontally">false</item>        
         <item name="android:background">@drawable/rect_text_edit</item>        		
 	</style>	           
+	
     <style name="UsbongDefaultBackNextButtonLayout">
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:gravity">bottom|center</item>
 		<item name="android:layout_weight">0.1</item>
 		<item name="android:orientation">horizontal</item>
-    </style>	   
-
+	</style>	   
+    
     <style name="UsbongDefaultBuySellRequestButtonLayout">
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -307,6 +308,14 @@
 		<item name="android:background">@drawable/button</item>
     </style>	   
 
+    <style name="UsbongPOSRequestAddButton">
+		<item name="android:layout_width">180dp</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textColor">#4a452a</item>
+		<item name="android:textSize">20dp</item>		
+		<item name="android:background">@drawable/button_yellow</item>		    
+	</style>	      
+    
     <style name="UsbongDefaultButton">
 		<item name="android:layout_width">136dp</item>
 		<item name="android:layout_height">wrap_content</item>

@@ -101,14 +101,13 @@
 			/>
 	</LinearLayout>	    	    
 	<LinearLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"	
-		android:gravity="center"
-	>	
-	    <Button android:id="@+id/confirm_button"
-		    style="@style/UsbongDefaultBuySellRequestButton"
-			android:text="@string/add_to_cart" 
-			android:layout_width="256dp"
-			android:background="@drawable/button_yellow"/>		    
-	</LinearLayout>	
+		style="@style/UsbongDefaultBackNextButtonLayout">	
+	    <Button android:id="@+id/back_button"
+		    style="@style/UsbongPOSRequestAddButton"
+		    android:text="@string/request"/>
+		    
+	   	<Button android:id="@+id/confirm_button"
+		    style="@style/UsbongPOSRequestAddButton"
+		    android:text="@string/add_to_cart"/>	    
+	</LinearLayout>
 </LinearLayout>
