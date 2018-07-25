@@ -293,12 +293,16 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 		if (productDetails.contains("out of stock")) {
 /*			confirmButton.setText("REQUEST ITEM");
  */
+/*			
 			confirmButton.setFocusable(false);
+			confirmButton.setClickable(false);
+*/			
 			quantityEditText.setFocusable(false);
 			quantityEditText.setText("0");
 		}
 		else {
 			confirmButton.setText("ADD TO CART");			
+			confirmButton.setClickable(true);
 			quantityEditText.setFocusable(true);
 			quantityEditText.setText("");
 /*			
@@ -314,11 +318,40 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
     	
     	confirmButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {		
+			public void onClick(View v) {	
 				if (currScreen==BUY_SCREEN) {					
 					//TODO: add wishlist
-/*					
 					if (productDetails.contains("out of stock")) {
+				    	AlertDialog.Builder outOfStockAlertDialog = new AlertDialog.Builder(BuyActivity.this).setTitle("Product Item: Out of Stock");
+						TextView tv = new TextView(myActivityInstance);
+						tv.setText("\nRequest for new stock?");
+						tv.setGravity(Gravity.CENTER_HORIZONTAL);
+						tv.setTextSize(16);
+						outOfStockAlertDialog.setView(tv);
+						outOfStockAlertDialog.setPositiveButton("REQUEST", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								//added by Mike, 20180131						
+								Intent toRequestActivityIntent = new Intent().setClass(getInstance(), RequestActivity.class);
+								toRequestActivityIntent.putExtra("newRequestActivity", true);
+								toRequestActivityIntent.putExtra("activityCaller", UsbongConstants.USBONG_MAIN_ACTIVITY);
+								
+//								toRequestActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, ((TextView)findViewById(R.id.text_image_display_textview)).getText().toString());//getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));
+								toRequestActivityIntent.putExtra(UsbongConstants.ITEM_VARIABLE_NAME, getIntent().getStringExtra(UsbongConstants.ITEM_VARIABLE_NAME));
+								toRequestActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, getIntent().getStringExtra(UsbongConstants.ITEM_IMAGE_NAME));
+														
+								toRequestActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								startActivity(toRequestActivityIntent);
+							}
+						});
+						outOfStockAlertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+							}
+						}).show();
+					   return;
+					}
+/*						
 						//added by Mike, 20180131						
 						Intent toRequestActivityIntent = new Intent().setClass(getInstance(), RequestActivity.class);
 						toRequestActivityIntent.putExtra("newRequestActivity", true);
