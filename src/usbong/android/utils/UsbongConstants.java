@@ -75,11 +75,12 @@ public class UsbongConstants {
 	public final static int MEETUP=0;
 	public final static int SHIPPING=1;
 	public final static int defaultPreference=SHIPPING; //default
-	
-	public final static int CASH_UPON_MEETUP=0;
-	public final static int BANK_DEPOSIT=1;
-	public final static int PERA_PADALA=2;	
-	public final static int defaultModeOfPayment=BANK_DEPOSIT;	//default
+
+	//edited by Mike, 20180726
+	public final static int BANK_DEPOSIT=0;
+	public final static int PAYPAL=1;
+	public final static int CASH_UPON_MEETUP_AT_MOSC=2;	
+	public final static int defaultModeOfPayment=CASH_UPON_MEETUP_AT_MOSC;	//default
     
 	//added by Mike, 20170327
 	public final static int ISBN_10=0;
