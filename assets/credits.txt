@@ -1,6 +1,6 @@
 --Usbong POS App--
-ver: 1.0.5
-date: 20180717
+ver: 1.0.6
+date: 20180726
 
 Usbong Social Systems, Inc.
 
