@@ -385,40 +385,36 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 					if (!quantityString.equals("")) {
 						quantityNumber = Integer.parseInt(quantityString);
 					}
+
+					//added by Mike, 20180727
+    				String quantityInStockWithLabel = productDetails.substring(productDetails.indexOf("In-stock: "), productDetails.indexOf("</font>MerchantName: "));
+					final int quantityInStockNumber = Integer.parseInt(quantityInStockWithLabel.substring("In-stock: ".length()));
 					
-					for (int i=0; i<quantityNumber; i++) {
-						//edited by Mike, 20170725
-//			        	UsbongUtils.itemsInCart.add(productDetails);						
-			        	UsbongUtils.itemsInCart.add(productDetails);						
+					if (quantityNumber > quantityInStockNumber) {
+//						quantityNumber = quantityInStockNumber;
+
+				    	AlertDialog.Builder maxInStockAlertDialog = new AlertDialog.Builder(BuyActivity.this).setTitle("Max In-stock Quantity Reached");
+						TextView tv = new TextView(myActivityInstance);
+						tv.setText("\nSet max available In-stock: "+quantityInStockNumber);
+						tv.setGravity(Gravity.CENTER_HORIZONTAL);
+						tv.setTextSize(16);
+						maxInStockAlertDialog.setView(tv);
+						maxInStockAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								processAddToCart(quantityInStockNumber);
+							}
+						});
+						maxInStockAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								return;
+							}
+						}).show();
 					}
-
-					
-					//edited by Mike, 20170430
-/*					
-					currScreen=ACCOUNT_SCREEN;
-					setContentView(R.layout.account);	
-					init();
-*/					
-
-					//added by Mike, 20170525
-					final Activity a;
-					a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
-
-					/*//commented out by Mike, 20180427
-									if ((getIntent().getExtras().getInt("activity caller")==0) 
-											|| (getIntent().getExtras().getInt("activity caller")==UsbongConstants.USBONG_MAIN_ACTIVITY)) {
-										a = UsbongMainActivity.getInstance();
-									}
-									else {
-										a = UsbongDecisionTreeEngineActivity.getInstance();						
-									}
-					*/
-					
-					//return to UsbongDecisionTreeEngineActivity
-					finish();
-					Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
-					toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-					startActivity(toCallingActivityIntent);
+					else {
+						processAddToCart(quantityNumber);
+					}
 				}
 				else {
 					if (verifyFields()) {			
@@ -586,6 +582,33 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 			}
     	});    	
 */    	
+    }
+    
+    //added by Mike, 20180728
+    public void processAddToCart(int quantityNumber) {
+
+		for (int i=0; i<quantityNumber; i++) {
+			//edited by Mike, 20170725
+//        	UsbongUtils.itemsInCart.add(productDetails);						
+        	UsbongUtils.itemsInCart.add(productDetails);						
+		}
+
+		
+		//edited by Mike, 20170430
+/*					
+		currScreen=ACCOUNT_SCREEN;
+		setContentView(R.layout.account);	
+		init();
+*/					
+
+		//added by Mike, 20170525
+		final Activity a;
+		a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+		finish();
+		Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
+		toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+		startActivity(toCallingActivityIntent);
     }
     
     public boolean verifyFields() {
