@@ -586,13 +586,38 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
     
     //added by Mike, 20180728
     public void processAddToCart(int quantityNumber) {
-
-		for (int i=0; i<quantityNumber; i++) {
-			//edited by Mike, 20170725
-//        	UsbongUtils.itemsInCart.add(productDetails);						
-        	UsbongUtils.itemsInCart.add(productDetails);						
+    	//added by Mike, 20180730
+    	int size = UsbongUtils.itemsInCart.size();
+    	int quantityInCart = 0;
+    	
+		for (int i=0; i<size; i++) {			
+			if (UsbongUtils.itemsInCart.get(i).equals(productDetails)) {
+				quantityInCart++;
+			}
 		}
-
+    	
+		if (quantityInCart!=quantityNumber) {			
+			for (int i=0; i<quantityNumber; i++) {
+				//edited by Mike, 20170725
+	        	UsbongUtils.itemsInCart.add(productDetails);						
+			}			
+			
+			returnToMainActivity();
+		}
+		else {
+			AlertDialog.Builder cartMaxInStockAlertDialog = new AlertDialog.Builder(BuyActivity.this).setTitle("Max In-stock Quantity Reached");
+			TextView tv = new TextView(myActivityInstance);
+			tv.setText("\nCART already has max\navailable In-stock: "+quantityNumber);
+			tv.setGravity(Gravity.CENTER_HORIZONTAL);
+			tv.setTextSize(16);
+			cartMaxInStockAlertDialog.setView(tv);
+			cartMaxInStockAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					returnToMainActivity();
+				}
+			}).show();			
+		}
 		
 		//edited by Mike, 20170430
 /*					
@@ -601,6 +626,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 		init();
 */					
 
+/*		
 		//added by Mike, 20170525
 		final Activity a;
 		a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
@@ -609,6 +635,19 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 		Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
 		toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 		startActivity(toCallingActivityIntent);
+*/		
+    }
+    
+    //added by Mike, 20180730
+    public void returnToMainActivity() {
+		//added by Mike, 20170525
+		final Activity a;
+		a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
+
+		finish();
+		Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
+		toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+		startActivity(toCallingActivityIntent);    	
     }
     
     public boolean verifyFields() {

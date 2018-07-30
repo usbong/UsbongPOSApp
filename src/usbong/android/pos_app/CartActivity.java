@@ -1250,7 +1250,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	    				imageFileName = o.toString().substring(o.indexOf("ImageFileName: ")+"ImageFileName: ".length(), o.indexOf("ProductOverview: "));
 /*	    				imageFileName = o.toString().substring(0, o.toString().indexOf("</b>"))
 	                    		.replace("<b>","")
-	                    		.replace("遯ｶ�ｿｽ","")
+	                    		.replace("’","")
 	                    		.replace("'","")
 	                    		.replace(":","")+".jpg"; //edited by Mike, 20170202
 */
@@ -1261,9 +1261,13 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 		    			//added by Mike, 20170529
 		    			final String merchantName = o.substring(index, endIndex);
 
+	    				//added by Mike, 20180517
+	    				String tempS2 = o.toString();
+	    				final int currProductId = Integer.parseInt(tempS2.substring(tempS2.indexOf("ProductId: ")+"ProductId: ".length()));
+	    					    	        	
 		    			//added by Mike, 20180429
 	    				String tempS3 = o.toString();
-	    				final String currProductOverview = tempS3.substring(tempS3.indexOf("ProductOverview: ")+"ProductOverview: ".length()).toString();
+	    				final String currProductOverview = tempS3.substring(tempS3.indexOf("ProductOverview: ")+"ProductOverview: ".length(), tempS3.indexOf("ProductId: ")).toString();
 
 		    			
 /*
@@ -1275,7 +1279,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	    							    				
 		                imageFileName = imageString.substring(0, imageString.indexOf("<br>"))
 		                    		.replace("<b>","")
-		                    		.replace("遯ｶ�ｿｽ","")
+		                    		.replace("’","")
 		                    		.replace("'","")
 		                    		.replace(":","")+".jpg"; //edited by Mike, 20170202
 */
@@ -1320,6 +1324,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 			            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 			            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantName); //added by Mike, 20170529        				
 			            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW, currProductOverview); //added by Mike, 20180429
+			            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_ID, currProductId); //added by Mike, 20180517	
 			            				startActivityForResult(toBuyActivityIntent,1);
 		                			}
 		                		});	                		
@@ -1355,6 +1360,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_IMAGE_NAME, imageFileName);
 	            				toBuyActivityIntent.putExtra(UsbongConstants.MERCHANT_NAME, merchantName); //added by Mike, 20170528        					            				
 	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_OVERVIEW, currProductOverview); //added by Mike, 20180419
+	            				toBuyActivityIntent.putExtra(UsbongConstants.ITEM_PRODUCT_ID, currProductId); //added by Mike, 20180730
 	            				startActivityForResult(toBuyActivityIntent,1);
 	            			}
 	                	});
