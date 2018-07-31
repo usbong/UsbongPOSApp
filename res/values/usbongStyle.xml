@@ -283,6 +283,12 @@
 		<item name="android:layout_weight">0.1</item>
 		<item name="android:orientation">horizontal</item>
 	</style>	   
+	
+    <style name="UsbongPOSRequestAddButtonLayout">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:gravity">center</item>
+	</style>	   
     
     <style name="UsbongDefaultBuySellRequestButtonLayout">
 		<item name="android:layout_width">fill_parent</item>
