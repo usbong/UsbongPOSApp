@@ -389,7 +389,9 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 					//added by Mike, 20180727
     				String quantityInStockWithLabel = productDetails.substring(productDetails.indexOf("In-stock: "), productDetails.indexOf("</font>MerchantName: "));
 					final int quantityInStockNumber = Integer.parseInt(quantityInStockWithLabel.substring("In-stock: ".length()));
-					
+/*					
+					final int quantityInStockNumber = getQuantityInStockFromProductDetails();
+*/					
 					if (quantityNumber > quantityInStockNumber) {
 //						quantityNumber = quantityInStockNumber;
 
@@ -402,7 +404,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 						maxInStockAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								processAddToCart(quantityInStockNumber);
+								processAddToCart(quantityInStockNumber, quantityInStockNumber);
 							}
 						});
 						maxInStockAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -413,7 +415,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 						}).show();
 					}
 					else {
-						processAddToCart(quantityNumber);
+						processAddToCart(quantityNumber, quantityInStockNumber);
 					}
 				}
 				else {
@@ -584,8 +586,16 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 */    	
     }
     
-    //added by Mike, 20180728
-    public void processAddToCart(int quantityNumber) {
+/*    
+    //added by Mike, 20180731
+    public int getQuantityInStockFromProductDetails(String productDetails) {
+		String quantityInStockWithLabel = productDetails.substring(productDetails.indexOf("In-stock: "), productDetails.indexOf("</font>MerchantName: "));
+		return Integer.parseInt(quantityInStockWithLabel.substring("In-stock: ".length())); //quantityInStockNumber
+    }
+*/    
+    
+    //edited by Mike, 20180731
+    public void processAddToCart(final int quantityNumber, final int quantityInStockNumber) {
     	//added by Mike, 20180730
     	int size = UsbongUtils.itemsInCart.size();
     	int quantityInCart = 0;
@@ -596,7 +606,11 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 			}
 		}
     	
-		if (quantityInCart!=quantityNumber) {			
+//		if (quantityInCart!=quantityNumber) {					
+		//added by Mike, 20180731
+		int totalQuantity = quantityInCart+quantityNumber;
+		
+		if (totalQuantity<quantityInStockNumber) {			
 			for (int i=0; i<quantityNumber; i++) {
 				//edited by Mike, 20170725
 	        	UsbongUtils.itemsInCart.add(productDetails);						
@@ -604,10 +618,30 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 			
 			returnToMainActivity();
 		}
+		//added by Mike, 20180801
+		else if (totalQuantity==quantityInStockNumber) {
+			//This is also the quantityNumber
+			int quantityOffset = quantityInStockNumber - quantityInCart; 
+
+			for (int i=0; i<quantityOffset; i++) {
+	        	UsbongUtils.itemsInCart.add(productDetails);						
+			}			
+			
+			returnToMainActivity();			
+		}
 		else {
+			//added by Mike, 20180801
+			if (quantityInCart<quantityInStockNumber) {
+				int quantityOffset = quantityInStockNumber - quantityInCart;
+						
+				for (int i=0; i<quantityOffset; i++) {
+		        	UsbongUtils.itemsInCart.add(productDetails);						
+				}							
+			}
+			
 			AlertDialog.Builder cartMaxInStockAlertDialog = new AlertDialog.Builder(BuyActivity.this).setTitle("Max In-stock Quantity Reached");
 			TextView tv = new TextView(myActivityInstance);
-			tv.setText("\nCART already has max\navailable In-stock: "+quantityNumber);
+			tv.setText("\nSHOPPING CART now has max\navailable In-stock: "+quantityInStockNumber+"\n");
 			tv.setGravity(Gravity.CENTER_HORIZONTAL);
 			tv.setTextSize(16);
 			cartMaxInStockAlertDialog.setView(tv);
@@ -616,7 +650,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				public void onClick(DialogInterface dialog, int which) {
 					returnToMainActivity();
 				}
-			}).show();			
+			}).show();	
 		}
 		
 		//edited by Mike, 20170430
