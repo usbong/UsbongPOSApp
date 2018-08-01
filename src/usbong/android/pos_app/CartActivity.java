@@ -1375,13 +1375,17 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 	            		
 	            		//edited by Mike, 20170508
 	            		final int quantity = Integer.parseInt(quantityList.get(position));
-	            		
+
 	            		ArrayList<String> quantityItems = new ArrayList<String>();
+
 	            		for (int i=quantity; i>0; i--) {
 	            			quantityItems.add("  "+i+"  ");
 	            		}
-	            		quantityItems.add("Remove");
-
+/*	            		quantityItems.add("Remove");
+*/
+	            		//This will put "Remove" in the second position of the list.
+	            		quantityItems.add(1,"Remove"); //edited by Mike, 20180802
+	            		
 	            		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(instance, android.R.layout.simple_dropdown_item_1line, quantityItems);
 	            		quantitySpinner.setAdapter(adapter);	            	
 	            			            		
