@@ -1133,7 +1133,7 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				modeOfPayment.addView(paypal);
 				
 				RadioButton meetupAtMOSC = new AppCompatRadioButton(this);
-				meetupAtMOSC.setText("Meetup at MOSC (Less ₱70)");
+				meetupAtMOSC.setText("Meetup at MOSC");
 				modeOfPayment.addView(meetupAtMOSC);
 
 			    //Reference: http://stackoverflow.com/questions/23024831/android-shared-preferences-example

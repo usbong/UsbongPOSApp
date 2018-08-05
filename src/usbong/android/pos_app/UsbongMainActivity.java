@@ -1529,7 +1529,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				modeOfPayment.addView(paypal);
 				
 				RadioButton meetupAtMOSC = new AppCompatRadioButton(this);
-				meetupAtMOSC.setText("Meetup at MOSC (Less ₱70)");
+				meetupAtMOSC.setText("Meetup at MOSC");
 				modeOfPayment.addView(meetupAtMOSC);
 
 			    //Reference: http://stackoverflow.com/questions/23024831/android-shared-preferences-example
@@ -1913,6 +1913,10 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	}
 	
 	public void updateDbHelperCartTable(ArrayList<String> listOfItemsArrayList) {
+/*        mySQLiteDatabase = myDbHelper.getReadableDatabase();
+        
+	    Cursor c = mySQLiteDatabase.rawQuery(query, null);
+*/		
 		if (myDbHelper!=null) {
 /*	        mySQLiteDatabase = myDbHelper.getReadableDatabase();
  */

@@ -1081,7 +1081,7 @@ public class CartActivity extends AppCompatActivity/*Activity*/
 				modeOfPayment.addView(paypal);
 
 				RadioButton meetupAtMOSC = new AppCompatRadioButton(this);
-				meetupAtMOSC.setText("Meetup at MOSC (Less ₱70)");
+				meetupAtMOSC.setText("Meetup at MOSC");
 				modeOfPayment.addView(meetupAtMOSC);
 
 				
