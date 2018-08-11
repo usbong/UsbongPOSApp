@@ -1358,9 +1358,25 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					}
 	*/
 				
-					//edited by Mike, 20180607
-					if ((UsbongUtils.itemsInCart==null) || (!UsbongUtils.itemsInCart.isEmpty())) {		
-						String s = "<br>Please confirm <font color='#74bc1e'><b>CHECKOUT</b></font> of your <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report.<br>";
+					//edited by Mike, 20180811
+					if (UsbongUtils.itemsInCart==null) {
+						String s = "<br><big>Please add items to the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.</big><br>";
+						TextView alertDialogTextView = new TextView(UsbongMainActivity.instance);
+						alertDialogTextView.setText(Html.fromHtml(s));
+//						alertDialogTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+						new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Hey there!")
+//						.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
+//						.setMessage(Html.fromHtml(s))
+						.setView(alertDialogTextView)
+						.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+							}
+						}).show();	        		        										
+					}
+					else if (!UsbongUtils.itemsInCart.isEmpty()) {		
+						String s = "<br>Please confirm <font color='#74bc1e'><b>CHECKOUT</b></font> of the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.<br>";
 						new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Hey there!")
 //						.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
 						.setMessage(Html.fromHtml(s))
@@ -1372,7 +1388,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 					}
 					else {					
 						new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Report for the Day")
-						.setMessage("Are you sure you want to submit the report now?")
+						.setMessage("Are you sure you want to submit your report online now?")
 						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
