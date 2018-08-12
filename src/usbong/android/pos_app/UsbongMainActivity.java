@@ -1347,17 +1347,6 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 */
 				//added by Mike, 20180517
 				case(R.id.submit_report):
-					//TODO: create .csv file and save it in the SD Card
-	/*	        	myDbHelper = new UsbongDbHelper(this);
-	            	myDbHelper.initializeDataBase();
-	*/
-	/*				
-					if (myDbHelper!=null) {
-				        mySQLiteDatabase = myDbHelper.getReadableDatabase();
-						myDbHelper.submitReportForTheDay();//mySQLiteDatabase);
-					}
-	*/
-				
 					//edited by Mike, 20180811
 					if (UsbongUtils.itemsInCart==null) {
 						String s = "<br><big>Please add items to the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.</big><br>";
@@ -1395,21 +1384,16 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 								String output_path = myDbHelper.submitReportForTheDay();		
 
 								if (output_path!=null) {
+									//added by Mike, 20180812
+									attachmentFilePaths = new ArrayList<String>();
+
 									//only add path if it's not already in attachmentFilePaths
 									if (!attachmentFilePaths.contains(output_path)) {
 										attachmentFilePaths.add(output_path);
 									}
 
-									emailReport();							
+									emailReport(UsbongConstants.REPORT_TYPE_REPORT_FOR_THE_DAY);							
 								}
-		/*						
-								final Activity a;
-								a = UsbongMainActivity.getInstance(); //edited by Mike, 20180427
-								finish();
-								Intent toCallingActivityIntent = new Intent(getInstance(), a.getClass());
-								toCallingActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-								startActivity(toCallingActivityIntent);		
-		*/						
 							}
 						})
 						.setNegativeButton("No", new DialogInterface.OnClickListener() {					
@@ -1417,9 +1401,35 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 							public void onClick(DialogInterface dialog, int which) {
 							}
 						}).show();	        		        									
-					}
-				
+					}				
 					return true;	
+			case(R.id.submit_inventory):
+				new AlertDialog.Builder(UsbongMainActivity.instance).setTitle("Submit Present Inventory")
+				.setMessage("Are you sure you want to submit the inventory online now?")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String output_path = myDbHelper.submitPresentInventory();		
+
+						if (output_path!=null) {
+							//added by Mike, 20180812
+							attachmentFilePaths = new ArrayList<String>();
+									
+							//only add path if it's not already in attachmentFilePaths
+							if (!attachmentFilePaths.contains(output_path)) {
+								attachmentFilePaths.add(output_path);
+							}
+
+							emailReport(UsbongConstants.REPORT_TYPE_INVENTORY);							
+						}
+					}
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).show();	        		        									
+				return true;
 			case(R.id.request):
 				finish();
 				//added by Mike, 20170216
@@ -1429,7 +1439,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				toRequestActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(toRequestActivityIntent);
 				return true;
-				//added by Mike, 20180715
+			//added by Mike, 20180715
 			case(R.id.sort_remaining_in_stock):
     			sortQuantityInStockAscendingOptionSelected=true;
 				
@@ -1942,9 +1952,18 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	
 	
 	//added by Mike, 20180531
-    public void emailReport() {
+    public void emailReport(int reportType) {
 	    StringBuffer emailSummary = new StringBuffer();
-	   	emailSummary.append("-Report for the Day-\n");    							
+	    
+	    switch (reportType) {
+	    	case UsbongConstants.REPORT_TYPE_REPORT_FOR_THE_DAY:
+	    	   	emailSummary.append("-Report for the Day-\n");    							
+	    		break;
+	    	case UsbongConstants.REPORT_TYPE_INVENTORY:
+	    	   	emailSummary.append("-Present Inventory-\n");    							
+	    		break;	    	
+	    }
+	    
 	   	//TODO: update this
 	   	emailSummary.append("Location: Marikina Orthopedic Specialty Clinic (MOSC)\n\n");    							
 	   	emailSummary.append("Thank you.\n\n");    							
@@ -1957,7 +1976,16 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	    Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE); //changed from ACTION_SEND to ACTION_SEND_MULTIPLE by Mike, 20170313
 	    i.setType("message/rfc822"); //remove all non-email apps that support send intent from chooser
 	    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{UsbongConstants.ADMIN_EMAIL_ADDRESS});
-	    i.putExtra(Intent.EXTRA_SUBJECT, "Usbong MOSC: Report for the Day");
+
+	    switch (reportType) {
+	    	case UsbongConstants.REPORT_TYPE_REPORT_FOR_THE_DAY:
+	    	    i.putExtra(Intent.EXTRA_SUBJECT, "Usbong MOSC: Report for the Day");
+	    		break;
+	    	case UsbongConstants.REPORT_TYPE_INVENTORY:
+	    	    i.putExtra(Intent.EXTRA_SUBJECT, "Usbong MOSC: Present Inventory");
+	    		break;	    	
+	    }
+
 	    i.putExtra(Intent.EXTRA_TEXT   , emailSummary.toString());
 	    
 	    //added by Mike, 20170310

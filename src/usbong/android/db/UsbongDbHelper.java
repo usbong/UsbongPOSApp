@@ -560,13 +560,68 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 		
 		return output_path;
    }
-    
+
+    //added by Mike, 20180517
+    public String generatePresentInventory(){//SQLiteDatabase db) {
+    	//edited by Mike, 20180530
+//	   	UsbongDbHelper.db = UsbongDbHelper.instance.getReadableDatabase();		
+	   	
+    	if (UsbongDbHelper.db==null) {
+    	   	UsbongDbHelper.db = UsbongDbHelper.instance.getReadableDatabase();		
+/*    		return null;
+ */
+    	}
+    	
+	   	String getProduct = "select * from 'product'";
+	    Cursor c = UsbongDbHelper.db.rawQuery(getProduct, null);
+	     
+	    StringBuffer outputStringBuffer = new StringBuffer();
+		outputStringBuffer.append(
+    			"product_id"+","+
+    			"quantity_in_stock"+","+
+    			"price"+","+
+    			"quantity_sold"+"\n");
+
+	    if (c != null) {
+		     if (c.moveToFirst()) {
+	        	while (!c.isAfterLast()) {
+	        		outputStringBuffer.append(
+	        				c.getString(c.getColumnIndex("product_id"))+","+
+	        				c.getString(c.getColumnIndex("quantity_in_stock"))+","+
+	        				c.getString(c.getColumnIndex("price"))+","+
+	        				c.getString(c.getColumnIndex("quantity_sold"))+"\n");
+		        	c.moveToNext();
+		        }		    	 
+		     }
+	    }
+
+	    
+	    String myOutputDirectory=UsbongUtils.getDateTimeStamp()+"/";
+	    String offset = "output/presentInventory/";
+		try {
+			UsbongUtils.createNewOutputFolderStructure(offset);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		String output_path = UsbongUtils.BASE_FILE_PATH + offset + myOutputDirectory + UsbongUtils.getDateTimeStamp() + ".csv";
+		UsbongUtils.storeOutputInSDCard(output_path, outputStringBuffer.toString());
+		
+		return output_path;
+   }
+
    //edited by Mike, 20180531
    //the return String is the output_path to be used to attach the .csv file to the email
    public String submitReportForTheDay(){//SQLiteDatabase db) {
 		return generateReportForTheDay();//db);					
    }
     
+   //edited by Mike, 20180812
+   //the return String is the output_path to be used to attach the .csv file to the email
+   public String submitPresentInventory(){//SQLiteDatabase db) {
+		return generatePresentInventory();//db);					
+   }
    
    //edited by Mike, 20180530
    public void updateCartTable(/*SQLiteDatabase db, */ArrayList<String> listOfItemsArrayList) {    	

@@ -115,8 +115,7 @@ public class UsbongConstants {
 	//added by Mike, 20180716
 	public final static String SORT_QUANTITY_IN_STOCK_ASCENDING_NON_MED = "sortQuantityInStockAscendingNonMed";
 	public final static String SORT_QUANTITY_IN_STOCK_ASCENDING_MED = "sortQuantityInStockAscendingMed";
-	
-	
+		
 /*	
 	//added by Mike, 20170725
 	public final static String PRODUCT_TYPE_BOOKS_STRING ="books";
@@ -135,6 +134,9 @@ public class UsbongConstants {
 	public final static String PRODUCT_TYPE_NON_MED_STRING ="non-med";
 	public final static String PRODUCT_TYPE_MED_STRING ="med";
 	
+	//added by Mike, 20180812
+	public final static int REPORT_TYPE_REPORT_FOR_THE_DAY = 0;
+	public final static int REPORT_TYPE_INVENTORY = 1;	
 	
 	//added by Mike, 20170525
 	public final static int USBONG_MAIN_ACTIVITY=0;
