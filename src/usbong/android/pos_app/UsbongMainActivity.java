@@ -1381,6 +1381,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
+								myDbHelper.submitReportForTheDay();
+/*								
 								String output_path = myDbHelper.submitReportForTheDay();		
 
 								if (output_path!=null) {
@@ -1394,6 +1396,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 
 									emailReport(UsbongConstants.REPORT_TYPE_REPORT_FOR_THE_DAY);							
 								}
+*/								
 							}
 						})
 						.setNegativeButton("No", new DialogInterface.OnClickListener() {					
@@ -1409,6 +1412,8 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						myDbHelper.submitPresentInventory();		
+/*						
 						String output_path = myDbHelper.submitPresentInventory();		
 
 						if (output_path!=null) {
@@ -1422,6 +1427,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 
 							emailReport(UsbongConstants.REPORT_TYPE_INVENTORY);							
 						}
+*/						
 					}
 				})
 				.setNegativeButton("No", new DialogInterface.OnClickListener() {					
@@ -1950,7 +1956,7 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 		}
 	}
 	
-	
+/*	
 	//added by Mike, 20180531
     public void emailReport(int reportType) {
 	    StringBuffer emailSummary = new StringBuffer();
@@ -2012,4 +2018,11 @@ public class UsbongMainActivity extends AppCompatActivity/*Activity*/
 	        Toast.makeText(UsbongMainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 	    }	
    }
+*/    
+   //added by Mike, 20180812
+    public UsbongDbHelper getMyDbHelper() {
+    	return myDbHelper;
+    }
+    
+    
 }

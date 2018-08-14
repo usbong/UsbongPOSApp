@@ -1014,6 +1014,67 @@ public class BuyActivity extends AppCompatActivity/*Activity*/
 				startActivity(toSellActivityIntent);
 				return true;
 */				
+				//added by Mike, 20180812
+				case(R.id.submit_report):
+					//edited by Mike, 20180811
+					if (UsbongUtils.itemsInCart==null) {
+						String s = "<br><big>Please add items to the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.</big><br>";
+						TextView alertDialogTextView = new TextView(BuyActivity.myActivityInstance);
+						alertDialogTextView.setText(Html.fromHtml(s));
+//						alertDialogTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+						new AlertDialog.Builder(BuyActivity.myActivityInstance).setTitle("Hey there!")
+//						.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
+//						.setMessage(Html.fromHtml(s))
+						.setView(alertDialogTextView)
+						.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+							}
+						}).show();	        		        										
+					}
+					else if (!UsbongUtils.itemsInCart.isEmpty()) {		
+						String s = "<br>Please confirm <font color='#74bc1e'><b>CHECKOUT</b></font> of the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.<br>";
+						new AlertDialog.Builder(BuyActivity.myActivityInstance).setTitle("Hey there!")
+//						.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
+						.setMessage(Html.fromHtml(s))
+						.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+							}
+						}).show();	        		        				
+					}
+					else {					
+						new AlertDialog.Builder(BuyActivity.myActivityInstance).setTitle("Report for the Day")
+						.setMessage("Are you sure you want to submit your report online now?")
+						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								UsbongMainActivity.getInstance().getMyDbHelper().submitReportForTheDay();		
+							}
+						})
+						.setNegativeButton("No", new DialogInterface.OnClickListener() {					
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+							}
+						}).show();	        		        									
+					}				
+					return true;	
+			case(R.id.submit_inventory):
+				new AlertDialog.Builder(BuyActivity.myActivityInstance).setTitle("Submit Present Inventory")
+				.setMessage("Are you sure you want to submit the inventory online now?")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						UsbongMainActivity.getInstance().getMyDbHelper().submitPresentInventory();		
+					}
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).show();	        		        									
+				return true;
 			case(R.id.request):
 				finish();
 				//added by Mike, 20170216

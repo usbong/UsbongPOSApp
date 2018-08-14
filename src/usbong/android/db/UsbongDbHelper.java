@@ -74,6 +74,8 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
     private boolean createDatabase = false;
     private boolean upgradeDatabase = false;
     
+	private List<String> attachmentFilePaths; //added by Mike, 20180814
+    
     /* Inner class that defines the table contents */
     public static class UsbongStoreEntry implements BaseColumns {
         public static final String TABLE_NAME = "entry";
@@ -611,16 +613,44 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 		return output_path;
    }
 
-   //edited by Mike, 20180531
+   //edited by Mike, 20180814
    //the return String is the output_path to be used to attach the .csv file to the email
-   public String submitReportForTheDay(){//SQLiteDatabase db) {
-		return generateReportForTheDay();//db);					
+   public void submitReportForTheDay(){//SQLiteDatabase db) {
+//		return generateReportForTheDay();//db);							
+		String output_path = generateReportForTheDay();		
+
+		if (output_path!=null) {
+			//added by Mike, 20180812
+			attachmentFilePaths = new ArrayList<String>();
+
+			//only add path if it's not already in attachmentFilePaths
+			if (!attachmentFilePaths.contains(output_path)) {
+				attachmentFilePaths.add(output_path);
+			}
+			
+			emailReport(UsbongConstants.REPORT_TYPE_REPORT_FOR_THE_DAY);							
+		}
    }
     
    //edited by Mike, 20180812
    //the return String is the output_path to be used to attach the .csv file to the email
-   public String submitPresentInventory(){//SQLiteDatabase db) {
-		return generatePresentInventory();//db);					
+   public void submitPresentInventory(){//SQLiteDatabase db) {
+//		return generatePresentInventory();//db);					
+//		return generateReportForTheDay();//db);							
+		String output_path = generatePresentInventory();		
+
+		if (output_path!=null) {
+			//added by Mike, 20180812
+			attachmentFilePaths = new ArrayList<String>();
+
+			//only add path if it's not already in attachmentFilePaths
+			if (!attachmentFilePaths.contains(output_path)) {
+				attachmentFilePaths.add(output_path);
+			}
+			
+			emailReport(UsbongConstants.REPORT_TYPE_INVENTORY);							
+		}
+
    }
    
    //edited by Mike, 20180530
@@ -719,4 +749,67 @@ public class UsbongDbHelper extends SQLiteOpenHelper {
 	     }
 */		  	
     }
+
+    //added by Mike, 20180814
+    public void emailReport(int reportType) {
+	    StringBuffer emailSummary = new StringBuffer();
+	    
+	    switch (reportType) {
+	    	case UsbongConstants.REPORT_TYPE_REPORT_FOR_THE_DAY:
+	    	   	emailSummary.append("-Report for the Day-\n");    							
+	    		break;
+	    	case UsbongConstants.REPORT_TYPE_INVENTORY:
+	    	   	emailSummary.append("-Present Inventory-\n");    							
+	    		break;	    	
+	    }
+	    
+	   	//TODO: update this
+	   	emailSummary.append("Location: Marikina Orthopedic Specialty Clinic (MOSC)\n\n");    							
+	   	emailSummary.append("Thank you.\n\n");    							
+	   	emailSummary.append("-End of Report-");    							
+
+	   	
+		//http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application;
+		//answer by: Jeremy Logan, 20100204
+		//added by Mike, 20170220
+	    Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE); //changed from ACTION_SEND to ACTION_SEND_MULTIPLE by Mike, 20170313
+	    i.setType("message/rfc822"); //remove all non-email apps that support send intent from chooser
+	    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{UsbongConstants.ADMIN_EMAIL_ADDRESS});
+
+	    switch (reportType) {
+	    	case UsbongConstants.REPORT_TYPE_REPORT_FOR_THE_DAY:
+	    	    i.putExtra(Intent.EXTRA_SUBJECT, "Usbong MOSC: Report for the Day");
+	    		break;
+	    	case UsbongConstants.REPORT_TYPE_INVENTORY:
+	    	    i.putExtra(Intent.EXTRA_SUBJECT, "Usbong MOSC: Present Inventory");
+	    		break;	    	
+	    }
+
+	    i.putExtra(Intent.EXTRA_TEXT   , emailSummary.toString());
+	    
+	    //added by Mike, 20170310
+		//Reference: http://stackoverflow.com/questions/2264622/android-multiple-email-attachments-using-intent
+		//last accessed: 14 March 2012
+		//has to be an ArrayList
+	    ArrayList<Uri> uris = new ArrayList<Uri>();
+	    //convert from paths to Android friendly Parcelable Uri's
+	    for (String file : attachmentFilePaths)
+	    {
+	        File fileIn = new File(file);		        
+	        if (fileIn.exists()) { //added by Mike, May 13, 2012		        		        
+		        Uri u = Uri.fromFile(fileIn);
+		        uris.add(u);
+//    			        System.out.println(">>>>>>>>>>>>>>>>>> u: "+u);
+	        }
+	    }
+	    i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+	    
+	    try {
+//    	    	isSendingData=true; //added by Mike, 20170225
+	        UsbongMainActivity.getInstance().startActivityForResult(Intent.createChooser(i, "Sending email..."), 1); 
+	    } catch (android.content.ActivityNotFoundException ex) {
+	        Toast.makeText(UsbongMainActivity.getInstance(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+	    }	
+    }
+
 }
