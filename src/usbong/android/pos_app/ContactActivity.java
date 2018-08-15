@@ -40,6 +40,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
+import android.text.Html;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -723,6 +724,68 @@ public class ContactActivity extends AppCompatActivity/*Activity*/
 				startActivity(toSellActivityIntent);
 				return true;
 */				
+				
+			//added by Mike, 20180815
+			case(R.id.submit_report):
+				//edited by Mike, 20180811
+				if (UsbongUtils.itemsInCart==null) {
+					String s = "<br><big>Please add items to the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.</big><br>";
+					TextView alertDialogTextView = new TextView(ContactActivity.myActivityInstance);
+					alertDialogTextView.setText(Html.fromHtml(s));
+//								alertDialogTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+					new AlertDialog.Builder(ContactActivity.myActivityInstance).setTitle("Hey there!")
+//								.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
+//								.setMessage(Html.fromHtml(s))
+					.setView(alertDialogTextView)
+					.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).show();	        		        										
+				}
+				else if (!UsbongUtils.itemsInCart.isEmpty()) {		
+					String s = "<br>Please confirm <font color='#74bc1e'><b>CHECKOUT</b></font> of the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.<br>";
+					new AlertDialog.Builder(ContactActivity.myActivityInstance).setTitle("Hey there!")
+//								.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
+					.setMessage(Html.fromHtml(s))
+					.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).show();	        		        				
+				}
+				else {					
+					new AlertDialog.Builder(ContactActivity.myActivityInstance).setTitle("Report for the Day")
+					.setMessage("Are you sure you want to submit your report online now?")
+					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							UsbongMainActivity.getInstance().getMyDbHelper().submitReportForTheDay();		
+						}
+					})
+					.setNegativeButton("No", new DialogInterface.OnClickListener() {					
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).show();	        		        									
+				}				
+				return true;	
+			case(R.id.submit_inventory):
+				new AlertDialog.Builder(ContactActivity.myActivityInstance).setTitle("Submit Present Inventory")
+				.setMessage("Are you sure you want to submit the inventory online now?")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						UsbongMainActivity.getInstance().getMyDbHelper().submitPresentInventory();		
+					}
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).show();	        		        									
+				return true;				
 			case(R.id.request):
 				finish();
 				//added by Mike, 20170216
@@ -941,51 +1004,5 @@ public class ContactActivity extends AppCompatActivity/*Activity*/
     public void onRestart() 
     {
         super.onRestart();
-        
-    	initTakePhotoScreen();
-    }
-    
-	//added by Mike, 20170309
-    public void initTakePhotoScreen()
-    {
-//    	myPictureName=currUsbongNode; //make the name of the picture the name of the currUsbongNode
-    	myPictureName=UsbongUtils.processStringToBeFilenameReady(/*((TextView)findViewById(R.id.book_title)).getText().toString()+*/UsbongUtils.getDateTimeStamp()); 
-    	
-//		String path = "/sdcard/usbong/"+ UsbongUtils.getTimeStamp() +"/"+ myPictureName +".jpg";
-		String path = UsbongUtils.BASE_FILE_PATH_TEMP + myPictureName +".jpg";		
-		//only add path if it's not already in attachmentFilePaths
-
-		if (!attachmentFilePaths.contains(path)) {
-			attachmentFilePaths.add(path);
-		}
-		
-    	myImageView = (ImageView) findViewById(R.id.CameraImage);
-
-    	File imageFile = new File(path);
-        
-        if(imageFile.exists())
-        {
-        
-        	Bitmap myBitmap = BitmapFactory.decodeFile(path);
-        	if(myBitmap != null)
-        	{
-        		myImageView.setImageBitmap(myBitmap);
-/*        		myImageView.setRotation(90);//added by Mike, rotate counter-clockwise once        	
-*/        		
- 			}
- 
-        	//Read more: http://www.brighthub.com/mobile/google-android/articles/64048.aspx#ixzz0yXLCazcU                	  
-    	}
-
-        photoCaptureButton = (Button)findViewById(R.id.photo_capture_button);
-		photoCaptureIntent = new Intent().setClass(this, CameraActivity.class);
-		photoCaptureIntent.putExtra("myPictureName",myPictureName);
-		photoCaptureButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startActivity(photoCaptureIntent);
-			}
-    	});
-
     }
 }
