@@ -727,17 +727,20 @@ public class ContactActivity extends AppCompatActivity/*Activity*/
 				
 			//added by Mike, 20180815
 			case(R.id.submit_report):
-				//edited by Mike, 20180811
+				//edited by Mike, 20180816
 				if (UsbongUtils.itemsInCart==null) {
-					String s = "<br><big>Please add items to the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.</big><br>";
-					TextView alertDialogTextView = new TextView(ContactActivity.myActivityInstance);
+/*						String s = "<br><big>Please add items to the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.</big><br>";
+					TextView alertDialogTextView = new TextView(UsbongMainActivity.instance);
 					alertDialogTextView.setText(Html.fromHtml(s));
-//								alertDialogTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+*/						
+//					alertDialogTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+					String s = "<br>Please add items to the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.<br>";
 
 					new AlertDialog.Builder(ContactActivity.myActivityInstance).setTitle("Hey there!")
-//								.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
-//								.setMessage(Html.fromHtml(s))
-					.setView(alertDialogTextView)
+//					.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
+					.setMessage(Html.fromHtml(s))
+/*						.setView(alertDialogTextView)
+*/
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
