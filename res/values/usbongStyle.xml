@@ -283,7 +283,14 @@
 		<item name="android:layout_weight">0.1</item>
 		<item name="android:orientation">horizontal</item>
 	</style>	   
-	
+
+    <style name="UsbongPOSUpdateButtonLayout">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>        	
+        <item name="android:layout_gravity">left</item>
+	</style>	   
+    	
     <style name="UsbongPOSRequestAddButtonLayout">
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -314,7 +321,7 @@
 		<item name="android:background">@drawable/button</item>
     </style>	   
 
-    <style name="UsbongPOSRequestAddButton">
+    <style name="UsbongPOSRequestUpdateAddButton">
 		<item name="android:layout_width">180dp</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:textColor">#4a452a</item>
