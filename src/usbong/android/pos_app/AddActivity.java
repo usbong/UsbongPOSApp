@@ -387,7 +387,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 					    	isSendingData=true; //added by Mike, 20170225
 					        startActivityForResult(Intent.createChooser(i, "Sending email..."), 1); 
 					    } catch (android.content.ActivityNotFoundException ex) {
-					        Toast.makeText(SellActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+					        Toast.makeText(AddActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 					    }	
 					}
 				}					
@@ -519,7 +519,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 		}
 				
 		if (!allFieldsAreFilledUp) {
-	        Toast.makeText(SellActivity.this, "Please fill up all required fields.", Toast.LENGTH_LONG).show();
+	        Toast.makeText(AddActivity.this, "Please fill up all required fields.", Toast.LENGTH_LONG).show();
 	        return false;
 		}
 		return true;
@@ -636,7 +636,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 
         if (prefs!=null) {        	
 	    	//added by Mike, 20170328
-	    	if (getIntent().getBooleanExtra("newSellActivity", false)) {
+	    	if (getIntent().getBooleanExtra("newAddActivity", false)) {
 	        	//added by Mike, 20170310
 	        	UsbongUtils.deleteRecursive(new File(UsbongUtils.BASE_FILE_PATH_TEMP));
 /*
@@ -733,7 +733,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 	
 		        //added by Mike, 20170225
 				finish();    
-				Intent toUsbongDecisionTreeEngineActivityIntent = new Intent(SellActivity.this, UsbongDecisionTreeEngineActivity.class);
+				Intent toUsbongDecisionTreeEngineActivityIntent = new Intent(AddActivity.this, UsbongDecisionTreeEngineActivity.class);
 				toUsbongDecisionTreeEngineActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 				startActivity(toUsbongDecisionTreeEngineActivityIntent);
 	    	}
@@ -951,7 +951,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 */					
 			case(R.id.cart): //added by Mike, 20170427
 				if ((UsbongUtils.itemsInCart==null) || (UsbongUtils.itemsInCart.isEmpty())) {
-			    	AlertDialog.Builder emptyCartAlertDialog = new AlertDialog.Builder(SellActivity.this).setTitle("Your Shopping Cart");
+			    	AlertDialog.Builder emptyCartAlertDialog = new AlertDialog.Builder(AddActivity.this).setTitle("Your Shopping Cart");
 					TextView tv = new TextView(this);
 					tv.setText("\nIt is currently empty.");
 					tv.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -967,7 +967,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 					finish();
 					//added by Mike, 20170216
 					Intent toCartActivityIntent = new Intent().setClass(getInstance(), CartActivity.class);
-	//				toCartActivityIntent.putExtra("newSellActivity", true); //added by Mike, 20170328
+	//				toCartActivityIntent.putExtra("newAddActivity", true); //added by Mike, 20170328
 					toCartActivityIntent.putExtra("activityCaller", UsbongConstants.USBONG_MAIN_ACTIVITY); //added by Mike, 20170525	            				
 					toCartActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(toCartActivityIntent);
@@ -977,11 +977,11 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 			case(R.id.sell): //added by Mike, 20170308
 				finish();
 				//added by Mike, 20170216
-				Intent toSellActivityIntent = new Intent().setClass(getInstance(), SellActivity.class);
-				toSellActivityIntent.putExtra("newSellActivity", true); //added by Mike, 20170328
-				toSellActivityIntent.putExtra("activityCaller", UsbongConstants.USBONG_MAIN_ACTIVITY); //added by Mike, 20170525	            				
-				toSellActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(toSellActivityIntent);
+				Intent toAddActivityIntent = new Intent().setClass(getInstance(), AddActivity.class);
+				toAddActivityIntent.putExtra("newAddActivity", true); //added by Mike, 20170328
+				toAddActivityIntent.putExtra("activityCaller", UsbongConstants.USBONG_MAIN_ACTIVITY); //added by Mike, 20170525	            				
+				toAddActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(toAddActivityIntent);
 				return true;
 */				
 			//added by Mike, 20180815
@@ -995,7 +995,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 //							alertDialogTextView.setGravity(Gravity.CENTER_HORIZONTAL);
 					String s = "<br>Please add items to the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.<br>";
 
-					new AlertDialog.Builder(SellActivity.myActivityInstance).setTitle("Hey there!")
+					new AlertDialog.Builder(AddActivity.myActivityInstance).setTitle("Hey there!")
 //							.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
 					.setMessage(Html.fromHtml(s))
 /*						.setView(alertDialogTextView)
@@ -1008,7 +1008,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 				}
 				else if (!UsbongUtils.itemsInCart.isEmpty()) {		
 					String s = "<br>Please confirm <font color='#74bc1e'><b>CHECKOUT</b></font> of the <font color='#74bc1e'><b>SHOPPING CART</b></font> first, before you submit your report online.<br>";
-					new AlertDialog.Builder(SellActivity.myActivityInstance).setTitle("Hey there!")
+					new AlertDialog.Builder(AddActivity.myActivityInstance).setTitle("Hey there!")
 //										.setMessage("\nPlease confirm CHECKOUT of your SHOPPING CART first, before you submit your report.\n")
 					.setMessage(Html.fromHtml(s))
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {					
@@ -1018,7 +1018,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 					}).show();	        		        				
 				}
 				else {					
-					new AlertDialog.Builder(SellActivity.myActivityInstance).setTitle("Report for the Day")
+					new AlertDialog.Builder(AddActivity.myActivityInstance).setTitle("Report for the Day")
 					.setMessage("Are you sure you want to submit your report online now?")
 					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
 						@Override
@@ -1034,7 +1034,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 				}				
 				return true;	
 			case(R.id.submit_inventory):
-				new AlertDialog.Builder(SellActivity.myActivityInstance).setTitle("Submit Present Inventory")
+				new AlertDialog.Builder(AddActivity.myActivityInstance).setTitle("Submit Present Inventory")
 				.setMessage("Are you sure you want to submit the inventory online now?")
 				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {					
 					@Override
@@ -1075,7 +1075,7 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 				tv.setGravity(Gravity.CENTER_HORIZONTAL);
 				tv.setTextSize(16);
 	
-				new AlertDialog.Builder(SellActivity.myActivityInstance).setTitle("Sort Remaining In-stock")
+				new AlertDialog.Builder(AddActivity.myActivityInstance).setTitle("Sort Remaining In-stock")
 				.setView(tv)
 				.setPositiveButton("NON-MED list", new DialogInterface.OnClickListener() {					
 					@Override
@@ -1106,8 +1106,8 @@ public class AddActivity extends AppCompatActivity/*Activity*/
 				}).show();	    
 				return true;	
 			case(R.id.about):
-		    	new AlertDialog.Builder(SellActivity.this).setTitle("About")
-				.setMessage(UsbongUtils.readTextFileInAssetsFolder(SellActivity.this,"credits.txt")) //don't add a '/', otherwise the file would not be found
+		    	new AlertDialog.Builder(AddActivity.this).setTitle("About")
+				.setMessage(UsbongUtils.readTextFileInAssetsFolder(AddActivity.this,"credits.txt")) //don't add a '/', otherwise the file would not be found
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
