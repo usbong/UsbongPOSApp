@@ -1,6 +1,9 @@
 # Usbong POS App
 The "Usbong POS (Point-of-Sale) App" is built based on the Usbong app, the Usbong Specialty Bookstore app, and the Usbong Store app.<br><br>
 
+# Usbong POS App (Demo version)
+http://pos.usbong.ph
+
 # Official Usbong Store App
 http://app.usbong.ph
 
